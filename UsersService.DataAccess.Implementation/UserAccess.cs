@@ -18,6 +18,10 @@ namespace UsersService.DataAccess.Implementation
 
         public async Task<int> AddUser(UserDto user)
         {
+            var role = await GetRole(user.Role.Name);
+
+            user.Role = role;
+
             var entity = await _usersContext.Users.AddAsync(user);
 
             await _usersContext.SaveChangesAsync();
@@ -71,9 +75,11 @@ namespace UsersService.DataAccess.Implementation
             if (user is null)
                 throw new ArgumentNullException("entity", "No user with this id");
 
+            var role = await GetRole(user.Role.Name);
+
             userDb.Login = user.Login;
             userDb.Password = user.Password;
-            userDb.Role.Name = user.Role.Name;
+            userDb.Role = role;
             userDb.UserInfo.Name = user.UserInfo.Name;
             userDb.UserInfo.Surname = user.UserInfo.Surname;
             userDb.UserInfo.Patronymic = user.UserInfo.Patronymic;
@@ -81,6 +87,27 @@ namespace UsersService.DataAccess.Implementation
             await _usersContext.SaveChangesAsync();
 
             return userDb.Id;
+        }
+
+        private async Task<RoleDto> GetRole(string role)
+        {
+            var roleDb = await _usersContext.Roles.FirstOrDefaultAsync(rol => rol.Name == role);
+
+            if (roleDb is null)
+            {
+                roleDb = new RoleDto()
+                {
+                    Name = role
+                };
+
+                var roleEntity = await _usersContext.Roles.AddAsync(roleDb);
+
+                await _usersContext.SaveChangesAsync();
+
+                return roleEntity.Entity;
+            }
+
+            return roleDb;
         }
     }
 }

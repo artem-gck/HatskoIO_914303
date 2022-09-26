@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
+using UsersService.DataAccess.dto.context;
 using UsersService.DataAccess.Implementation;
 using UsersService.Services;
-using UsersService.Services.dto.context;
 using UsersService.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
