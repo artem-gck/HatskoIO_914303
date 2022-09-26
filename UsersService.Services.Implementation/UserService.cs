@@ -8,5 +8,6 @@ namespace UsersService.Services.Implementation
 {
     public class UserService : IUserService
     {
+        
     }
 }

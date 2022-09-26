@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UsersService.Services.dto
+namespace UsersService.DataAccess.dto
 {
     public class UserInfoDto
     {
@@ -12,6 +12,6 @@ namespace UsersService.Services.dto
         public string? Name { get; set; }
         public string? Surname { get; set; }
         public string? Patronymic { get; set; }
-        public UserDto? User { get; set; }
+        public UserDto User { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UsersService.Services.dto.context
+namespace UsersService.DataAccess.dto.context
 {
     public class UsersContext : DbContext
     {
