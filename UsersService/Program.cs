@@ -1,11 +1,18 @@
+using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Implementation;
 using UsersService.Services;
+using UsersService.Services.dto.context;
 using UsersService.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<UsersContext>(opt =>
+    opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccess, UserAccess>();
