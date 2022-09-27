@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UsersService.Services.Models;
 using UsersService.Services;
+using UsersService.Services.Dto;
 using UsersService.VewModels;
 
 namespace UsersService.Controllers
@@ -15,103 +15,61 @@ namespace UsersService.Controllers
             => _userService = userService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAll()
-            => Json((await _userService.GetUsers()).Select(us => MapUser(us)));
+        public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetUsersInfoAsync()
+            => Json((await _userService.GetUsersInfoAsync()).Select(us => MapUserInfoDto(us)));
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserViewModel>> Get(int id)
+        public async Task<ActionResult<UserInfoViewModel>> GetUserInfoAsync(int id)
         {
-            UserViewModel user;
+            var user = MapUserInfoDto(await _userService.GetUserInfoAsync(id));
 
-            try
-            {
-                user = MapUser(await _userService.GetUser(id));
-
-                return user;
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Json(user);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteUserInfoAsync(int id)
         {
-            int result;
+            var result = await _userService.DeleteUserInfoAsync(id);
 
-            try
-            {
-                result = await _userService.DeleteUser(id);
-
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(UserViewModel user)
+        public async Task<IActionResult> AddUserInfoAsync(UserInfoViewModel userInfoViewModel)
         {
-            int result;
+            var result = await _userService.AddUserInfoAsync(MapUserInfoViewModel(userInfoViewModel));
 
-            try
-            {
-                result = await _userService.AddUser(MapUserViewModel(user));
-
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(UserViewModel user)
+        public async Task<IActionResult> Update(UserInfoViewModel userInfoViewModel)
         {
-            int result;
+            var result = await _userService.UpdateUserInfoAsync(MapUserInfoViewModel(userInfoViewModel));
 
-            try
-            {
-                result = await _userService.UpdateUser(MapUserViewModel(user));
-
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(result);
         }
 
-        private UserViewModel MapUser(User user)
-            => new UserViewModel()
+        private UserInfoViewModel MapUserInfoDto(UserInfoDto userInfoDto)
+            => new UserInfoViewModel()
             {
-                Id = user.Id,
-                Login = user.Login,
-                Password = user.Password,
-                Role = user.Role,
-                Name = user.Name,
-                Surname = user.Surname,
-                Patronymic = user.Patronymic,
-                AccessToken = user.AccessToken,
-                RefreshToken = user.RefreshToken
+                Id = userInfoDto.Id,
+                Name = userInfoDto.Name,
+                Surname = userInfoDto.Surname,
+                Patronymic = userInfoDto.Patronymic,
+                Email = userInfoDto.Email,
+                Position = userInfoDto.Position,
             };
 
-        private User MapUserViewModel(UserViewModel userViewModel)
-           => new User()
+        private UserInfoDto MapUserInfoViewModel(UserInfoViewModel userInfoViewModel)
+           => new UserInfoDto()
            {
-               Id = userViewModel.Id,
-               Login = userViewModel.Login,
-               Password = userViewModel.Password,
-               Role = userViewModel.Role,
-               Name = userViewModel.Name,
-               Surname = userViewModel.Surname,
-               Patronymic = userViewModel.Patronymic,
-               AccessToken = userViewModel.AccessToken,
-               RefreshToken = userViewModel.RefreshToken
+               Id = userInfoViewModel.Id,
+               Name = userInfoViewModel.Name,
+               Surname = userInfoViewModel.Surname,
+               Patronymic = userInfoViewModel.Patronymic,
+               Email = userInfoViewModel.Email,
+               Position = userInfoViewModel.Position,
            };
     }
 }

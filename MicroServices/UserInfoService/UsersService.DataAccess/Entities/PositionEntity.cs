@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UsersService.DataAccess.dto
+namespace UsersService.DataAccess.Entities
 {
-    public class RoleDto
+    public class PositionEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<UserDto>? User { get; set; }
+        public List<UserInfoEntity>? UserInfo { get; set; }
     }
 }
