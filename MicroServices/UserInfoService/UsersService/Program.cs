@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
-using UsersService.DataAccess.dto.context;
-using UsersService.DataAccess.Implementation;
+using UsersService.DataAccess.Entities.Context;
 using UsersService.Services;
-using UsersService.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<UsersContext>(opt =>
+builder.Services.AddDbContext<UsersInfoContext>(opt =>
     opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IUserService, UserService>();
