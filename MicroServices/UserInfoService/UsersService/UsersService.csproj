@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UsersService.DataAccess.Implementation\UsersService.DataAccess.Implementation.csproj" />
+    <ProjectReference Include="..\UsersService.DataAccess\UsersService.DataAccess.csproj" />
+    <ProjectReference Include="..\UsersService.Services.Implementation\UsersService.Services.Implementation.csproj" />
+    <ProjectReference Include="..\UsersService.Services\UsersService.Services.csproj" />
+  </ItemGroup>
+
+</Project>
