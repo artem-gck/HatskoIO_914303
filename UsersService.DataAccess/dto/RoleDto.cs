@@ -10,6 +10,6 @@ namespace UsersService.DataAccess.dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public UserDto User { get; set; }
+        public List<UserDto>? User { get; set; }
     }
 }
