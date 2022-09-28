@@ -5,13 +5,32 @@ using UsersService.DataAccess.Exceptions;
 
 namespace UsersService.DataAccess
 {
+    /// <summary>
+    /// Service for access to database.
+    /// </summary>
+    /// <seealso cref="UsersService.DataAccess.IUserAccess" />
     public class UserAccess : IUserAccess
     {
+        /// <summary>
+        /// The users context.
+        /// </summary>
         private readonly UsersInfoContext _usersContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserAccess"/> class.
+        /// </summary>
+        /// <param name="usersContext">The users context.</param>
+        /// <exception cref="System.ArgumentNullException">usersContext</exception>
         public UserAccess(UsersInfoContext usersContext)
             => _usersContext = usersContext is not null ? usersContext : throw new ArgumentNullException(nameof(usersContext));
 
+        /// <summary>
+        /// Adds the user information asynchronous.
+        /// </summary>
+        /// <param name="userInfo">The user information.</param>
+        /// <returns>
+        /// id of added user info.
+        /// </returns>
         public async Task<int> AddUserInfoAsync(UserInfoEntity userInfo)
         {
             var userInfoEntity = _usersContext.UsersInfo.Add(userInfo);
@@ -21,6 +40,14 @@ namespace UsersService.DataAccess
             return userInfoEntity.Entity.Id;
         }
 
+        /// <summary>
+        /// Deletes the user information asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// id of deleted user info.
+        /// </returns>
+        /// <exception cref="UsersService.DataAccess.Exceptions.UserInfoNotFoundException"></exception>
         public async Task<int> DeleteUserInfoAsync(int id)
         {
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
@@ -35,6 +62,14 @@ namespace UsersService.DataAccess
             return deletedUserInfoEntity.Entity.Id;
         }
 
+        /// <summary>
+        /// Gets the user information asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// User info by id.
+        /// </returns>
+        /// <exception cref="UsersService.DataAccess.Exceptions.UserInfoNotFoundException"></exception>
         public async Task<UserInfoEntity> GetUserInfoAsync(int id)
         {
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
@@ -45,9 +80,24 @@ namespace UsersService.DataAccess
             return userInfoEntity;
         }
 
+        /// <summary>
+        /// Gets the users information asynchronous.
+        /// </summary>
+        /// <returns>
+        /// List of user info.
+        /// </returns>
         public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
             => await _usersContext.UsersInfo.ToArrayAsync();
 
+        /// <summary>
+        /// Updates the user information asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="userInfo">The user information.</param>
+        /// <returns>
+        /// id of updated user info.
+        /// </returns>
+        /// <exception cref="UsersService.DataAccess.Exceptions.UserInfoNotFoundException"></exception>
         public async Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo)
         {
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
