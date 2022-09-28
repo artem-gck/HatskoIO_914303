@@ -14,25 +14,28 @@ namespace UsersService.Controllers
         private readonly IMapper _mapper;
 
         public UsersController(IUserService userService, IMapper mapper)
-            => (_userService, _mapper) = (userService, mapper);
+        {
+            _userService = userService is not null ? userService : throw new ArgumentNullException(nameof(userService));
+            _mapper = mapper is not null ? mapper : throw new ArgumentNullException(nameof(mapper));
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAllAsync()
-            => Json((await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us)));
+            => Ok((await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us)));
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserInfoViewModel>> GetAsync(int id)
         {
             var user = _mapper.Map<UserInfoViewModel>(await _userService.GetUserInfoAsync(id));
 
-            return Json(user);
+            return Ok(user);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var result = await _userService.DeleteUserInfoAsync(id);
-
+            
             return Ok(result);
         }
 
@@ -41,14 +44,14 @@ namespace UsersService.Controllers
         {
             var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
-            return Ok(result);
+            return Created($"users/{result}", result);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, UserInfoViewModel userInfoViewModel)
         {
             var result = await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
-
+            
             return Ok(result);
         }
     }

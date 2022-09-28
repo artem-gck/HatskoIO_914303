@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Text.Json;
+using UsersService.DataAccess.Exceptions;
 
 namespace UsersService.Middlewares
 {
@@ -15,38 +18,21 @@ namespace UsersService.Middlewares
             {
                 await _next(httpContext);
             }
-            catch (InvalidOperationException ex)
-            {
-                await HandleInvalidOperationExceptionAsync(httpContext, ex);
-            }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                var response = httpContext.Response;
+                response.ContentType = "application/json";
+
+                response.StatusCode = ex switch
+                {
+                    UserInfoNotFoundException       => (int)HttpStatusCode.NotFound,
+                    ArgumentNullException           => (int)HttpStatusCode.BadRequest,
+                    Exception                       => (int)HttpStatusCode.InternalServerError,
+                };
+
+                var result = JsonSerializer.Serialize(new { message = ex?.Message });
+                await response.WriteAsync(result);
             }
-        }
-
-        private async Task HandleInvalidOperationExceptionAsync(HttpContext context, InvalidOperationException exception)
-        {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-
-            await context.Response.WriteAsync(new ErrorDetails()
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = "No element with this id"
-            }.ToString());
-        }
-
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-
-            await context.Response.WriteAsync(new ErrorDetails()
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = exception.Message
-            }.ToString());
         }
     }
 }
