@@ -8,6 +8,6 @@ namespace UsersService.Services
         public Task<UserInfoDto> GetUserInfoAsync(int id);
         public Task<int> DeleteUserInfoAsync(int id);
         public Task<int> AddUserInfoAsync(UserInfoDto userInfoDto);
-        public Task<int> UpdateUserInfoAsync(UserInfoDto userInfoDto);
+        public Task<int> UpdateUserInfoAsync(int id, UserInfoDto userInfoDto);
     }
 }
