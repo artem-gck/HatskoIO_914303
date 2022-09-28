@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService", "UserLoginService\UserLoginService.csproj", "{0896AE88-F8E5-4EB6-8AD6-03448564A029}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService.Domain", "UserLoginService.Domain\UserLoginService.Domain.csproj", "{444A47AA-016E-4C75-B104-0DAEB3012616}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0896AE88-F8E5-4EB6-8AD6-03448564A029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0896AE88-F8E5-4EB6-8AD6-03448564A029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0896AE88-F8E5-4EB6-8AD6-03448564A029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0896AE88-F8E5-4EB6-8AD6-03448564A029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{444A47AA-016E-4C75-B104-0DAEB3012616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{444A47AA-016E-4C75-B104-0DAEB3012616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{444A47AA-016E-4C75-B104-0DAEB3012616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{444A47AA-016E-4C75-B104-0DAEB3012616}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4BE0378D-57A7-425A-B5C1-5125ED960BB9}
+	EndGlobalSection
+EndGlobal
