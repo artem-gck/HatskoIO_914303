@@ -37,9 +37,9 @@ namespace UsersService.DataAccess
         public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
             => await _usersContext.UsersInfo.ToArrayAsync();
 
-        public async Task<int> UpdateUserInfoAsync(UserInfoEntity userInfo)
+        public async Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo)
         {
-            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == userInfo.Id);
+            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
 
             userInfoEntity.Name = userInfo.Name;
             userInfoEntity.Surname = userInfo.Surname;

@@ -8,6 +8,6 @@ namespace UsersService.DataAccess
         public Task<UserInfoEntity> GetUserInfoAsync(int id);
         public Task<int> DeleteUserInfoAsync(int id);
         public Task<int> AddUserInfoAsync(UserInfoEntity userInfo);
-        public Task<int> UpdateUserInfoAsync(UserInfoEntity userInfo);
+        public Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo);
     }
 }
