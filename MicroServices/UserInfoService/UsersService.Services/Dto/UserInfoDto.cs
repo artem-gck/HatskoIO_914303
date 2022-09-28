@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UsersService.Services.Dto
+﻿namespace UsersService.Services.Dto
 {
     public class UserInfoDto
     {
