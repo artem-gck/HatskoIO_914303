@@ -11,7 +11,10 @@ namespace UsersService.Services
         private readonly IMapper _mapper;
 
         public UserService(IUserAccess userAccess, IMapper mapper)
-         => (_userAccess, _mapper) = (userAccess, mapper);
+        {
+            _userAccess = userAccess is not null ? userAccess : throw new ArgumentNullException(nameof(userAccess));
+            _mapper = mapper is not null ? mapper : throw new ArgumentNullException(nameof(mapper));
+        }
 
         public async Task<int> AddUserInfoAsync(UserInfoDto userInfoDto)
             => await _userAccess.AddUserInfoAsync(_mapper.Map<UserInfoEntity>(userInfoDto));

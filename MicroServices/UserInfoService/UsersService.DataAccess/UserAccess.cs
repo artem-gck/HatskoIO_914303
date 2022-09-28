@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess.Entities;
 using UsersService.DataAccess.Entities.Context;
+using UsersService.DataAccess.Exceptions;
 
 namespace UsersService.DataAccess
 {
@@ -9,7 +10,7 @@ namespace UsersService.DataAccess
         private readonly UsersInfoContext _usersContext;
 
         public UserAccess(UsersInfoContext usersContext)
-            => _usersContext = usersContext;
+            => _usersContext = usersContext is not null ? usersContext : throw new ArgumentNullException(nameof(usersContext));
 
         public async Task<int> AddUserInfoAsync(UserInfoEntity userInfo)
         {
@@ -22,7 +23,10 @@ namespace UsersService.DataAccess
 
         public async Task<int> DeleteUserInfoAsync(int id)
         {
-            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
+            var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
+
+            if (userInfoEntity is null)
+                throw new UserInfoNotFoundException(id);
 
             var deletedUserInfoEntity = _usersContext.UsersInfo.Remove(userInfoEntity);
 
@@ -32,14 +36,24 @@ namespace UsersService.DataAccess
         }
 
         public async Task<UserInfoEntity> GetUserInfoAsync(int id)
-            => await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
+        {
+            var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
+
+            if (userInfoEntity is null)
+                throw new UserInfoNotFoundException(id);
+
+            return userInfoEntity;
+        }
 
         public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
             => await _usersContext.UsersInfo.ToArrayAsync();
 
         public async Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo)
         {
-            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
+            var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
+
+            if (userInfoEntity is null)
+                throw new UserInfoNotFoundException(id);
 
             userInfoEntity.Name = userInfo.Name;
             userInfoEntity.Surname = userInfo.Surname;
