@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
+using UsersService.Middlewares;
 using UsersService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,6 @@ builder.Services.AddScoped<IUserAccess, UserAccess>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -32,7 +32,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //app.UseAuthorization();
-
+app.UseStatusCodePages();
+app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
 
 app.Run();
