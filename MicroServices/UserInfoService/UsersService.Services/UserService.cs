@@ -55,6 +55,7 @@ namespace UsersService.Services
 
             var userInfoEntity = new UserInfoEntity()
             {
+                Id = userInfoDto.Id,
                 Name = userInfoDto.Name,
                 Surname = userInfoDto.Surname,
                 Patronymic = userInfoDto.Patronymic,
