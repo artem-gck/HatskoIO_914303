@@ -18,10 +18,6 @@ namespace UsersService.DataAccess
 
         public async Task<int> AddUserInfoAsync(UserInfoEntity userInfo)
         {
-            var positionEntity = await GetPosition(userInfo.Position.Name);
-
-            userInfo.Position = positionEntity;
-
             var userInfoEntity = _usersContext.UsersInfo.Add(userInfo);
 
             await _usersContext.SaveChangesAsync();
@@ -31,8 +27,7 @@ namespace UsersService.DataAccess
 
         public async Task<int> DeleteUserInfoAsync(int id)
         {
-            var userInfoEntity = await _usersContext.UsersInfo.Include(us => us.Position)
-                                                              .FirstAsync(us => us.Id == id);
+            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
 
             var deletedUserInfoEntity = _usersContext.UsersInfo.Remove(userInfoEntity);
 
@@ -42,50 +37,23 @@ namespace UsersService.DataAccess
         }
 
         public async Task<UserInfoEntity> GetUserInfoAsync(int id)
-            => await _usersContext.UsersInfo.Include(us => us.Position)
-                                            .FirstAsync(us => us.Id == id);
+            => await _usersContext.UsersInfo.FirstAsync(us => us.Id == id);
 
         public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
-            => await _usersContext.UsersInfo.Include(us => us.Position)
-                                            .ToArrayAsync();
+            => await _usersContext.UsersInfo.ToArrayAsync();
 
         public async Task<int> UpdateUserInfoAsync(UserInfoEntity userInfo)
         {
-            var userInfoEntity = await _usersContext.UsersInfo.Include(us => us.Position)
-                                                              .FirstAsync(us => us.Id == userInfo.Id);
-
-            var positionEntity = await GetPosition(userInfo.Position.Name);
+            var userInfoEntity = await _usersContext.UsersInfo.FirstAsync(us => us.Id == userInfo.Id);
 
             userInfoEntity.Name = userInfo.Name;
             userInfoEntity.Surname = userInfo.Surname;
             userInfoEntity.Patronymic = userInfo.Patronymic;
             userInfoEntity.Email = userInfo.Email;
-            userInfoEntity.Position = positionEntity;
 
             await _usersContext.SaveChangesAsync();
 
             return userInfoEntity.Id;
-        }
-
-        private async Task<PositionEntity> GetPosition(string position)
-        {
-            var positionEntity = await _usersContext.Positions.FirstOrDefaultAsync(pos => pos.Name == position);
-
-            if (positionEntity is null)
-            {
-                positionEntity = new PositionEntity()
-                {
-                    Name = position
-                };
-
-                var roleEntity = _usersContext.Positions.Add(positionEntity);
-
-                await _usersContext.SaveChangesAsync();
-
-                return roleEntity.Entity;
-            }
-
-            return positionEntity;
         }
     }
 }

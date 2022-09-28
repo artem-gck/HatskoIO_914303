@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UsersService.DataAccess.Entities.Context;
 
@@ -10,9 +11,10 @@ using UsersService.DataAccess.Entities.Context;
 namespace UsersService.Migrations
 {
     [DbContext(typeof(UsersInfoContext))]
-    partial class UsersInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20220928113508_RemovePosition")]
+    partial class RemovePosition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

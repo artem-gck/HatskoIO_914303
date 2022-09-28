@@ -9,8 +9,8 @@ namespace UsersService.MapperProfiles
     {
         public ServiceProfile()
         {
-            CreateMap<UserInfoEntity, UserInfoDto>().ForMember(dest => dest.Position, act => act.MapFrom(src => src.Position.Name));
-            CreateMap<UserInfoDto, UserInfoEntity>().ForMember(dest => dest.Position, act => act.MapFrom(src => new PositionEntity() { Name = src.Position }));
+            CreateMap<UserInfoEntity, UserInfoDto>();
+            CreateMap<UserInfoDto, UserInfoEntity>();
         }
     }
 }
