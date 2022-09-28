@@ -14,6 +14,5 @@ namespace UsersService.DataAccess.Entities
         public string? Patronymic { get; set; }
         public string? Email { get; set; }
         public int UserId { get; set; }
-        public PositionEntity Position { get; set; }
     }
 }
