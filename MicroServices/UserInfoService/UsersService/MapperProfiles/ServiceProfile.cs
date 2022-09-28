@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using UsersService.DataAccess.Entities;
 using UsersService.Services.Dto;
-using UsersService.VewModels;
 
 namespace UsersService.MapperProfiles
 {

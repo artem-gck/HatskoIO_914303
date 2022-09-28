@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
@@ -26,16 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
 
-//app.UseAuthorization();
 app.UseStatusCodePages();
 app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
