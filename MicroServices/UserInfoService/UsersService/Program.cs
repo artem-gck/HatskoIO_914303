@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
+using UsersService.MapperProfiles;
 using UsersService.Middlewares;
 using UsersService.Services;
 
@@ -12,6 +14,8 @@ var connectionString = builder.Configuration.GetConnectionString("UserInfoConnec
 
 builder.Services.AddDbContext<UsersInfoContext>(opt =>
     opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService")));
+
+builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccess, UserAccess>();

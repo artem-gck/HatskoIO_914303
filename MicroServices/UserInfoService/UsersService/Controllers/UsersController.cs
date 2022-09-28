@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using UsersService.Services;
 using UsersService.Services.Dto;
 using UsersService.VewModels;
@@ -10,18 +11,19 @@ namespace UsersService.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService)
-            => _userService = userService;
+        public UsersController(IUserService userService, IMapper mapper)
+            => (_userService, _mapper) = (userService, mapper);
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetUsersInfoAsync()
-            => Json((await _userService.GetUsersInfoAsync()).Select(us => MapUserInfoDto(us)));
+            => Json((await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us)));
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserInfoViewModel>> GetUserInfoAsync(int id)
         {
-            var user = MapUserInfoDto(await _userService.GetUserInfoAsync(id));
+            var user = _mapper.Map<UserInfoViewModel>(await _userService.GetUserInfoAsync(id));
 
             return Json(user);
         }
@@ -37,7 +39,7 @@ namespace UsersService.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserInfoAsync(UserInfoViewModel userInfoViewModel)
         {
-            var result = await _userService.AddUserInfoAsync(MapUserInfoViewModel(userInfoViewModel));
+            var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
             return Ok(result);
         }
@@ -45,31 +47,9 @@ namespace UsersService.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(UserInfoViewModel userInfoViewModel)
         {
-            var result = await _userService.UpdateUserInfoAsync(MapUserInfoViewModel(userInfoViewModel));
+            var result = await _userService.UpdateUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
             return Ok(result);
         }
-
-        private UserInfoViewModel MapUserInfoDto(UserInfoDto userInfoDto)
-            => new UserInfoViewModel()
-            {
-                Id = userInfoDto.Id,
-                Name = userInfoDto.Name,
-                Surname = userInfoDto.Surname,
-                Patronymic = userInfoDto.Patronymic,
-                Email = userInfoDto.Email,
-                Position = userInfoDto.Position,
-            };
-
-        private UserInfoDto MapUserInfoViewModel(UserInfoViewModel userInfoViewModel)
-           => new UserInfoDto()
-           {
-               Id = userInfoViewModel.Id,
-               Name = userInfoViewModel.Name,
-               Surname = userInfoViewModel.Surname,
-               Patronymic = userInfoViewModel.Patronymic,
-               Email = userInfoViewModel.Email,
-               Position = userInfoViewModel.Position,
-           };
     }
 }
