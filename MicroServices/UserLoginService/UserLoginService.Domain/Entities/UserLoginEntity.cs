@@ -1,9 +1,8 @@
 ﻿namespace UserLoginService.Domain.Entities
 {
     
-    public class UserLoginEntity
+    public class UserLoginEntity : BaseEntity
     {
-        public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public RoleEntity Role { get; set; }
