@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService", "UserLog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService.Domain", "UserLoginService.Domain\UserLoginService.Domain.csproj", "{444A47AA-016E-4C75-B104-0DAEB3012616}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService.Repository", "UserLoginService.Repository\UserLoginService.Repository.csproj", "{08D24DBA-9930-4F10-9924-A61ABDF194C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserLoginService.Service", "UserLoginService.Service\UserLoginService.Service.csproj", "{36440ED1-5D61-4A6B-A34F-F8C77E9EE875}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{444A47AA-016E-4C75-B104-0DAEB3012616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{444A47AA-016E-4C75-B104-0DAEB3012616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{444A47AA-016E-4C75-B104-0DAEB3012616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08D24DBA-9930-4F10-9924-A61ABDF194C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08D24DBA-9930-4F10-9924-A61ABDF194C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08D24DBA-9930-4F10-9924-A61ABDF194C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08D24DBA-9930-4F10-9924-A61ABDF194C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36440ED1-5D61-4A6B-A34F-F8C77E9EE875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36440ED1-5D61-4A6B-A34F-F8C77E9EE875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36440ED1-5D61-4A6B-A34F-F8C77E9EE875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36440ED1-5D61-4A6B-A34F-F8C77E9EE875}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
