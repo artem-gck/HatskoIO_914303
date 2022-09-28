@@ -8,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
 
 builder.Services.AddDbContext<UsersInfoContext>(opt =>
-    opt.UseSqlServer(connectionString));
+    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService")));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserAccess, UserAccess>();
