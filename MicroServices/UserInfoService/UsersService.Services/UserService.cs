@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,58 +13,24 @@ namespace UsersService.Services
     public class UserService : IUserService
     {
         private readonly IUserAccess _userAccess;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserAccess userAccess)
-            => _userAccess = userAccess;
+        public UserService(IUserAccess userAccess, IMapper mapper)
+         => (_userAccess, _mapper) = (userAccess, mapper);
 
         public async Task<int> AddUserInfoAsync(UserInfoDto userInfoDto)
-            => await _userAccess.AddUserInfoAsync(MapUserInfoDto(userInfoDto));
+            => await _userAccess.AddUserInfoAsync(_mapper.Map<UserInfoEntity>(userInfoDto));
 
         public async Task<int> DeleteUserInfoAsync(int id)
             => await _userAccess.DeleteUserInfoAsync(id);
 
         public async Task<UserInfoDto> GetUserInfoAsync(int id)
-            => MapUserInfoEntity(await _userAccess.GetUserInfoAsync(id));
+            => _mapper.Map<UserInfoDto>(await _userAccess.GetUserInfoAsync(id));
 
         public async Task<IEnumerable<UserInfoDto>> GetUsersInfoAsync()
-            => (await _userAccess.GetUsersInfoAsync()).Select(us => MapUserInfoEntity(us));
+            => (await _userAccess.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoDto>(us));
 
         public async Task<int> UpdateUserInfoAsync(UserInfoDto userInfoDto)
-            => await _userAccess.UpdateUserInfoAsync(MapUserInfoDto(userInfoDto));
-
-        private UserInfoDto MapUserInfoEntity(UserInfoEntity userInfoEntity)
-        {
-            var userInfoDto = new UserInfoDto()
-            {
-                Id = userInfoEntity.Id,
-                Name = userInfoEntity.Name,
-                Surname = userInfoEntity.Surname,
-                Patronymic = userInfoEntity.Patronymic,
-                Email = userInfoEntity.Email,
-                Position = userInfoEntity.Position.Name
-            };
-
-            return userInfoDto;
-        }
-
-        private UserInfoEntity MapUserInfoDto(UserInfoDto userInfoDto)
-        {
-            var positionEntity = new PositionEntity()
-            {
-                Name = userInfoDto.Position
-            };
-
-            var userInfoEntity = new UserInfoEntity()
-            {
-                Id = userInfoDto.Id,
-                Name = userInfoDto.Name,
-                Surname = userInfoDto.Surname,
-                Patronymic = userInfoDto.Patronymic,
-                Email = userInfoDto.Email,
-                Position = positionEntity
-            };
-
-            return userInfoEntity;
-        }
+            => await _userAccess.UpdateUserInfoAsync(_mapper.Map<UserInfoEntity>(userInfoDto));
     }
 }
