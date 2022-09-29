@@ -1,3 +1,5 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
@@ -23,6 +25,8 @@ builder.Services.AddScoped<IUserAccess, UserAccess>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("UserInfoConnection"));
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -32,6 +36,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 
