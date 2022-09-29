@@ -33,11 +33,11 @@ builder.Services.AddLogging(cfg => cfg.AddConsole());
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
