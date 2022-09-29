@@ -29,6 +29,8 @@ builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnect
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddLogging(cfg => cfg.AddConsole());
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
