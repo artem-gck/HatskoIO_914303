@@ -8,12 +8,6 @@ namespace UsersService.DataAccess.Entities.Context
     /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
     public class UsersInfoContext : DbContext
     {
-        /// <summary>
-        /// Gets or sets the users information.
-        /// </summary>
-        /// <value>
-        /// The users information.
-        /// </value>
         public DbSet<UserInfoEntity> UsersInfo { get; set; } = null!;
 
         /// <summary>
