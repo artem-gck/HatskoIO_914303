@@ -14,14 +14,7 @@ namespace UsersService.Controllers
     [Route("users")]
     public class UsersInfoController : Controller
     {
-        /// <summary>
-        /// The user service.
-        /// </summary>
         private readonly IUserService _userService;
-
-        /// <summary>
-        /// The mapper.
-        /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -36,19 +29,19 @@ namespace UsersService.Controllers
         /// </exception>
         public UsersInfoController(IUserService userService, IMapper mapper)
         {
-            _userService = userService is not null ? userService : throw new ArgumentNullException(nameof(userService));
-            _mapper = mapper is not null ? mapper : throw new ArgumentNullException(nameof(mapper));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         // GET users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAll()
             => Ok((await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us)));
 
         // GET users/1
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<UserInfoViewModel>> GetAsync(int id)
+        public async Task<ActionResult<UserInfoViewModel>> Get(int id)
         {
             var user = _mapper.Map<UserInfoViewModel>(await _userService.GetUserInfoAsync(id));
 
@@ -58,17 +51,17 @@ namespace UsersService.Controllers
         // DELETE users/1
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _userService.DeleteUserInfoAsync(id);
             
-            return Ok(result);
+            return NoContent();
         }
 
         // POST users
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> AddAsync(UserInfoViewModel userInfoViewModel)
+        public async Task<IActionResult> Post(UserInfoViewModel userInfoViewModel)
         {
             var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
@@ -78,11 +71,11 @@ namespace UsersService.Controllers
         // PUT users/1
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateAsync(int id, UserInfoViewModel userInfoViewModel)
+        public async Task<IActionResult> Put(int id, UserInfoViewModel userInfoViewModel)
         {
             var result = await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
             
-            return Ok(result);
+            return NoContent();
         }
     }
 }

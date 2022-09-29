@@ -10,9 +10,6 @@ namespace UsersService.Middlewares
     /// </summary>
     public class ExceptionHandlerMiddleware
     {
-        /// <summary>
-        /// The next.
-        /// </summary>
         private readonly RequestDelegate _next;
 
         /// <summary>
@@ -35,7 +32,6 @@ namespace UsersService.Middlewares
             catch (Exception ex)
             {
                 var response = httpContext.Response;
-                response.ContentType = "application/json";
 
                 response.StatusCode = ex switch
                 {
@@ -44,8 +40,7 @@ namespace UsersService.Middlewares
                     Exception                       => (int)HttpStatusCode.InternalServerError,
                 };
 
-                var result = JsonSerializer.Serialize(new { message = ex?.Message });
-                await response.WriteAsync(result);
+                await response.WriteAsJsonAsync(new { message = ex?.Message });
             }
         }
     }

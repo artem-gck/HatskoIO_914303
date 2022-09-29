@@ -4,6 +4,7 @@ using UsersService.DataAccess.Entities.Context;
 using UsersService.MapperProfiles;
 using UsersService.Middlewares;
 using UsersService.Services;
+using UsersService.Services.MapperProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -12,7 +12,7 @@ namespace UsersService.MapperProfiles
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ControllerProfile"/> class.
-        /// </summary>
+        /// </summary>unnecessary
         public ControllerProfile()
         {
             CreateMap<UserInfoViewModel, UserInfoDto>();

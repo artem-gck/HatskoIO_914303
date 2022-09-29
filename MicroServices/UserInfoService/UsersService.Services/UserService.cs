@@ -11,14 +11,7 @@ namespace UsersService.Services
     /// <seealso cref="UsersService.Services.IUserService" />
     public class UserService : IUserService
     {
-        /// <summary>
-        /// The user access.
-        /// </summary>
         private readonly IUserAccess _userAccess;
-
-        /// <summary>
-        /// The mapper.
-        /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -33,8 +26,8 @@ namespace UsersService.Services
         /// </exception>
         public UserService(IUserAccess userAccess, IMapper mapper)
         {
-            _userAccess = userAccess is not null ? userAccess : throw new ArgumentNullException(nameof(userAccess));
-            _mapper = mapper is not null ? mapper : throw new ArgumentNullException(nameof(mapper));
+            _userAccess = userAccess ?? throw new ArgumentNullException(nameof(userAccess));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>

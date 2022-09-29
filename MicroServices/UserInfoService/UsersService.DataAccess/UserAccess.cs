@@ -11,9 +11,6 @@ namespace UsersService.DataAccess
     /// <seealso cref="UsersService.DataAccess.IUserAccess" />
     public class UserAccess : IUserAccess
     {
-        /// <summary>
-        /// The users context.
-        /// </summary>
         private readonly UsersInfoContext _usersContext;
 
         /// <summary>
@@ -22,7 +19,7 @@ namespace UsersService.DataAccess
         /// <param name="usersContext">The users context.</param>
         /// <exception cref="System.ArgumentNullException">usersContext</exception>
         public UserAccess(UsersInfoContext usersContext)
-            => _usersContext = usersContext is not null ? usersContext : throw new ArgumentNullException(nameof(usersContext));
+            => _usersContext = usersContext ?? throw new ArgumentNullException(nameof(usersContext));
 
         /// <summary>
         /// Adds the user information asynchronous.
