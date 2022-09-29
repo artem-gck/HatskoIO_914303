@@ -10,7 +10,6 @@ namespace UsersService.Controllers
     /// Controller for users info.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    [ApiController]
     [Route("users")]
     public class UsersInfoController : Controller
     {
@@ -63,6 +62,9 @@ namespace UsersService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Post(UserInfoViewModel userInfoViewModel)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
             return Created($"users/{result}", result);
@@ -73,6 +75,9 @@ namespace UsersService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Put(int id, UserInfoViewModel userInfoViewModel)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var result = await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
             
             return NoContent();

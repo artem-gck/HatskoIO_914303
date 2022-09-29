@@ -1,4 +1,6 @@
-﻿namespace UsersService.VewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UsersService.VewModels
 {
     /// <summary>
     /// Vew model of user info.
@@ -6,9 +8,20 @@
     public class UserInfoViewModel
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Surname { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,20}[a-zA-Z]$")]
+        public string Name { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,20}[a-zA-Z]$")]
+        public string Surname { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,30}[a-zA-Z]$")]
         public string? Patronymic { get; set; }
-        public string? Email { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
     }
 }
