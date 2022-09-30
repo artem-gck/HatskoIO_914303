@@ -14,4 +14,12 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StructureService.Application.Realisation\StructureService.Application.Realisation.csproj" />
+    <ProjectReference Include="..\StructureService.Application.Services\StructureService.Application.Services.csproj" />
+    <ProjectReference Include="..\StructureService.Dimain.Realisation\StructureService.Dimain.Realisation.csproj" />
+    <ProjectReference Include="..\StructureService.Domain.Services\StructureService.Domain.Services.csproj" />
+    <ProjectReference Include="..\StructureService.Domain\StructureService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
