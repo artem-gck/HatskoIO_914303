@@ -1,8 +1,5 @@
 ﻿namespace UsersService.Services.Dto
 {
-    /// <summary>
-    /// Data transfer object for info about user
-    /// </summary>
     public class UserInfoDto
     {
         public int Id { get; set; }

@@ -2,9 +2,6 @@
 
 namespace UsersService.VewModels
 {
-    /// <summary>
-    /// Vew model of user info.
-    /// </summary>
     public class UserInfoViewModel
     {
         public int Id { get; set; }
