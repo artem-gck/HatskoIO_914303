@@ -3,6 +3,6 @@
     public class PositionEntity : BaseEntity
     {
         public string Name { get; set; }
-        public List<DepartmentUnitEntity> departmentUnits { get; set; }
+        public List<DepartmentUnitEntity>? DepartmentUnits { get; set; }
     }
 }
