@@ -36,6 +36,7 @@ namespace UsersService.Controllers
 
         // GET users
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAll()
         {
             _userLogger.LogInformation("Start getting list of user info from service");
@@ -50,6 +51,7 @@ namespace UsersService.Controllers
         // GET users/1
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserInfoViewModel>> Get(int id)
         {
             _userLogger.LogInformation("Start getting user info from service");
@@ -63,7 +65,8 @@ namespace UsersService.Controllers
 
         // DELETE users/1
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             _userLogger.LogInformation("Start deleting user info from service");
@@ -78,6 +81,7 @@ namespace UsersService.Controllers
         // POST users
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(UserInfoViewModel userInfoViewModel)
         {
             _userLogger.LogInformation("Start adding user info to service");
@@ -98,7 +102,9 @@ namespace UsersService.Controllers
 
         // PUT users/1
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(int id, UserInfoViewModel userInfoViewModel)
         {
             _userLogger.LogInformation("Start updating user info at service");
