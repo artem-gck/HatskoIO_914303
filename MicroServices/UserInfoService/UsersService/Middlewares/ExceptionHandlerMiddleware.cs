@@ -9,9 +9,13 @@ namespace UsersService.Middlewares
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlerMiddleware> _exceptionLogger;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
-            => _next = next;
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> exceptionLogger)
+        {
+            _next = next;
+            _exceptionLogger = exceptionLogger ?? throw new ArgumentNullException(nameof(exceptionLogger));
+        }
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
@@ -21,12 +25,13 @@ namespace UsersService.Middlewares
             }
             catch (Exception ex)
             {
+                _exceptionLogger.LogWarning("Exception in ExceptionHandlerMiddleware with text \"{message}\"", ex.Message);
+
                 var response = httpContext.Response;
 
                 response.StatusCode = ex switch
                 {
                     UserInfoNotFoundException       => (int)HttpStatusCode.NotFound,
-                    ArgumentNullException           => (int)HttpStatusCode.BadRequest,
                     Exception                       => (int)HttpStatusCode.InternalServerError,
                 };
 

@@ -19,27 +19,23 @@ namespace UsersService.DataAccess
 
         public async Task<int> AddUserInfoAsync(UserInfoEntity userInfo)
         {
-            _userAccessLogger.LogInformation("Start adding entity to db");
+            _userAccessLogger.LogDebug("Adding entity to db with name = {name}", userInfo.Name);
 
             var userInfoEntity = _usersContext.UsersInfo.Add(userInfo);
 
             await _usersContext.SaveChangesAsync();
-
-            _userAccessLogger.LogInformation("Success adding entity to db");
 
             return userInfoEntity.Entity.Id;
         }
 
         public async Task<int> DeleteUserInfoAsync(int id)
         {
-            _userAccessLogger.LogInformation("Start deleting entity to db");
+            _userAccessLogger.LogDebug("Deleting entity from db with id = {id}", id);
 
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
 
             if (userInfoEntity is null)
             {
-                _userAccessLogger.LogWarning("No user info with id = {id}", id);
-
                 throw new UserInfoNotFoundException(id);
             }
 
@@ -47,50 +43,40 @@ namespace UsersService.DataAccess
 
             await _usersContext.SaveChangesAsync();
 
-            _userAccessLogger.LogInformation("Success delete entity to db");
-
             return deletedUserInfoEntity.Entity.Id;
         }
 
         public async Task<UserInfoEntity> GetUserInfoAsync(int id)
         {
-            _userAccessLogger.LogInformation("Start getting entity from db");
+            _userAccessLogger.LogDebug("Getting entity from db with id = {id}", id);
 
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
 
             if (userInfoEntity is null)
             {
-                _userAccessLogger.LogWarning("No user info with id = {id}", id);
-
                 throw new UserInfoNotFoundException(id);
             }
-
-            _userAccessLogger.LogInformation("Success getting entity from db");
 
             return userInfoEntity;
         }
 
         public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
         {
-            _userAccessLogger.LogInformation("Start getting entities from db");
+            _userAccessLogger.LogDebug("Getting entities from db");
 
             var listOfUserInfoEntities = await _usersContext.UsersInfo.ToArrayAsync();
-
-            _userAccessLogger.LogInformation("Success getting entities from db");
 
             return listOfUserInfoEntities;
         }
 
         public async Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo)
         {
-            _userAccessLogger.LogInformation("Start updating entity from db");
+            _userAccessLogger.LogDebug("Updating entity from db with id = {id}", id);
 
             var userInfoEntity = await _usersContext.UsersInfo.FirstOrDefaultAsync(us => us.Id == id);
 
             if (userInfoEntity is null)
             {
-                _userAccessLogger.LogWarning("No user info with id = {id}", id);
-
                 throw new UserInfoNotFoundException(id);
             }
 
@@ -100,8 +86,6 @@ namespace UsersService.DataAccess
             userInfoEntity.Email = userInfo.Email;
 
             await _usersContext.SaveChangesAsync();
-
-            _userAccessLogger.LogInformation("Success updating entity from db");
 
             return userInfoEntity.Id;
         }
