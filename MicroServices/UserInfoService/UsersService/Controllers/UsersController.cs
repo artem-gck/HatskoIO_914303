@@ -32,17 +32,19 @@ namespace UsersService.Controllers
         ///
         /// </remarks>
         /// <response code="200">List of user info was getting</response>
-        /// <response code="400">Problem of server side</response>
+        /// <response code="500">Interal server error</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAll()
         {
-            _userLogger.LogInformation("Start getting list of user info from service");
+            _userLogger.LogDebug("Getting list of user info from service");
 
             var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us));
 
-            _userLogger.LogInformation("Success getting list of user info from service");
+            var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
+
+            _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
 
             return Ok(listOfUserInfo);
         }
@@ -59,19 +61,17 @@ namespace UsersService.Controllers
         ///
         /// </remarks>
         /// <response code="200">User info was getting</response>
-        /// <response code="400">Problem of server side</response>
         /// <response code="404">No userInfo with this id</response>
+        /// <response code="500">Interal server error</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserInfoViewModel>> Get(int id)
         {
-            _userLogger.LogInformation("Start getting user info from service");
+            _userLogger.LogDebug("Getting user info from service");
 
             var user = _mapper.Map<UserInfoViewModel>(await _userService.GetUserInfoAsync(id));
-
-            _userLogger.LogInformation("Success getting user info from service");
 
             return Ok(user);
         }
@@ -88,19 +88,17 @@ namespace UsersService.Controllers
         ///
         /// </remarks>
         /// <response code="204">UserInfo was deleted</response>
-        /// <response code="400">Problem of server side</response>
         /// <response code="404">No userInfo with this id</response>
+        /// <response code="500">Interal server error</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
-            _userLogger.LogInformation("Start deleting user info from service");
+            _userLogger.LogDebug("Deleting user info from service with id = {id}", id);
 
             var result = await _userService.DeleteUserInfoAsync(id);
-
-            _userLogger.LogInformation("Success deleting user info from service");
 
             return NoContent();
         }
@@ -124,12 +122,14 @@ namespace UsersService.Controllers
         /// </remarks>
         /// <response code="201">UserInfo was created</response>
         /// <response code="400">Invalid model state</response>
+        /// <response code="500">Interal server error</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(UserInfoViewModel userInfoViewModel)
         {
-            _userLogger.LogInformation("Start adding user info to service");
+            _userLogger.LogDebug("Adding user info to service with name = {name}", userInfoViewModel.Name);
 
             if (!ModelState.IsValid)
             {
@@ -140,7 +140,7 @@ namespace UsersService.Controllers
 
             var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
-            _userLogger.LogInformation("Success adding user info to service");
+            _userLogger.LogDebug("Id of added user indo is {id}", userInfoViewModel.Id);
 
             return Created($"users/{result}", result);
         }
@@ -164,15 +164,17 @@ namespace UsersService.Controllers
         ///
         /// </remarks>
         /// <response code="204">UserInfo was updated</response>
-        /// <response code="404">No userInfo with this id</response>
         /// <response code="400">Invalid model state</response>
+        /// <response code="404">No userInfo with this id</response>
+        /// <response code="500">Interal server error</response>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(int id, UserInfoViewModel userInfoViewModel)
         {
-            _userLogger.LogInformation("Start updating user info at service");
+            _userLogger.LogDebug("Updating user info at service with id = {id}", userInfoViewModel.Id);
 
             if (!ModelState.IsValid)
             {
@@ -182,8 +184,6 @@ namespace UsersService.Controllers
             }
 
             var result = await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
-
-            _userLogger.LogInformation("Success updating user info at service");
 
             return NoContent();
         }
