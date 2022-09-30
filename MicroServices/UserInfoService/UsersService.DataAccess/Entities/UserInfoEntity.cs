@@ -1,8 +1,5 @@
 ﻿namespace UsersService.DataAccess.Entities
 {
-    /// <summary>
-    /// Entity for user info.
-    /// </summary>
     public class UserInfoEntity
     {
         public int Id { get; set; }
