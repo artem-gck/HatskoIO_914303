@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StructureService.Application.Services.Dto
+﻿namespace StructureService.Application.Services.Dto
 {
-    public class PositionDto
+    public class PositionDto : BaseDto
     {
         public string Name { get; set; }
     }

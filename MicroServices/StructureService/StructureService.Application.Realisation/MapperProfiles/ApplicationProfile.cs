@@ -10,8 +10,10 @@ namespace StructureService.Application.Realisation.MapperProfiles
         {
             CreateMap<DepartmentEntity, DepartmentDto>();
             CreateMap<DepartmentDto, DepartmentEntity>();
+
             CreateMap<DepartmentUnitEntity, DepartmentUnitDto>();
             CreateMap<DepartmentUnitDto, DepartmentUnitEntity>();
+
             CreateMap<PositionEntity, PositionDto>();
             CreateMap<PositionDto, PositionEntity>();
         }

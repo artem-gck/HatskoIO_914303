@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StructureService.Application.Realisation\StructureService.Application.Realisation.csproj" />
     <ProjectReference Include="..\StructureService.Application.Services\StructureService.Application.Services.csproj" />
     <ProjectReference Include="..\StructureService.Dimain.Realisation\StructureService.Dimain.Realisation.csproj" />

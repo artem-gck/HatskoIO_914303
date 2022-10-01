@@ -1,7 +1,8 @@
-﻿namespace StructureService.Application.Services.Dto
+﻿namespace StructureService.ViewModels
 {
-    public class DepartmentUnitDto : BaseDto
+    public class DepartmentUnitViewModel
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int PositionId { get; set; }
         public int DepartmentId { get; set; }
