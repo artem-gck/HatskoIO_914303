@@ -11,11 +11,18 @@ using StructureService.Dimain.Realisation;
 using StructureService.Application.Services.Dto;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
 
 // Add services to the container.
+
+builder.Services.AddHealthChecksUI()
+                .AddInMemoryStorage();
+builder.Services.AddHealthChecks()
+                .AddSqlServer(connectionString);
 
 builder.Services.AddAutoMapper(typeof(ApplicationProfile), typeof(ControllerProfile));
 
@@ -60,5 +67,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.MapHealthChecksUI();
 
 app.Run();
