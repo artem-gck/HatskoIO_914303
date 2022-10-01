@@ -1,10 +1,32 @@
+using StructureService.Application.Realisation.MapperProfiles;
+using StructureService.Application.Realisation;
+using StructureService.Application.Services;
+using StructureService.Domain.Services;
+using StructureService.MapperProfiles;
 using StructureService.Middlewares;
+using StructureService.Dimain.Realisation.Context;
+using Microsoft.EntityFrameworkCore;
+using StructureService.Domain.Entities;
+using StructureService.Dimain.Realisation;
+using StructureService.Application.Services.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
 
 // Add services to the container.
 
+builder.Services.AddAutoMapper(typeof(ApplicationProfile), typeof(ControllerProfile));
 
+builder.Services.AddDbContext<StructureContext>(opt =>
+    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("StructureService.Dimain.Realisation")));
+
+builder.Services.AddScoped<IRepository<PositionEntity>, Repository<PositionEntity>>();
+builder.Services.AddScoped<IRepository<DepartmentEntity>, Repository<DepartmentEntity>>();
+builder.Services.AddScoped<IRepository<DepartmentUnitEntity>, Repository<DepartmentUnitEntity>>();
+
+builder.Services.AddScoped<IService<PositionDto>, Service<PositionDto, PositionEntity>>();
+builder.Services.AddScoped<IService<DepartmentDto>, Service<DepartmentDto, DepartmentEntity>>();
+builder.Services.AddScoped<IService<DepartmentUnitDto>, Service<DepartmentUnitDto, DepartmentUnitEntity>>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
