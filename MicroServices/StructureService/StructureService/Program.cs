@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using StructureService.Domain.Entities;
 using StructureService.Dimain.Realisation;
 using StructureService.Application.Services.Dto;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
@@ -31,7 +33,18 @@ builder.Services.AddScoped<IService<DepartmentUnitDto>, Service<DepartmentUnitDt
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "StructureService API",
+        Description = "An ASP.NET Core Web API for managing structure items"
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 var app = builder.Build();
 

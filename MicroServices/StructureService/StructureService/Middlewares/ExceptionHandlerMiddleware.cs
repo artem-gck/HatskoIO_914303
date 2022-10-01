@@ -1,4 +1,5 @@
-﻿using StructureService.Domain.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using StructureService.Domain.Exceptions;
 using System.Net;
 
 namespace StructureService.Middlewares
@@ -25,6 +26,7 @@ namespace StructureService.Middlewares
                 response.StatusCode = ex switch
                 {
                     NotFoundException => (int)HttpStatusCode.NotFound,
+                    DbUpdateException => (int)HttpStatusCode.Conflict,
                     Exception => (int)HttpStatusCode.InternalServerError,
                 };
 

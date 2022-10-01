@@ -7,6 +7,7 @@ using StructureService.ViewModels;
 namespace StructureService.Controllers
 {
     [Route("departments")]
+    [Produces("application/json")]
     public class DepartmentController : Controller
     {
         private readonly IService<DepartmentDto> _departmentsService;
@@ -18,9 +19,24 @@ namespace StructureService.Controllers
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
         }
 
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>DepartmentViewModel</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /departments/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">Model ok</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<DepartmentViewModel>> Get(int id)
         {
             var departmentViewModel = _controllerMapper.Map<DepartmentViewModel>(await _departmentsService.GetAsync(id));
@@ -28,8 +44,21 @@ namespace StructureService.Controllers
             return Ok(departmentViewModel);
         }
 
+        /// <summary>
+        /// Gets all.
+        /// </summary>
+        /// <returns>List of DepartmentViewModel</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /departments
+        ///
+        /// </remarks>
+        /// <response code="200">Model ok</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<DepartmentViewModel>>> GetAll()
         {
             var listOfDepartmentViewModel = (await _departmentsService.GetAllAsync()).Select(dep => _controllerMapper.Map<DepartmentViewModel>(dep));
@@ -37,9 +66,24 @@ namespace StructureService.Controllers
             return Ok(listOfDepartmentViewModel);
         }
 
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Status code</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     DELETE /departments/{id}
+        ///
+        /// </remarks>
+        /// <response code="204">Model saved</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _departmentsService.DeleteAsync(id);
@@ -47,9 +91,30 @@ namespace StructureService.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Posts the specified department view model.
+        /// </summary>
+        /// <param name="departmentViewModel">The position view model.</param>
+        /// <returns>Status code</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /departments
+        ///     {
+        ///        "name": "qwe",
+        ///        "cheifUserId": 1
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Model created</response>
+        /// <response code="400">Invalid model state</response>
+        /// <response code="409">Field is duplicated</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(DepartmentViewModel departmentViewModel)
         {
             if (!ModelState.IsValid)
@@ -62,10 +127,34 @@ namespace StructureService.Controllers
             return Created($"departments/{result}", result);
         }
 
+        /// <summary>
+        /// Puts the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="departmentViewModel">The position view model.</param>
+        /// <returns>Status code</returns>
+        /// /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT /departments
+        ///     {
+        ///        "name": "qwe",
+        ///        "cheifUserId": 1
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="204">Model saved</response>
+        /// <response code="400">Invalid model state</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="409">Field is duplicated</response>
+        /// <response code="500">Internal server error</response>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(int id, DepartmentViewModel departmentViewModel)
         {
             if (!ModelState.IsValid)
