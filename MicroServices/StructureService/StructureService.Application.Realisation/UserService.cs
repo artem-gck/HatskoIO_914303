@@ -3,11 +3,6 @@ using StructureService.Application.Services;
 using StructureService.Application.Services.Dto;
 using StructureService.Domain.Services;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StructureService.Application.Realisation
 {

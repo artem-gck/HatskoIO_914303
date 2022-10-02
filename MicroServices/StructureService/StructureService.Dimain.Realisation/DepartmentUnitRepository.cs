@@ -4,12 +4,6 @@ using StructureService.Dimain.Realisation.Context;
 using StructureService.Domain.Entities;
 using StructureService.Domain.Exceptions;
 using StructureService.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace StructureService.Dimain.Realisation
 {
