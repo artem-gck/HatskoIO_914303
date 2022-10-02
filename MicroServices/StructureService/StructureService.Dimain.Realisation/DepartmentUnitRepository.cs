@@ -66,12 +66,7 @@ namespace StructureService.Dimain.Realisation
 
         public async Task<Guid> UpdateAsync(Guid id, DepartmentUnitEntity entity)
         {
-            var entityDb = await _structureContext.DepartmentUnits.FirstOrDefaultAsync(us => us.Id == id);
-
-            if (entityDb is null)
-                throw new NotFoundException<DepartmentUnitEntity>(id);
-
-            entity.Id = entityDb.Id;
+            entity.Id = id;
             entity.Department = await GetDepartment(entity.Department.Name);
             entity.Position = await GetPosition(entity.Position.Name);
 

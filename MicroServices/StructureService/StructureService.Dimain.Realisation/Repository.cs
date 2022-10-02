@@ -62,12 +62,7 @@ namespace StructureService.Dimain.Realisation
 
         public async Task<Guid> UpdateAsync(Guid id, T entity)
         {
-            var entityDb = await _entities.FindAsync(id);
-
-            if (entityDb is null)
-                throw new NotFoundException<T>(id);
-
-            entity.Id = entityDb.Id;
+            entity.Id = id;
             
             _entities.Update(entity);
 
