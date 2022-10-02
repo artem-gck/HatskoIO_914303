@@ -1,3 +1,5 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using TaskCrudService.Application.Realisation;
 using TaskCrudService.Application.Realisation.MapperProfiles;
@@ -13,6 +15,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TaskConnection");
 
 // Add services to the container.
+
+builder.Services.AddHealthChecksUI()
+                .AddInMemoryStorage();
+builder.Services.AddHealthChecks()
+                .AddSqlServer(connectionString);
+
 builder.Services.AddAutoMapper(typeof(ApplicationProfile), typeof(ControllerProfile));
 
 builder.Services.AddDbContext<TaskContext>(opt =>
@@ -43,5 +51,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.MapHealthChecksUI();
 
 app.Run();
