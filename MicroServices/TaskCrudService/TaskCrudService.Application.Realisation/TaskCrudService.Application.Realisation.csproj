@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskCrudService.Application.Services\TaskCrudService.Application.Services.csproj" />
+    <ProjectReference Include="..\TaskCrudService.Domain.Services\TaskCrudService.Domain.Services.csproj" />
+  </ItemGroup>
+
 </Project>
