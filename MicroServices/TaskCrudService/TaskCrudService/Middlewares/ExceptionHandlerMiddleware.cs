@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog;
 using System.Net;
 using TaskCrudService.Domain.Exceptions;
+using ILogger = NLog.ILogger;
 
 namespace TaskCrudService.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+        public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -32,7 +33,7 @@ namespace TaskCrudService.Middlewares
                     Exception => (int)HttpStatusCode.InternalServerError,
                 };
 
-                _logger.LogWarning(ex, "Exception in ExceptionHandlerMiddleware");
+                _logger.Warn(ex, "Exception in ExceptionHandlerMiddleware");
 
                 await response.WriteAsJsonAsync(new { message = ex?.Message });
             }

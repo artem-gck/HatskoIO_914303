@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog;
 using TaskCrudService.Domain.Entities;
 using TaskCrudService.Domain.Exceptions;
 using TaskCrudService.Domain.Realisation.Context;
@@ -9,6 +10,7 @@ namespace TaskCrudService.Domain.Realisation
     public class TasksRepository : IRepository<TaskEntity>
     {
         private readonly TaskContext _taskContext;
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public TasksRepository(TaskContext taskContext)
         {
@@ -17,6 +19,8 @@ namespace TaskCrudService.Domain.Realisation
 
         public async Task<Guid> AddAsync(TaskEntity entity)
         {
+            _logger.Debug("qwe");
+
             entity.Type = await GetType(entity.Type.Name);
 
             for (var i = 0; i < entity.Arguments.Count; i++)
@@ -25,6 +29,8 @@ namespace TaskCrudService.Domain.Realisation
             var taskEntity = _taskContext.Tasks.Add(entity);
 
             await _taskContext.SaveChangesAsync();
+
+            _logger.Debug("Add entity to db {id}", taskEntity.Entity.Id);
 
             return taskEntity.Entity.Id;
         }
@@ -40,6 +46,8 @@ namespace TaskCrudService.Domain.Realisation
 
             await _taskContext.SaveChangesAsync();
 
+            _logger.Debug("Delete entity from db {id}", id);
+
             return id;
         }
 
@@ -49,6 +57,10 @@ namespace TaskCrudService.Domain.Realisation
                                                            .Include(t => t.Arguments)
                                                                .ThenInclude(ar => ar.ArgumentType)
                                                            .ToListAsync();
+
+            var listOfId = string.Join(", ", listOfTaskEntity.Select(en => en.Id.ToString()));
+
+            _logger.Debug("Get entities from db {listOfId}", listOfId);
 
             return listOfTaskEntity;
         }
@@ -63,24 +75,20 @@ namespace TaskCrudService.Domain.Realisation
             if (taskEntity is null)
                 throw new NotFoundException<TaskEntity>(id);
 
+            _logger.Debug("Get entity from db {id}", taskEntity.Id);
+
             return taskEntity;
         }
 
         public async Task<Guid> UpdateAsync(Guid id, TaskEntity entity)
         {
-            //var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
-            //                                         .Include(t => t.Arguments)
-            //                                             .ThenInclude(ar => ar.ArgumentType)
-            //                                         .FirstOrDefaultAsync(t => t.Id == id);
-
-            //if (taskEntity is null)
-            //    throw new NotFoundException<TaskEntity>(id);
-
             entity.Id = id;
 
             _taskContext.Tasks.Update(entity);
 
             await _taskContext.SaveChangesAsync();
+
+            _logger.Debug("Update entity in db {id}", id);
 
             return id;
         }
