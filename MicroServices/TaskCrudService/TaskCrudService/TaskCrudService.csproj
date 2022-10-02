@@ -14,4 +14,12 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskCrudService.Application.Realisation\TaskCrudService.Application.Realisation.csproj" />
+    <ProjectReference Include="..\TaskCrudService.Application.Services\TaskCrudService.Application.Services.csproj" />
+    <ProjectReference Include="..\TaskCrudService.Domain.Realisation\TaskCrudService.Domain.Realisation.csproj" />
+    <ProjectReference Include="..\TaskCrudService.Domain.Services\TaskCrudService.Domain.Services.csproj" />
+    <ProjectReference Include="..\TaskCrudService.Domain\TaskCrudService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
