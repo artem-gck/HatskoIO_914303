@@ -68,13 +68,13 @@ namespace TaskCrudService.Domain.Realisation
 
         public async Task<Guid> UpdateAsync(Guid id, TaskEntity entity)
         {
-            var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
-                                                     .Include(t => t.Arguments)
-                                                         .ThenInclude(ar => ar.ArgumentType)
-                                                     .FirstOrDefaultAsync(t => t.Id == id);
+            //var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
+            //                                         .Include(t => t.Arguments)
+            //                                             .ThenInclude(ar => ar.ArgumentType)
+            //                                         .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (taskEntity is null)
-                throw new NotFoundException<TaskEntity>(id);
+            //if (taskEntity is null)
+            //    throw new NotFoundException<TaskEntity>(id);
 
             entity.Id = id;
 
