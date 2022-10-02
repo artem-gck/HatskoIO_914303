@@ -3,7 +3,7 @@
     public class DepartmentEntity : BaseEntity
     {
         public string Name { get; set; }
-        public int CheifUserId { get; set; }
+        public Guid CheifUserId { get; set; }
         public List<DepartmentUnitEntity>? DepartmentUnits { get; set; }
     }
 }

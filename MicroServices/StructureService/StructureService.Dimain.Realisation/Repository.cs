@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using StructureService.Dimain.Realisation.Context;
 using StructureService.Domain.Entities;
 using StructureService.Domain.Exceptions;
@@ -9,15 +10,17 @@ namespace StructureService.Dimain.Realisation
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly StructureContext _structureContext;
+        private readonly ILogger<Repository<T>> _logger;
         private DbSet<T> _entities;
 
-        public Repository(StructureContext structureContext)
+        public Repository(StructureContext structureContext, ILogger<Repository<T>> logger)
         {
             _structureContext = structureContext ?? throw new ArgumentNullException(nameof(structureContext));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _entities = structureContext.Set<T>();
         }
 
-        public async Task<int> AddAsync(T entity)
+        public async Task<Guid> AddAsync(T entity)
         {
             var entityDb = _entities.Add(entity);
 
@@ -26,7 +29,7 @@ namespace StructureService.Dimain.Realisation
             return entityDb.Entity.Id;
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<Guid> DeleteAsync(Guid id)
         {
             var entity = await _entities.FindAsync(id);
 
@@ -47,7 +50,7 @@ namespace StructureService.Dimain.Realisation
             return listOfEntities;
         }
 
-        public async Task<T> GetAsync(int id)
+        public async Task<T> GetAsync(Guid id)
         {
             var entity = await _entities.FindAsync(id);
 
@@ -57,7 +60,7 @@ namespace StructureService.Dimain.Realisation
             return entity;
         }
 
-        public async Task<int> UpdateAsync(int id, T entity)
+        public async Task<Guid> UpdateAsync(Guid id, T entity)
         {
             var entityDb = await _entities.FindAsync(id);
 

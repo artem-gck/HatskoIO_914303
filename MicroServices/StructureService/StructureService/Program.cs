@@ -13,11 +13,25 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
 
 // Add services to the container.
+
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+    .MinimumLevel.Override("HealthChecks", LogEventLevel.Warning)
+    .WriteTo.Console(outputTemplate:
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddHealthChecksUI()
                 .AddInMemoryStorage();
@@ -31,11 +45,13 @@ builder.Services.AddDbContext<StructureContext>(opt =>
 
 builder.Services.AddScoped<IRepository<PositionEntity>, Repository<PositionEntity>>();
 builder.Services.AddScoped<IRepository<DepartmentEntity>, Repository<DepartmentEntity>>();
-builder.Services.AddScoped<IRepository<DepartmentUnitEntity>, Repository<DepartmentUnitEntity>>();
+builder.Services.AddScoped<IRepository<DepartmentUnitEntity>, DepartmentUnitRepository>(); 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IService<PositionDto>, Service<PositionDto, PositionEntity>>();
 builder.Services.AddScoped<IService<DepartmentDto>, Service<DepartmentDto, DepartmentEntity>>();
 builder.Services.AddScoped<IService<DepartmentUnitDto>, Service<DepartmentUnitDto, DepartmentUnitEntity>>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

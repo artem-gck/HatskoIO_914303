@@ -4,13 +4,13 @@ namespace StructureService.ViewModels
 {
     public class DepartmentViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,20}[a-zA-Z]$")]
         public string Name { get; set; }
 
         [Required]
-        public int CheifUserId { get; set; }
+        public Guid CheifUserId { get; set; }
     }
 }

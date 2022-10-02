@@ -4,15 +4,17 @@ namespace StructureService.ViewModels
 {
     public class DepartmentUnitViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
-        public int PositionId { get; set; }
+        public string Position { get; set; }
 
         [Required]
-        public int DepartmentId { get; set; }
+        public string Department { get; set; }
+
+        public Guid CheifUserId { get; set; }
     }
 }

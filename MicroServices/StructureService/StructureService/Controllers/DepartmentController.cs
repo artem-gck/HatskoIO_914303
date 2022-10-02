@@ -12,11 +12,13 @@ namespace StructureService.Controllers
     {
         private readonly IService<DepartmentDto> _departmentsService;
         private readonly IMapper _controllerMapper;
+        private readonly ILogger<DepartmentController> _logger;
 
-        public DepartmentController(IService<DepartmentDto> departmentsService, IMapper controllerMapper)
+        public DepartmentController(IService<DepartmentDto> departmentsService, IMapper controllerMapper, ILogger<DepartmentController> logger)
         {
             _departmentsService = departmentsService ?? throw new ArgumentNullException(nameof(departmentsService));
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace StructureService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<DepartmentViewModel>> Get(int id)
+        public async Task<ActionResult<DepartmentViewModel>> Get(Guid id)
         {
             var departmentViewModel = _controllerMapper.Map<DepartmentViewModel>(await _departmentsService.GetAsync(id));
 
@@ -84,7 +86,7 @@ namespace StructureService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _departmentsService.DeleteAsync(id);
 
@@ -119,6 +121,8 @@ namespace StructureService.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid model state {@ModelState}", ModelState);
+
                 return BadRequest(ModelState);
             }
 
@@ -155,10 +159,12 @@ namespace StructureService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, DepartmentViewModel departmentViewModel)
+        public async Task<IActionResult> Put(Guid id, DepartmentViewModel departmentViewModel)
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid model state {@ModelState}", ModelState);
+
                 return BadRequest(ModelState);
             }
 

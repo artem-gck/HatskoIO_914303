@@ -2,8 +2,9 @@
 {
     public class DepartmentUnitDto : BaseDto
     {
-        public int UserId { get; set; }
-        public int PositionId { get; set; }
-        public int DepartmentId { get; set; }
+        public Guid UserId { get; set; }
+        public string Position { get; set; }
+        public string Department { get; set; }
+        public Guid CheifUserId { get; set; }
     }
 }
