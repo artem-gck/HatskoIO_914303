@@ -10,6 +10,7 @@ using TaskCrudService.Domain.Realisation;
 using TaskCrudService.Domain.Realisation.Context;
 using TaskCrudService.Domain.Services;
 using TaskCrudService.MapperProfiles;
+using TaskCrudService.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TaskConnection");
@@ -45,6 +46,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 
