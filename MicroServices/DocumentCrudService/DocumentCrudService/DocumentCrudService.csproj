@@ -14,4 +14,12 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentCrudService.Application.DbServices\DocumentCrudService.Application.DbServices.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Application.Services\DocumentCrudService.Application.Services.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Domain\DocumentCrudService.Domain.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Infrastructure.DbRrealisation\DocumentCrudService.Infrastructure.DbRrealisation.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Infrastructure.Realisation\DocumentCrudService.Infrastructure.Realisation.csproj" />
+  </ItemGroup>
+
 </Project>
