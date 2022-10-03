@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService", "DocumentCrudService\DocumentCrudService.csproj", "{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFBC96FD-AF4F-4D73-BDE7-D5803BD7F618}
+	EndGlobalSection
+EndGlobal
