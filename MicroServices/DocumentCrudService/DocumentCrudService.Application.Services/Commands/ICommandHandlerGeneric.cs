@@ -1,6 +1,6 @@
 ﻿using DocumentCrudService.Application.Services.Units;
 
-namespace DocumentCrudService.Application.Services.Handlers
+namespace DocumentCrudService.Application.Services.Commands
 {
     public interface ICommandHandler<T> : ICommandHandler where T : ICommand
     {

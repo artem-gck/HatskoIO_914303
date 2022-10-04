@@ -1,7 +1,5 @@
-﻿using DocumentCrudService.Application.Services.Dispatchers;
-using DocumentCrudService.Infrastructure.Realisation.Commands.AddDocument;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById;
-using DocumentCrudService.ViewModels;
+﻿using DocumentCrudService.Application.Services.Commands;
+using DocumentCrudService.Application.Services.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentCrudService.Controllers

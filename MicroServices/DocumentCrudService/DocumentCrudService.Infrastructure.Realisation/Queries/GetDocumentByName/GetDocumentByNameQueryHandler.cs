@@ -1,6 +1,6 @@
 ﻿using DocumentCrudService.Application.DbServices;
 using DocumentCrudService.Application.Services.Dto;
-using DocumentCrudService.Application.Services.Handlers;
+using DocumentCrudService.Application.Services.Queries;
 using DocumentCrudService.Application.Services.Results;
 
 namespace DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentByName

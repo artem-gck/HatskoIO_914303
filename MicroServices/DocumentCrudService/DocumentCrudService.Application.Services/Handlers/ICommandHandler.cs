@@ -1,6 +1,0 @@
-﻿namespace DocumentCrudService.Application.Services.Handlers
-{
-    public interface ICommandHandler
-    {
-    }
-}

@@ -1,6 +1,6 @@
 ﻿using DocumentCrudService.Application.Services.Units;
 
-namespace DocumentCrudService.Application.Services.Dispatchers
+namespace DocumentCrudService.Application.Services.Commands
 {
     public interface ICommandDispatcher
     {

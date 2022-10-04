@@ -1,6 +1,6 @@
 using DocumentCrudService.Application.DbServices;
-using DocumentCrudService.Application.Services.Dispatchers;
-using DocumentCrudService.Application.Services.Handlers;
+using DocumentCrudService.Application.Services.Commands;
+using DocumentCrudService.Application.Services.Queries;
 using DocumentCrudService.Infrastructure.DbRrealisation;
 using DocumentCrudService.Infrastructure.DbRrealisation.Context;
 using DocumentCrudService.Infrastructure.Realisation.Commands;
