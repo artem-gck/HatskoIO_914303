@@ -11,7 +11,6 @@ using DocumentCrudService.Infrastructure.Realisation.Queries;
 using DocumentCrudService.Infrastructure.Realisation.Queries.GetAllNamesOfDocuments;
 using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById;
 using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentByName;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetNameOfDocumentById;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +27,6 @@ builder.Services.AddScoped<ICommandHandler<UpdateDocumentCommand>, UpdateDocumen
 builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsQuery>, GetAllNamesOfDocumentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByNameQuery>, GetDocumentByNameQueryHandler>();
-builder.Services.AddScoped<IQueryHandler<GetNameOfDocumentByIdQuery>, GetNameOfDocumentByIdQueryHandler>();
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();

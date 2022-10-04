@@ -18,7 +18,11 @@ namespace DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById
         {
             var document = await _documentRepository.GetAsync(query.Id);
 
-            var documentDto = new DocumentDto() { DocumentBody = document };
+            var documentDto = new DocumentDto() 
+            {
+                FileName = document.FileName,
+                DocumentBody = document.File 
+            };
 
             var documentList = new List<IResult>() { documentDto };
 

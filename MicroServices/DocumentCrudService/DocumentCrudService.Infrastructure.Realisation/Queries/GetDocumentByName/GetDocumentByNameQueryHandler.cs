@@ -18,7 +18,11 @@ namespace DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentByNa
         {
             var document = await _doucmentNameRepository.GetByNameAsync(query.FileName, query.Version);
 
-            var documentDto = new DocumentDto() { DocumentBody = document };
+            var documentDto = new DocumentDto() 
+            {
+                FileName = document.FileName,
+                DocumentBody = document.File
+            };
 
             var documentList = new List<IResult>() { documentDto };
 

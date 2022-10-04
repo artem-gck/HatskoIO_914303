@@ -2,6 +2,9 @@
 using DocumentCrudService.Domain.Exceptions;
 using DocumentCrudService.Infrastructure.DbRrealisation.Context;
 using MongoDB.Bson;
+using MongoDB.Driver.GridFS;
+using MongoDB.Driver;
+using DocumentCrudService.Domain.Entities;
 
 namespace DocumentCrudService.Infrastructure.DbRrealisation
 {
@@ -28,13 +31,25 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
             return id;
         }
 
-        public async Task<byte[]> GetAsync(string id)
+        public async Task<DocumentEntity> GetAsync(string id)
         {
+            var filter = Builders<GridFSFileInfo>.Filter.Eq("_id", new ObjectId(id));
+
             try
             {
                 var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
 
-                return document;
+                var cursor = await _documentContext.GridFS.FindAsync(filter);
+
+                var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
+
+                var documentEntity = new DocumentEntity()
+                {
+                    FileName = fileInfo.Filename,
+                    File = document
+                };
+
+                return documentEntity;
             }
             catch (IndexOutOfRangeException)
             {

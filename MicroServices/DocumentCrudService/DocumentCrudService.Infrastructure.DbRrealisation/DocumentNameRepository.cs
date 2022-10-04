@@ -19,7 +19,7 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
 
         public async Task<IEnumerable<DocumentNameEntity>> GetAllAsync()
         {
-            var filter = Builders<GridFSFileInfo>.Filter.And();
+            var filter = new BsonDocument();
 
             var sort = Builders<GridFSFileInfo>.Sort.Descending(x => x.UploadDateTime);
 
@@ -39,41 +39,29 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
             return listOfFileInfo;
         }
 
-        public async Task<DocumentNameEntity> GetAsync(string id)
+        public async Task<DocumentEntity> GetByNameAsync(string fileName, int version = -1)
         {
-            var filter = Builders<GridFSFileInfo>.Filter.And(Builders<GridFSFileInfo>.Filter.Eq(x => x.Id, new ObjectId(id)));
-
-            var options = new GridFSFindOptions
+            try
             {
-                Limit = 1
-            };
+                var options = new GridFSDownloadByNameOptions
+                {
+                    Revision = version
+                };
 
-            var cursor = await _documentContext.GridFS.FindAsync(filter, options);
-            var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
+                var document = await _documentContext.GridFS.DownloadAsBytesByNameAsync(fileName, options);
 
-            if (fileInfo is null)
-                throw new DocumentNotFoundException(id);
+                var documentEntity = new DocumentEntity()
+                {
+                    FileName = fileName,
+                    File = document
+                };
 
-            var documentNameEntity = new DocumentNameEntity()
+                return documentEntity;
+            }
+            catch (IndexOutOfRangeException)
             {
-                Id = fileInfo.Id.ToString(),
-                FileName = fileInfo.Filename,
-                UploadDate = fileInfo.UploadDateTime
-            };
-
-            return documentNameEntity;
-        }
-
-        public async Task<byte[]> GetByNameAsync(string fileName, int version = -1)
-        {
-            var options = new GridFSDownloadByNameOptions
-            {
-                Revision = version
-            };
-
-            var document = await _documentContext.GridFS.DownloadAsBytesByNameAsync(fileName, options);
-
-            return document;
+                throw new DocumentNotFoundException(fileName);
+            }
         }
     }
 }
