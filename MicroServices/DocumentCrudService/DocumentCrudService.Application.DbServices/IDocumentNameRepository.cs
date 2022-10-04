@@ -2,7 +2,7 @@
 
 namespace DocumentCrudService.Application.DbServices
 {
-    public interface IDoucmentNameRepository
+    public interface IDocumentNameRepository
     {
         public Task<IEnumerable<DocumentNameEntity>> GetAllAsync();
         public Task<DocumentNameEntity> GetAsync(string id);

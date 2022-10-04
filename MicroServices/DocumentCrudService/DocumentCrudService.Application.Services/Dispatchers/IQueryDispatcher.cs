@@ -5,6 +5,6 @@ namespace DocumentCrudService.Application.Services.Dispatchers
 {
     public interface IQueryDispatcher
     {
-        IList<IResult> Send<T>(T query) where T : IQuery;
+        public Task<IList<IResult>> Send<T>(T query) where T : IQuery;
     }
 }

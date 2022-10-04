@@ -5,6 +5,6 @@ namespace DocumentCrudService.Application.Services.Handlers
 {
     public interface IQueryHandler<T> : IQueryHandler where T : IQuery
     {
-        IList<IResult> Handle(T query);
+        Task<IList<IResult>> Handle(T query);
     }
 }

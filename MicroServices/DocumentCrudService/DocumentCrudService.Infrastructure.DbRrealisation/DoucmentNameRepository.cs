@@ -8,7 +8,7 @@ using MongoDB.Driver.GridFS;
 
 namespace DocumentCrudService.Infrastructure.DbRrealisation
 {
-    public class DoucmentNameRepository : IDoucmentNameRepository
+    public class DoucmentNameRepository : IDocumentNameRepository
     {
         private readonly DocumentContext _documentContext;
 
