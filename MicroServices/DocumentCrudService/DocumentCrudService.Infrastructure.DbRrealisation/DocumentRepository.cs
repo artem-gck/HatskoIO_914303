@@ -30,12 +30,16 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
 
         public async Task<byte[]> GetAsync(string id)
         {
-            var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
+            try
+            {
+                var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
 
-            if (document is null)
+                return document;
+            }
+            catch (IndexOutOfRangeException)
+            {
                 throw new DocumentNotFoundException(id);
-
-            return document;
+            }
         }
 
         public async Task<string> UpdateAsync(byte[] document, string fileName)

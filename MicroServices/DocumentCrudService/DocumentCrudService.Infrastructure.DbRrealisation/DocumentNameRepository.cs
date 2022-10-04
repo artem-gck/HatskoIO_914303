@@ -8,11 +8,11 @@ using MongoDB.Driver.GridFS;
 
 namespace DocumentCrudService.Infrastructure.DbRrealisation
 {
-    public class DoucmentNameRepository : IDocumentNameRepository
+    public class DocumentNameRepository : IDocumentNameRepository
     {
         private readonly DocumentContext _documentContext;
 
-        public DoucmentNameRepository(DocumentContext documentContext)
+        public DocumentNameRepository(DocumentContext documentContext)
         {
             _documentContext = documentContext ?? throw new ArgumentNullException(nameof(documentContext));
         }
