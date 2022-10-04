@@ -1,5 +1,6 @@
 ﻿using DocumentCrudService.Application.DbServices;
 using DocumentCrudService.Domain.Entities;
+using DocumentCrudService.Domain.Exceptions;
 using DocumentCrudService.Infrastructure.DbRrealisation.Context;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -49,6 +50,9 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
 
             var cursor = await _documentContext.GridFS.FindAsync(filter, options);
             var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
+
+            if (fileInfo is null)
+                throw new DocumentNotFoundException(id);
 
             var documentNameEntity = new DocumentNameEntity()
             {
