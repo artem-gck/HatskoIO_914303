@@ -131,9 +131,11 @@ namespace DocumentCrudService.Controllers
         ///
         /// </remarks>
         /// <response code="204">File deleted</response>
+        /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(string id)
         {
