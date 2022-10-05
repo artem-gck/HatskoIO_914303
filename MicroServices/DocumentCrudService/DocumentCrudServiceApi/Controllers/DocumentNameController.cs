@@ -19,7 +19,21 @@ namespace DocumentCrudService.Controllers
             _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
         }
 
+        /// <summary>
+        /// Gets all names of documents.
+        /// </summary>
+        /// <returns>Names of files</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /document-names
+        ///
+        /// </remarks>
+        /// <response code="200">Send file</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
             var query = new GetAllNamesOfDocumentsQuery();
