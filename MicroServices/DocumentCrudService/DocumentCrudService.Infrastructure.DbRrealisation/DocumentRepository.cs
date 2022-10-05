@@ -5,26 +5,33 @@ using DocumentCrudService.Repositories.Realisation.Context;
 using DocumentCrudService.Repositories.Entities;
 using DocumentCrudService.Repositories.Exceptions;
 using DocumentCrudService.Repositories.DbServices;
+using Microsoft.Extensions.Logging;
 
 namespace DocumentCrudService.Repositories.Realisation
 {
     public class DocumentRepository : IDocumentRepository
     {
         private readonly DocumentContext _documentContext;
+        private readonly ILogger<DocumentRepository> _logger;
 
-        public DocumentRepository(DocumentContext documentContext)
+        public DocumentRepository(DocumentContext documentContext, ILogger<DocumentRepository> logger)
         {
             _documentContext = documentContext ?? throw new ArgumentNullException(nameof(documentContext));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));    
         }
 
         public async Task AddAsync(byte[] document, string fileName)
         {
-            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+            var id = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+
+            _logger.LogDebug("Add document with id = {Id}", id);
         }
 
         public async Task DeleteAsync(string id)
         {
             await _documentContext.GridFS.DeleteAsync(new ObjectId(id));
+
+            _logger.LogDebug("Delete document with id = {Id}", id);
         }
 
         public async Task<DocumentEntity> GetAsync(string id)
@@ -34,6 +41,8 @@ namespace DocumentCrudService.Repositories.Realisation
             try
             {
                 var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
+
+                _logger.LogDebug("Get document with id = {Id}", id);
 
                 var cursor = await _documentContext.GridFS.FindAsync(filter);
                 var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
@@ -48,7 +57,11 @@ namespace DocumentCrudService.Repositories.Realisation
             }
             catch (IndexOutOfRangeException)
             {
-                throw new DocumentNotFoundException(id);
+                var exception = new DocumentNotFoundException(id);
+
+                _logger.LogWarning(exception, "No document with id = {Id}", id);
+
+                throw exception;
             }
         }
 
@@ -66,17 +79,25 @@ namespace DocumentCrudService.Repositories.Realisation
                     File = document
                 };
 
+                _logger.LogDebug("Gett document with name = {FileName}", documentEntity.FileName);
+
                 return documentEntity;
             }
             catch (IndexOutOfRangeException)
             {
-                throw new DocumentNotFoundException(fileName);
+                var exception = new DocumentNotFoundException(fileName);
+
+                _logger.LogWarning(exception, "No document with name = {FileName}", fileName);
+
+                throw exception;
             }
         }
 
         public async Task UpdateAsync(byte[] document, string fileName)
         {
-            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+            var id = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+
+            _logger.LogDebug("Update document, new id = {id}", id);
         }
     }
 }

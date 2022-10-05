@@ -1,6 +1,5 @@
 ﻿using DocumentCrudService.Repositories.DbServices;
 using DocumentCrudService.Repositories.Entities;
-using DocumentCrudService.Repositories.Exceptions;
 using DocumentCrudService.Repositories.Realisation.Context;
 using MongoDB.Bson;
 using MongoDB.Driver;

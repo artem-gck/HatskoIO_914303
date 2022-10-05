@@ -1,16 +1,19 @@
 ﻿using DocumentCrudService.Cqrs.Commands;
 using DocumentCrudService.Cqrs.Exceptions;
 using DocumentCrudService.Cqrs.Units;
+using Microsoft.Extensions.Logging;
 
 namespace DocumentCrudService.Cqrs.Realisation.Commands
 {
     public class CommandDispatcher : ICommandDispatcher
     {
         private readonly IServiceProvider _service;
+        private readonly ILogger<CommandDispatcher> _logger;
 
-        public CommandDispatcher(IServiceProvider service)
+        public CommandDispatcher(IServiceProvider service, ILogger<CommandDispatcher> logger)
         {
-            _service = service;
+            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task Send<T>(T command) where T : ICommand
@@ -20,7 +23,12 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands
             if (handler != null)
                 await ((ICommandHandler<T>)handler).Handle(command);
             else
-                throw new NotFoundServiceException($"Command doesn't have any handler {command.GetType().Name}");
+            {
+                var exception = new NotFoundServiceException($"Command doesn't have any handler {command.GetType().Name}");
+
+                _logger.LogWarning(exception, "Not found service with name {Name}", command.GetType().Name);
+                throw exception;
+            }
         }
     }
 }
