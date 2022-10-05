@@ -46,38 +46,51 @@ namespace TaskCrudService.Controllers
         /// <summary>
         /// Gets the specified identifier.
         /// </summary>
-        /// <param name="filter">The filter can be "user" or "task".</param>
         /// <param name="id">The identifier.</param>
         /// <returns>TaskViewModel</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /tasks/{filter}/{id}
+        ///     GET /tasks/{id}
         ///
         /// </remarks>
         /// <response code="200">Model ok</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("{filter}/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(string filter, Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (filter == "user")
-            {
-                var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id));
+            var taskViewModel = _mapper.Map<TaskResponce>(await _taskService.GetAsync(id));
 
-                return Ok(listTaskViewModel);
-            }
-            else if (filter == "task")
-            {
-                var taskViewModel = _mapper.Map<TaskResponce>(await _taskService.GetAsync(id));
+            return Ok(taskViewModel);
+        }
 
-                return Ok(taskViewModel);
-            }
-            else
-                return BadRequest();
+        /// <summary>
+        /// Gets by the user id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>TaskViewModel</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /tasks/users/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">Model ok</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("users/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetByUserId(Guid id)
+        {
+            var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id));
+
+            return Ok(listTaskViewModel);
         }
 
         /// <summary>
