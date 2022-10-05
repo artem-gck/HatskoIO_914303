@@ -46,12 +46,13 @@ namespace TaskCrudService.Controllers
         /// <summary>
         /// Gets the specified identifier.
         /// </summary>
+        /// <param name="filter">The filter can be "user" or "task".</param>
         /// <param name="id">The identifier.</param>
         /// <returns>TaskViewModel</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /tasks/{id}
+        ///     GET /tasks/{filter}/{id}
         ///
         /// </remarks>
         /// <response code="200">Model ok</response>
@@ -77,8 +78,6 @@ namespace TaskCrudService.Controllers
             }
             else
                 return BadRequest();
-
-            
         }
 
         /// <summary>
