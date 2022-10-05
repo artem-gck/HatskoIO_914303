@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService", "TaskCrudService\TaskCrudService.csproj", "{EA6DB311-C946-4116-AF20-1DC91BCB4773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService.Domain", "TaskCrudService.Domain\TaskCrudService.Domain.csproj", "{C06DA549-EA04-4612-B561-EFE2874B26FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCrudService.Domain", "TaskCrudService.Domain\TaskCrudService.Domain.csproj", "{C06DA549-EA04-4612-B561-EFE2874B26FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudServiceApi", "TaskCrudServiceApi\TaskCrudServiceApi.csproj", "{B583596C-A50A-4C53-AD56-B89342FCF81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCrudService.Domain.Services", "TaskCrudService.Domain.Services\TaskCrudService.Domain.Services.csproj", "{485BC9E5-AB5A-4E38-8BF7-391F792513CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService.Adapters.DataSource", "TaskCrudService.Adapters.DataSource\TaskCrudService.Adapters.DataSource.csproj", "{EBD2061B-5C19-4D8D-8390-672271C1EC10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCrudService.Domain.Realisation", "TaskCrudService.Domain.Realisation\TaskCrudService.Domain.Realisation.csproj", "{C0937EE6-DE3D-4DB7-8E46-071FC22A037D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService.Adapters.Output", "TaskCrudService.Adapters.Output\TaskCrudService.Adapters.Output.csproj", "{201A1F86-4ADC-4ACE-8727-D48831AF1A0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCrudService.Application.Services", "TaskCrudService.Application.Services\TaskCrudService.Application.Services.csproj", "{78D8FB3A-A459-4FE2-9DC4-AF26BAA78069}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService.Ports.Output", "TaskCrudService.Ports.Output\TaskCrudService.Ports.Output.csproj", "{F8734657-74E0-4AC4-854C-9C52C935BF88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskCrudService.Application.Realisation", "TaskCrudService.Application.Realisation\TaskCrudService.Application.Realisation.csproj", "{A25A8B1F-8127-469B-A9DA-AB090FE80DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskCrudService.Posts.DataSource", "TaskCrudService.Posts.DataSource\TaskCrudService.Posts.DataSource.csproj", "{6D0E2CA7-2628-4D4A-86B4-995AA6E5B74D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,30 +21,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA6DB311-C946-4116-AF20-1DC91BCB4773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA6DB311-C946-4116-AF20-1DC91BCB4773}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA6DB311-C946-4116-AF20-1DC91BCB4773}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA6DB311-C946-4116-AF20-1DC91BCB4773}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C06DA549-EA04-4612-B561-EFE2874B26FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C06DA549-EA04-4612-B561-EFE2874B26FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C06DA549-EA04-4612-B561-EFE2874B26FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C06DA549-EA04-4612-B561-EFE2874B26FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{485BC9E5-AB5A-4E38-8BF7-391F792513CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{485BC9E5-AB5A-4E38-8BF7-391F792513CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{485BC9E5-AB5A-4E38-8BF7-391F792513CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{485BC9E5-AB5A-4E38-8BF7-391F792513CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0937EE6-DE3D-4DB7-8E46-071FC22A037D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0937EE6-DE3D-4DB7-8E46-071FC22A037D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0937EE6-DE3D-4DB7-8E46-071FC22A037D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0937EE6-DE3D-4DB7-8E46-071FC22A037D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78D8FB3A-A459-4FE2-9DC4-AF26BAA78069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78D8FB3A-A459-4FE2-9DC4-AF26BAA78069}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78D8FB3A-A459-4FE2-9DC4-AF26BAA78069}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78D8FB3A-A459-4FE2-9DC4-AF26BAA78069}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A25A8B1F-8127-469B-A9DA-AB090FE80DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A25A8B1F-8127-469B-A9DA-AB090FE80DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A25A8B1F-8127-469B-A9DA-AB090FE80DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A25A8B1F-8127-469B-A9DA-AB090FE80DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B583596C-A50A-4C53-AD56-B89342FCF81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B583596C-A50A-4C53-AD56-B89342FCF81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B583596C-A50A-4C53-AD56-B89342FCF81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B583596C-A50A-4C53-AD56-B89342FCF81E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD2061B-5C19-4D8D-8390-672271C1EC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD2061B-5C19-4D8D-8390-672271C1EC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD2061B-5C19-4D8D-8390-672271C1EC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD2061B-5C19-4D8D-8390-672271C1EC10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201A1F86-4ADC-4ACE-8727-D48831AF1A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201A1F86-4ADC-4ACE-8727-D48831AF1A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201A1F86-4ADC-4ACE-8727-D48831AF1A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201A1F86-4ADC-4ACE-8727-D48831AF1A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8734657-74E0-4AC4-854C-9C52C935BF88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8734657-74E0-4AC4-854C-9C52C935BF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8734657-74E0-4AC4-854C-9C52C935BF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8734657-74E0-4AC4-854C-9C52C935BF88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0E2CA7-2628-4D4A-86B4-995AA6E5B74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0E2CA7-2628-4D4A-86B4-995AA6E5B74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0E2CA7-2628-4D4A-86B4-995AA6E5B74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0E2CA7-2628-4D4A-86B4-995AA6E5B74D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
