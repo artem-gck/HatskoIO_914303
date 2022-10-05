@@ -2,7 +2,7 @@
 
 namespace DocumentCrudService.ViewModels
 {
-    public class DocumentViewModel
+    public class CreateDocumentRequest
     {
         [Required]
         public IFormFile File { get; set; }

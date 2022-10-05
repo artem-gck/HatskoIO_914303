@@ -20,7 +20,7 @@ namespace DocumentCrudService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get()
         {
             var query = new GetAllNamesOfDocumentsQuery();
 
@@ -30,32 +30,17 @@ namespace DocumentCrudService.Controllers
             return Ok(listOfFileNameViewModel);
         }
 
-        [HttpGet("{name}/{version}")]
-        public async Task<IActionResult> Get(string name, int version = -1)
+        private List<DocumentNameResponce> MapToDocumentViewModel(IList<IResult> input)
         {
-            var query = new GetDocumentByNameQuery()
-            {
-                FileName = name,
-                Version = version
-            };
-
-            var listOfFileName = await _queryDispatcher.Send(query);
-            var documentDto = (DocumentDto)listOfFileName[0];
-
-            return File(documentDto.DocumentBody, "application/octet-stream", documentDto.FileName);
-        }
-
-        private List<DocumentNameViewModel> MapToDocumentViewModel(IList<IResult> input)
-        {
-            var listOfFileNameViewModel = new List<DocumentNameViewModel>();
+            var listOfFileNameViewModel = new List<DocumentNameResponce>();
 
             foreach (var item in input)
             {
                 var fileNameDto = (DocumentNameDto)item;
 
-                var fileNameViewModel = new DocumentNameViewModel()
+                var fileNameViewModel = new DocumentNameResponce()
                 {
-                    DocumentName = fileNameDto.DocumentName,
+                    Name = fileNameDto.Name,
                     Id = fileNameDto.Id,
                     UploadDate = fileNameDto.UploadDate,
                 };

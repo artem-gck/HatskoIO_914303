@@ -18,10 +18,10 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById
         {
             var document = await _documentRepository.GetAsync(query.Id);
 
-            var documentDto = new DocumentDto() 
+            var documentDto = new DocumentDto()
             {
-                FileName = document.FileName,
-                DocumentBody = document.File 
+                Name = document.FileName,
+                Body = document.File 
             };
 
             var documentList = new List<IResult>() { documentDto };

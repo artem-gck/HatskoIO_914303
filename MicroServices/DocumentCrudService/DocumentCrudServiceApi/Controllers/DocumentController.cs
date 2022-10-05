@@ -5,8 +5,10 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using IResult = DocumentCrudService.Cqrs.Results.IResult;
 
 namespace DocumentCrudService.Controllers
 {
@@ -23,18 +25,37 @@ namespace DocumentCrudService.Controllers
             _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{filter}/{id}/{version}")]
+        public async Task<IActionResult> Get(string filter, string id, int version = -1)
         {
-            var query = new GetDocumentByIdQuery() { Id = id };
+            IResult result;
 
-            var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
+            if (filter == "id")
+            {
+                var query = new GetDocumentByIdQuery() { Id = id };
 
-            return File(documentDto.DocumentBody, "application/octet-stream", documentDto.FileName); ;
+                result = (await _queryDispatcher.Send(query))[0];
+            }
+            else if (filter == "name")
+            {
+                var query = new GetDocumentByNameQuery()
+                {
+                    Name = id,
+                    Version = version
+                };
+
+                result = (await _queryDispatcher.Send(query))[0];
+            }
+            else
+                return BadRequest();
+
+            var documentDto = (DocumentDto)result;
+
+            return File(documentDto.Body, "application/octet-stream", documentDto.Name);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(DocumentViewModel documentViewModel)
+        public async Task<IActionResult> Post(CreateDocumentRequest documentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -45,13 +66,13 @@ namespace DocumentCrudService.Controllers
 
             var query = new AddDocumentCommand() 
             {
-                DocumentName = documentViewModel.File.FileName,
-                DocumentData = file
+                Name = documentViewModel.File.FileName,
+                Body = file
             };
 
             await _commandDispatcher.Send(query);
 
-            return Created("document-names/{fileName}", query.DocumentName);
+            return Created("document-names/{fileName}", query.Name);
         }
 
         [HttpDelete("{id}")]
@@ -65,14 +86,14 @@ namespace DocumentCrudService.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(DocumentViewModel documentViewModel)
+        public async Task<IActionResult> Put(CreateDocumentRequest documentViewModel)
         {
             var file = GetByteArray(documentViewModel.File);
 
             var query = new UpdateDocumentCommand()
             {
-                DocumentName = documentViewModel.File.FileName,
-                DocumentData = file
+                Name = documentViewModel.File.FileName,
+                Body = file
             };
 
             await _commandDispatcher.Send(query);
@@ -81,7 +102,7 @@ namespace DocumentCrudService.Controllers
         }
 
 
-        private byte[] GetByteArray(IFormFile file)
+        private static byte[] GetByteArray(IFormFile file)
         {
             if (file.Length > 0)
             {

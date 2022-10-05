@@ -7,21 +7,21 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName
 {
     public class GetDocumentByNameQueryHandler : IQueryHandler<GetDocumentByNameQuery>
     {
-        private readonly IDocumentNameRepository _doucmentNameRepository;
+        private readonly IDocumentRepository _doucmentRepository;
 
-        public GetDocumentByNameQueryHandler(IDocumentNameRepository doucmentNameRepository)
+        public GetDocumentByNameQueryHandler(IDocumentRepository doucmentRepository)
         {
-            _doucmentNameRepository = doucmentNameRepository ?? throw new ArgumentNullException(nameof(doucmentNameRepository));
+            _doucmentRepository = doucmentRepository ?? throw new ArgumentNullException(nameof(doucmentRepository));
         }
 
         public async Task<IList<IResult>> Handle(GetDocumentByNameQuery query)
         {
-            var document = await _doucmentNameRepository.GetByNameAsync(query.FileName, query.Version);
+            var document = await _doucmentRepository.GetByNameAsync(query.Name, query.Version);
 
             var documentDto = new DocumentDto() 
             {
-                FileName = document.FileName,
-                DocumentBody = document.File
+                Name = document.FileName,
+                Body = document.File
             };
 
             var documentList = new List<IResult>() { documentDto };

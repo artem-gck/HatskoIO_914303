@@ -17,18 +17,14 @@ namespace DocumentCrudService.Repositories.Realisation
             _documentContext = documentContext ?? throw new ArgumentNullException(nameof(documentContext));
         }
 
-        public async Task<string> AddAsync(byte[] document, string fileName)
+        public async Task AddAsync(byte[] document, string fileName)
         {
-            var documentId = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
-
-            return documentId.ToString();
+            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
         }
 
-        public async Task<string> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
             await _documentContext.GridFS.DeleteAsync(new ObjectId(id));
-
-            return id;
         }
 
         public async Task<DocumentEntity> GetAsync(string id)
@@ -40,7 +36,6 @@ namespace DocumentCrudService.Repositories.Realisation
                 var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
 
                 var cursor = await _documentContext.GridFS.FindAsync(filter);
-
                 var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
 
                 var documentEntity = new DocumentEntity()
@@ -57,11 +52,31 @@ namespace DocumentCrudService.Repositories.Realisation
             }
         }
 
-        public async Task<string> UpdateAsync(byte[] document, string fileName)
+        public async Task<DocumentEntity> GetByNameAsync(string fileName, int version = -1)
         {
-            var documentId = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+            try
+            {
+                var options = new GridFSDownloadByNameOptions { Revision = version };
 
-            return documentId.ToString();
+                var document = await _documentContext.GridFS.DownloadAsBytesByNameAsync(fileName, options);
+
+                var documentEntity = new DocumentEntity()
+                {
+                    FileName = fileName,
+                    File = document
+                };
+
+                return documentEntity;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new DocumentNotFoundException(fileName);
+            }
+        }
+
+        public async Task UpdateAsync(byte[] document, string fileName)
+        {
+            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
         }
     }
 }

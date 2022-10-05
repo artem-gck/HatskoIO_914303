@@ -14,7 +14,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument
 
         public async Task Handle(UpdateDocumentCommand command)
         {
-            await _documentRepository.UpdateAsync(command.DocumentData, command.DocumentName);
+            await _documentRepository.UpdateAsync(command.Body, command.Name);
         }
     }
 }

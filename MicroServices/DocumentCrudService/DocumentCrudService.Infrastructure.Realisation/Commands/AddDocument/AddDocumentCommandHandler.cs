@@ -14,7 +14,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.AddDocument
 
         public async Task Handle(AddDocumentCommand command)
         {
-            await _documentRepository.AddAsync(command.DocumentData, command.DocumentName);
+            await _documentRepository.AddAsync(command.Body, command.Name);
         }
     }
 }

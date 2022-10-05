@@ -17,12 +17,10 @@ namespace DocumentCrudService.Repositories.Realisation
             _documentContext = documentContext ?? throw new ArgumentNullException(nameof(documentContext));
         }
 
-        public async Task<IEnumerable<DocumentNameEntity>> GetAllAsync()
+        public async Task<IEnumerable<DocumentNameEntity>> GetAsync()
         {
             var filter = new BsonDocument();
-
             var sort = Builders<GridFSFileInfo>.Sort.Descending(x => x.UploadDateTime);
-
             var options = new GridFSFindOptions { Sort = sort };
 
             var cursor = await _documentContext.GridFS.FindAsync(filter, options);
@@ -34,31 +32,6 @@ namespace DocumentCrudService.Repositories.Realisation
             });
 
             return listOfFileInfo;
-        }
-
-        public async Task<DocumentEntity> GetByNameAsync(string fileName, int version = -1)
-        {
-            try
-            {
-                var options = new GridFSDownloadByNameOptions
-                {
-                    Revision = version
-                };
-
-                var document = await _documentContext.GridFS.DownloadAsBytesByNameAsync(fileName, options);
-
-                var documentEntity = new DocumentEntity()
-                {
-                    FileName = fileName,
-                    File = document
-                };
-
-                return documentEntity;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                throw new DocumentNotFoundException(fileName);
-            }
         }
     }
 }

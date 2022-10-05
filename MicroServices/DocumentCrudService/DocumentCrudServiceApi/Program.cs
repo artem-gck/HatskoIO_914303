@@ -11,10 +11,16 @@ using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.Repositories.DbServices;
 using DocumentCrudService.Repositories.Realisation;
 using DocumentCrudService.Repositories.Realisation.Context;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddHealthChecks().AddMongoDb(builder.Configuration.GetConnectionString("MongoDb"));
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+
 builder.Services.AddScoped<DocumentContext>();
 
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
@@ -44,6 +50,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 

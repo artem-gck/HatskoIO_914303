@@ -2,10 +2,10 @@
 
 namespace DocumentCrudService.ViewModels
 {
-    public class DocumentNameViewModel
+    public class DocumentNameResponce
     {
         [Required]
-        public string DocumentName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public string Id { get; set; }
