@@ -31,9 +31,9 @@ namespace TaskCrudService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<TaskEntity>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TaskEntity>>> Get()
         {
-            var listOfTaskViewModel = await _taskService.GetAllAsync();
+            var listOfTaskViewModel = await _taskService.GetAsync();
 
             return Ok(listOfTaskViewModel);
         }
@@ -87,7 +87,7 @@ namespace TaskCrudService.Controllers
         ///     DELETE /tasks/{id}
         ///
         /// </remarks>
-        /// <response code="204">Model saved</response>
+        /// <response code="204">Model deleted</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
         [HttpDelete("{id}")]

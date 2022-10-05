@@ -27,7 +27,6 @@ namespace TaskCrudService.Adapters.DataSource
                 entity.Arguments[i].ArgumentType = await GetArgumentType(entity.Arguments[i].ArgumentType.Name);
 
             var taskEntity = _taskContext.Tasks.Add(entity);
-
             await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Add entity to db {id}", taskEntity.Entity.Id);
@@ -43,13 +42,12 @@ namespace TaskCrudService.Adapters.DataSource
                 throw new NotFoundException<TaskEntity>(id);
 
             _taskContext.Tasks.Remove(taskEntity);
-
             await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Delete entity from db {id}", id);
         }
 
-        public async Task<IEnumerable<TaskEntity>> GetAllAsync()
+        public async Task<IEnumerable<TaskEntity>> GetAsync()
         {
             var listOfTaskEntity = await _taskContext.Tasks.Include(t => t.Type)
                                                            .Include(t => t.Arguments)
@@ -94,7 +92,6 @@ namespace TaskCrudService.Adapters.DataSource
             entity.Id = id;
 
             _taskContext.Tasks.Update(entity);
-
             await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Update entity in db {id}", id);
@@ -112,7 +109,6 @@ namespace TaskCrudService.Adapters.DataSource
                 };
 
                 var entity = _taskContext.Types.Add(typeEntity);
-
                 await _taskContext.SaveChangesAsync();
 
                 return entity.Entity;
@@ -133,7 +129,6 @@ namespace TaskCrudService.Adapters.DataSource
                 };
 
                 var entity = _taskContext.ArgumentTypes.Add(argumentTypeEntity);
-
                 await _taskContext.SaveChangesAsync();
 
                 return entity.Entity;

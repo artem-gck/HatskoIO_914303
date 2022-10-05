@@ -26,9 +26,9 @@ namespace TaskCrudService.Adapters.Output
             await _taskRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<TaskEntity>> GetAllAsync()
+        public async Task<IEnumerable<TaskEntity>> GetAsync()
         {
-            var listOfTask = await _taskRepository.GetAllAsync();
+            var listOfTask = await _taskRepository.GetAsync();
 
             return listOfTask;
         }
