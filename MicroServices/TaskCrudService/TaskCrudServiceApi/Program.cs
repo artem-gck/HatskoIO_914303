@@ -7,12 +7,9 @@ using System.Reflection;
 using TaskCrudService.Adapters.DataSource;
 using TaskCrudService.Adapters.DataSource.Context;
 using TaskCrudService.Adapters.Output;
-using TaskCrudService.Adapters.Output.MapperProfiles;
 using TaskCrudService.Domain.Entities;
-using TaskCrudService.MapperProfiles;
 using TaskCrudService.Middlewares;
 using TaskCrudService.Ports.Output;
-using TaskCrudService.Ports.Output.Dto;
 using TaskCrudService.Posts.DataSource;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,16 +25,11 @@ builder.Services.AddHealthChecksUI()
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
 
-builder.Services.AddAutoMapper(typeof(ApplicationProfile), typeof(ControllerProfile));
-
 builder.Services.AddDbContext<TaskContext>(opt =>
     opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("TaskCrudService.Adapters.DataSource")));
 
 builder.Services.AddScoped<IRepository<TaskEntity>, TasksRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddScoped<IService<TaskDto>, TaskService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IService<TaskEntity>, TaskService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

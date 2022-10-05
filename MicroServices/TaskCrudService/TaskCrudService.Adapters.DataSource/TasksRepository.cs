@@ -35,7 +35,7 @@ namespace TaskCrudService.Adapters.DataSource
             return taskEntity.Entity.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var taskEntity = await _taskContext.Tasks.FirstOrDefaultAsync(t => t.Id == id);
 
@@ -47,8 +47,6 @@ namespace TaskCrudService.Adapters.DataSource
             await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Delete entity from db {id}", id);
-
-            return id;
         }
 
         public async Task<IEnumerable<TaskEntity>> GetAllAsync()
@@ -80,7 +78,18 @@ namespace TaskCrudService.Adapters.DataSource
             return taskEntity;
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, TaskEntity entity)
+        public async Task<IEnumerable<TaskEntity>> GetByNameId(Guid id)
+        {
+            var listOfTaskByUser = await _taskContext.Tasks.Include(t => t.Type)
+                                               .Include(t => t.Arguments)
+                                                   .ThenInclude(ar => ar.ArgumentType)
+                                               .Where(t => t.OwnerUserId == id)
+                                               .ToListAsync();
+
+            return listOfTaskByUser;
+        }
+
+        public async Task UpdateAsync(Guid id, TaskEntity entity)
         {
             entity.Id = id;
 
@@ -89,8 +98,6 @@ namespace TaskCrudService.Adapters.DataSource
             await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Update entity in db {id}", id);
-
-            return id;
         }
 
         private async Task<TypeEntity> GetType(string name)

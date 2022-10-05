@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TaskCrudService.Domain.Entities;
 using TaskCrudService.Ports.Output;
-using TaskCrudService.Ports.Output.Dto;
-using TaskCrudService.ViewModels;
 
 namespace TaskCrudService.Controllers
 {
@@ -10,13 +9,11 @@ namespace TaskCrudService.Controllers
     [Produces("application/json")]
     public class TaskController : Controller
     {
-        private readonly IService<TaskDto> _taskService;
-        private readonly IMapper _mapper;
+        private readonly IService<TaskEntity> _taskService;
 
-        public TaskController(IService<TaskDto> taskService, IMapper mapper)
+        public TaskController(IService<TaskEntity> taskService)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -34,9 +31,9 @@ namespace TaskCrudService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<TaskViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TaskEntity>>> GetAll()
         {
-            var listOfTaskViewModel = _mapper.Map<IEnumerable<TaskViewModel>>(await _taskService.GetAllAsync());
+            var listOfTaskViewModel = await _taskService.GetAllAsync();
 
             return Ok(listOfTaskViewModel);
         }
@@ -55,15 +52,28 @@ namespace TaskCrudService.Controllers
         /// <response code="200">Model ok</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("{id}")]
+        [HttpGet("{filter}/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TaskViewModel>> Get(Guid id)
+        public async Task<ActionResult<TaskEntity>> Get(string filter, Guid id)
         {
-            var taskViewModel = _mapper.Map<TaskViewModel>(await _taskService.GetAsync(id));
+            if (filter == "user")
+            {
+                var taskViewModel = await _taskService.GetByNameAync(id);
 
-            return Ok(taskViewModel);
+                return Ok(taskViewModel);
+            }
+            else if (filter == "task")
+            {
+                var taskViewModel = await _taskService.GetAsync(id);
+
+                return Ok(taskViewModel);
+            }
+            else
+                return BadRequest();
+
+            
         }
 
         /// <summary>
@@ -86,7 +96,7 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _taskService.DeleteAsync(id);
+            await _taskService.DeleteAsync(id);
 
             return NoContent();
         }
@@ -125,14 +135,14 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] TaskViewModel taskViewModel)
+        public async Task<IActionResult> Post([FromBody] TaskEntity taskViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _taskService.AddAsync(_mapper.Map<TaskDto>(taskViewModel));
+            var result = await _taskService.AddAsync(taskViewModel);
 
             return Created($"tasks/{result}", result);
         }
@@ -174,14 +184,14 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, [FromBody] TaskViewModel taskViewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] TaskEntity taskViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _taskService.UpdateAsync(id, _mapper.Map<TaskDto>(taskViewModel));
+            await _taskService.UpdateAsync(id, taskViewModel);
 
             return NoContent();
         }

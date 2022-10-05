@@ -1,13 +1,14 @@
-﻿using TaskCrudService.Ports.Output.Dto;
+﻿using TaskCrudService.Domain.Entities;
 
 namespace TaskCrudService.Ports.Output
 {
-    public interface IService<T> where T : BaseDto
+    public interface IService<T> where T : BaseEntity
     {
         public Task<T> GetAsync(Guid id);
+        public Task<IEnumerable<T>> GetByNameAync(Guid id);
         public Task<IEnumerable<T>> GetAllAsync();
-        public Task<Guid> AddAsync(T dto);
-        public Task<Guid> DeleteAsync(Guid id);
-        public Task<Guid> UpdateAsync(Guid id, T dto);
+        public Task<Guid> AddAsync(T entity);
+        public Task DeleteAsync(Guid id);
+        public Task UpdateAsync(Guid id, T entity);
     }
 }

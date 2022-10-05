@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskCrudService.Domain\TaskCrudService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
