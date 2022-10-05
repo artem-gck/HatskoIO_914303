@@ -1,4 +1,4 @@
-﻿namespace DocumentCrudService.Application.Services.Results
+﻿namespace DocumentCrudService.Cqrs.Results
 {
     public interface IResult
     {

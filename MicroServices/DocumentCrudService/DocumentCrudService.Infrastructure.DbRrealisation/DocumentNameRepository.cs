@@ -1,12 +1,12 @@
-﻿using DocumentCrudService.Application.DbServices;
-using DocumentCrudService.Domain.Entities;
-using DocumentCrudService.Domain.Exceptions;
-using DocumentCrudService.Infrastructure.DbRrealisation.Context;
+﻿using DocumentCrudService.Repositories.DbServices;
+using DocumentCrudService.Repositories.Entities;
+using DocumentCrudService.Repositories.Exceptions;
+using DocumentCrudService.Repositories.Realisation.Context;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
-namespace DocumentCrudService.Infrastructure.DbRrealisation
+namespace DocumentCrudService.Repositories.Realisation
 {
     public class DocumentNameRepository : IDocumentNameRepository
     {

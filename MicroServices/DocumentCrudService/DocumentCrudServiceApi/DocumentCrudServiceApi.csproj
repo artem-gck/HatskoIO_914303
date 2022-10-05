@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentCrudService.Application.DbServices\DocumentCrudService.Repositories.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Application.Services\DocumentCrudService.Cqrs.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Infrastructure.DbRrealisation\DocumentCrudService.Repositories.Realisation.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Infrastructure.Realisation\DocumentCrudService.Cqrs.Realisation.csproj" />
+  </ItemGroup>
+
+</Project>

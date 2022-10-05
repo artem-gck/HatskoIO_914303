@@ -1,4 +1,4 @@
-﻿namespace DocumentCrudService.Application.Services.Commands
+﻿namespace DocumentCrudService.Cqrs.Commands
 {
     public interface ICommandHandler
     {

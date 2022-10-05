@@ -1,10 +1,10 @@
-﻿using DocumentCrudService.Application.Services.Dto;
-using DocumentCrudService.Application.Services.Queries;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetAllNamesOfDocuments;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentByName;
+﻿using DocumentCrudService.Cqrs.Dto;
+using DocumentCrudService.Cqrs.Queries;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using IResult = DocumentCrudService.Application.Services.Results.IResult;
+using IResult = DocumentCrudService.Cqrs.Results.IResult;
 
 namespace DocumentCrudService.Controllers
 {

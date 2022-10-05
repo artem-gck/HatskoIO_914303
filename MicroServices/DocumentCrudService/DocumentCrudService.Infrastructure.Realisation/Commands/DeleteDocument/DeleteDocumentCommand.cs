@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Commands.DeleteDocument
+namespace DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument
 {
     public class DeleteDocumentCommand : ICommand
     {

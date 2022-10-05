@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Commands.UpdateDocument
+namespace DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument
 {
     public class UpdateDocumentCommand : ICommand
     {

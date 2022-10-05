@@ -1,7 +1,7 @@
-﻿using DocumentCrudService.Application.Services.Results;
-using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Results;
+using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Application.Services.Queries
+namespace DocumentCrudService.Cqrs.Queries
 {
     public interface IQueryDispatcher
     {

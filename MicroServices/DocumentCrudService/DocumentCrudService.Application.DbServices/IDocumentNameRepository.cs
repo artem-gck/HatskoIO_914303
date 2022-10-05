@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Domain.Entities;
+﻿using DocumentCrudService.Repositories.Entities;
 
-namespace DocumentCrudService.Application.DbServices
+namespace DocumentCrudService.Repositories.DbServices
 {
     public interface IDocumentNameRepository
     {

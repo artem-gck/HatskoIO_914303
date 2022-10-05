@@ -1,4 +1,4 @@
-﻿namespace DocumentCrudService.Application.Services.Units
+﻿namespace DocumentCrudService.Cqrs.Units
 {
     public interface ICommand
     {

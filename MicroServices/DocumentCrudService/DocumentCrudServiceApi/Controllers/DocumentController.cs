@@ -1,10 +1,10 @@
-﻿using DocumentCrudService.Application.Services.Commands;
-using DocumentCrudService.Application.Services.Dto;
-using DocumentCrudService.Application.Services.Queries;
-using DocumentCrudService.Infrastructure.Realisation.Commands.AddDocument;
-using DocumentCrudService.Infrastructure.Realisation.Commands.DeleteDocument;
-using DocumentCrudService.Infrastructure.Realisation.Commands.UpdateDocument;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById;
+﻿using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Cqrs.Dto;
+using DocumentCrudService.Cqrs.Queries;
+using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
+using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
+using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
 using DocumentCrudService.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Commands.AddDocument
+namespace DocumentCrudService.Cqrs.Realisation.Commands.AddDocument
 {
     public class AddDocumentCommand : ICommand
     {

@@ -1,16 +1,16 @@
-using DocumentCrudService.Application.DbServices;
-using DocumentCrudService.Application.Services.Commands;
-using DocumentCrudService.Application.Services.Queries;
-using DocumentCrudService.Infrastructure.DbRrealisation;
-using DocumentCrudService.Infrastructure.DbRrealisation.Context;
-using DocumentCrudService.Infrastructure.Realisation.Commands;
-using DocumentCrudService.Infrastructure.Realisation.Commands.AddDocument;
-using DocumentCrudService.Infrastructure.Realisation.Commands.DeleteDocument;
-using DocumentCrudService.Infrastructure.Realisation.Commands.UpdateDocument;
-using DocumentCrudService.Infrastructure.Realisation.Queries;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetAllNamesOfDocuments;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById;
-using DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentByName;
+using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Cqrs.Queries;
+using DocumentCrudService.Cqrs.Realisation.Commands;
+using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
+using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
+using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
+using DocumentCrudService.Cqrs.Realisation.Queries;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
+using DocumentCrudService.Repositories.DbServices;
+using DocumentCrudService.Repositories.Realisation;
+using DocumentCrudService.Repositories.Realisation.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 

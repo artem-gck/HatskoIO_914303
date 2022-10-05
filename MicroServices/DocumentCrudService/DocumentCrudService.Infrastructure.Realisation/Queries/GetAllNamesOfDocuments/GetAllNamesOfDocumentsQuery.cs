@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Queries.GetAllNamesOfDocuments
+namespace DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments
 {
     public class GetAllNamesOfDocumentsQuery : IQuery
     {

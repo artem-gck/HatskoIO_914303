@@ -1,7 +1,7 @@
-﻿using DocumentCrudService.Application.DbServices;
-using DocumentCrudService.Application.Services.Commands;
+﻿using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Repositories.DbServices;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Commands.DeleteDocument
+namespace DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument
 {
     public class DeleteDocumentCommandHandler : ICommandHandler<DeleteDocumentCommand>
     {

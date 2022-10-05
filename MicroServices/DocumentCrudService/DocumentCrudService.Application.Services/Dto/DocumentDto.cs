@@ -1,6 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Results;
+﻿using DocumentCrudService.Cqrs.Results;
 
-namespace DocumentCrudService.Application.Services.Dto
+namespace DocumentCrudService.Cqrs.Dto
 {
     public class DocumentDto : IResult
     {

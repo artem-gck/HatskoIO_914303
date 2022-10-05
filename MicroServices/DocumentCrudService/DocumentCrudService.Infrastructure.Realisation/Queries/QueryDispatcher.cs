@@ -1,9 +1,9 @@
-﻿using DocumentCrudService.Application.Services.Exceptions;
-using DocumentCrudService.Application.Services.Queries;
-using DocumentCrudService.Application.Services.Results;
-using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Exceptions;
+using DocumentCrudService.Cqrs.Queries;
+using DocumentCrudService.Cqrs.Results;
+using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Queries
+namespace DocumentCrudService.Cqrs.Realisation.Queries
 {
     public class QueryDispatcher : IQueryDispatcher
     {

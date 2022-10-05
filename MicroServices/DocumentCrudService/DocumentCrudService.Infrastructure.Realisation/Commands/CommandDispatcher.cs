@@ -1,8 +1,8 @@
-﻿using DocumentCrudService.Application.Services.Commands;
-using DocumentCrudService.Application.Services.Exceptions;
-using DocumentCrudService.Application.Services.Units;
+﻿using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Cqrs.Exceptions;
+using DocumentCrudService.Cqrs.Units;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Commands
+namespace DocumentCrudService.Cqrs.Realisation.Commands
 {
     public class CommandDispatcher : ICommandDispatcher
     {

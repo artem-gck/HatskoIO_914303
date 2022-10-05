@@ -1,11 +1,6 @@
-﻿using DocumentCrudService.Application.Services.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DocumentCrudService.Cqrs.Results;
 
-namespace DocumentCrudService.Application.Services.Dto
+namespace DocumentCrudService.Cqrs.Dto
 {
     public class DocumentNameDto : IResult
     {

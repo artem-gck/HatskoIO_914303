@@ -1,4 +1,4 @@
-﻿namespace DocumentCrudService.Application.Services.Queries
+﻿namespace DocumentCrudService.Cqrs.Queries
 {
     public interface IQueryHandler
     {

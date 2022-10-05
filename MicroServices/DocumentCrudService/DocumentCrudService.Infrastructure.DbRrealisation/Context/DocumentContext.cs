@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 
-namespace DocumentCrudService.Infrastructure.DbRrealisation.Context
+namespace DocumentCrudService.Repositories.Realisation.Context
 {
     public class DocumentContext
     {

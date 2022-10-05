@@ -1,9 +1,9 @@
-﻿using DocumentCrudService.Application.DbServices;
-using DocumentCrudService.Application.Services.Dto;
-using DocumentCrudService.Application.Services.Queries;
-using DocumentCrudService.Application.Services.Results;
+﻿using DocumentCrudService.Cqrs.Dto;
+using DocumentCrudService.Cqrs.Queries;
+using DocumentCrudService.Cqrs.Results;
+using DocumentCrudService.Repositories.DbServices;
 
-namespace DocumentCrudService.Infrastructure.Realisation.Queries.GetDocumentById
+namespace DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById
 {
     public class GetDocumentByIdQueryHandler : IQueryHandler<GetDocumentByIdQuery>
     {

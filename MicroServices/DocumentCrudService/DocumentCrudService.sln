@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService", "DocumentCrudService\DocumentCrudService.csproj", "{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Repositories", "DocumentCrudService.Application.DbServices\DocumentCrudService.Repositories.csproj", "{06AAA80B-A90C-4DF7-BC7D-386CE22EF166}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Domain", "DocumentCrudService.Domain\DocumentCrudService.Domain.csproj", "{65ADBA50-B97A-454A-9A59-1A306240176A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Cqrs", "DocumentCrudService.Application.Services\DocumentCrudService.Cqrs.csproj", "{4108DE64-08E1-4CF8-9D23-BDE86D8BB1FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService.Application.DbServices", "DocumentCrudService.Application.DbServices\DocumentCrudService.Application.DbServices.csproj", "{06AAA80B-A90C-4DF7-BC7D-386CE22EF166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Repositories.Realisation", "DocumentCrudService.Infrastructure.DbRrealisation\DocumentCrudService.Repositories.Realisation.csproj", "{3D8BDA64-9A78-4ADB-A4BB-9093A5868289}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService.Application.Services", "DocumentCrudService.Application.Services\DocumentCrudService.Application.Services.csproj", "{4108DE64-08E1-4CF8-9D23-BDE86D8BB1FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Cqrs.Realisation", "DocumentCrudService.Infrastructure.Realisation\DocumentCrudService.Cqrs.Realisation.csproj", "{21145A7F-A9D3-4508-9D58-BA1985A741DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService.Infrastructure.DbRrealisation", "DocumentCrudService.Infrastructure.DbRrealisation\DocumentCrudService.Infrastructure.DbRrealisation.csproj", "{3D8BDA64-9A78-4ADB-A4BB-9093A5868289}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService.Infrastructure.Realisation", "DocumentCrudService.Infrastructure.Realisation\DocumentCrudService.Infrastructure.Realisation.csproj", "{21145A7F-A9D3-4508-9D58-BA1985A741DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudServiceApi", "DocumentCrudServiceApi\DocumentCrudServiceApi.csproj", "{A5ECEF52-40AE-4F49-B132-8680DFDE0072}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB7D8748-1291-4BE2-B7A0-32B14D64C0FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65ADBA50-B97A-454A-9A59-1A306240176A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65ADBA50-B97A-454A-9A59-1A306240176A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65ADBA50-B97A-454A-9A59-1A306240176A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65ADBA50-B97A-454A-9A59-1A306240176A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06AAA80B-A90C-4DF7-BC7D-386CE22EF166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06AAA80B-A90C-4DF7-BC7D-386CE22EF166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06AAA80B-A90C-4DF7-BC7D-386CE22EF166}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +35,10 @@ Global
 		{21145A7F-A9D3-4508-9D58-BA1985A741DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21145A7F-A9D3-4508-9D58-BA1985A741DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21145A7F-A9D3-4508-9D58-BA1985A741DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5ECEF52-40AE-4F49-B132-8680DFDE0072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5ECEF52-40AE-4F49-B132-8680DFDE0072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5ECEF52-40AE-4F49-B132-8680DFDE0072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5ECEF52-40AE-4F49-B132-8680DFDE0072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

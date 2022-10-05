@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using IResult = DocumentCrudService.Application.Services.Results.IResult;
 
 namespace DocumentCrudService.ViewModels
 {
-    public class DocumentNameViewModel : IResult
+    public class DocumentNameViewModel
     {
         [Required]
         public string DocumentName { get; set; }
