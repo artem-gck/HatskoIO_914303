@@ -11,6 +11,7 @@ using TaskCrudService.Domain.Entities;
 using TaskCrudService.Middlewares;
 using TaskCrudService.Ports.Output;
 using TaskCrudService.Posts.DataSource;
+using TaskCrudServiceApi.MapperProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TaskConnection");
@@ -24,6 +25,8 @@ builder.Services.AddHealthChecksUI()
                 .AddInMemoryStorage();
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
+
+builder.Services.AddAutoMapper(typeof(ApiProfile));
 
 builder.Services.AddDbContext<TaskContext>(opt =>
     opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("TaskCrudService.Adapters.DataSource")));

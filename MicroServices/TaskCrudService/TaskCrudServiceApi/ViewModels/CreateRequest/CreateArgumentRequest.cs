@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskCrudServiceApi.ViewModels
+namespace TaskCrudServiceApi.ViewModels.CreateRequest
 {
-    public class ArgumentResponce
+    public class CreateArgumentRequest
     {
-        public Guid Id { get; set; }
+        [Required]
         public string ArgumentType { get; set; }
+
+        [Required]
         public string Value { get; set; }
     }
 }

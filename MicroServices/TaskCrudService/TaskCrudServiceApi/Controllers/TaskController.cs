@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskCrudService.Domain.Entities;
 using TaskCrudService.Ports.Output;
+using TaskCrudServiceApi.ViewModels.CreateRequest;
+using TaskCrudServiceApi.ViewModels.Responce;
+using TaskCrudServiceApi.ViewModels.UpdateRequest;
 
 namespace TaskCrudService.Controllers
 {
@@ -10,10 +13,12 @@ namespace TaskCrudService.Controllers
     public class TaskController : Controller
     {
         private readonly IService<TaskEntity> _taskService;
+        private readonly IMapper _mapper;
 
-        public TaskController(IService<TaskEntity> taskService)
+        public TaskController(IService<TaskEntity> taskService, IMapper mapper)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -31,9 +36,9 @@ namespace TaskCrudService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<TaskEntity>>> Get()
+        public async Task<ActionResult<IEnumerable<TaskResponce>>> Get()
         {
-            var listOfTaskViewModel = await _taskService.GetAsync();
+            var listOfTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetAsync());
 
             return Ok(listOfTaskViewModel);
         }
@@ -56,17 +61,17 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TaskEntity>> Get(string filter, Guid id)
+        public async Task<IActionResult> Get(string filter, Guid id)
         {
             if (filter == "user")
             {
-                var taskViewModel = await _taskService.GetByNameAync(id);
+                var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id));
 
-                return Ok(taskViewModel);
+                return Ok(listTaskViewModel);
             }
             else if (filter == "task")
             {
-                var taskViewModel = await _taskService.GetAsync(id);
+                var taskViewModel = _mapper.Map<TaskResponce>(await _taskService.GetAsync(id));
 
                 return Ok(taskViewModel);
             }
@@ -135,14 +140,14 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] TaskEntity taskViewModel)
+        public async Task<IActionResult> Post([FromBody] CreateTaskRequest taskViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _taskService.AddAsync(taskViewModel);
+            var result = await _taskService.AddAsync(_mapper.Map<TaskEntity>(taskViewModel));
 
             return Created($"tasks/{result}", result);
         }
@@ -184,14 +189,14 @@ namespace TaskCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, [FromBody] TaskEntity taskViewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdateTaskRequest taskViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await _taskService.UpdateAsync(id, taskViewModel);
+            await _taskService.UpdateAsync(id, _mapper.Map<TaskEntity>(taskViewModel));
 
             return NoContent();
         }

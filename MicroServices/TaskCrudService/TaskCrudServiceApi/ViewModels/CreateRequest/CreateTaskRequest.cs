@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using TaskCrudServiceApi.ViewModels.Responce;
 
-namespace TaskCrudServiceApi.ViewModels
+namespace TaskCrudServiceApi.ViewModels.CreateRequest
 {
-    public class TaskResponce
+    public class CreateTaskRequest
     {
-        public Guid Id { get; set; }
         public string Type { get; set; }
         public string Header { get; set; }
         public Guid OwnerUserId { get; set; }
