@@ -23,10 +23,7 @@ namespace DocumentCrudService.Infrastructure.DbRrealisation
 
             var sort = Builders<GridFSFileInfo>.Sort.Descending(x => x.UploadDateTime);
 
-            var options = new GridFSFindOptions
-            {
-                Sort = sort
-            };
+            var options = new GridFSFindOptions { Sort = sort };
 
             var cursor = await _documentContext.GridFS.FindAsync(filter, options);
             var listOfFileInfo = (await cursor.ToListAsync()).Select(info => new DocumentNameEntity()

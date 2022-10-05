@@ -9,6 +9,7 @@ using IResult = DocumentCrudService.Application.Services.Results.IResult;
 namespace DocumentCrudService.Controllers
 {
     [Route("document-names")]
+    [Produces("application/json")]
     public class DocumentNameController : Controller
     {
         private readonly IQueryDispatcher _queryDispatcher;
@@ -39,9 +40,9 @@ namespace DocumentCrudService.Controllers
             };
 
             var listOfFileName = await _queryDispatcher.Send(query);
-            var listOfFileNameViewModel = MapToDocumentViewModel(listOfFileName);
+            var documentDto = (DocumentDto)listOfFileName[0];
 
-            return Ok(listOfFileNameViewModel);
+            return File(documentDto.DocumentBody, "application/octet-stream", documentDto.FileName);
         }
 
         private List<DocumentNameViewModel> MapToDocumentViewModel(IList<IResult> input)

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocumentCrudService.Controllers
 {
     [Route("documents")]
+    [Produces("application/json")]
     public class DocumentController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
@@ -27,22 +28,19 @@ namespace DocumentCrudService.Controllers
         {
             var query = new GetDocumentByIdQuery() { Id = id };
 
-            var listOfFile = await _queryDispatcher.Send(query);
-            var documentDto = (DocumentDto)listOfFile[0];
+            var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
 
-            var file = GetFormFile(documentDto);
-
-            var documentViewModel = new DocumentViewModel()
-            {
-                File = file
-            };
-
-            return Ok(documentViewModel);
+            return File(documentDto.DocumentBody, "application/octet-stream", documentDto.FileName); ;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(DocumentViewModel documentViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var file = GetByteArray(documentViewModel.File);
 
             var query = new AddDocumentCommand() 
@@ -53,7 +51,7 @@ namespace DocumentCrudService.Controllers
 
             await _commandDispatcher.Send(query);
 
-            return Created("qwe", "qwe");
+            return Created("document-names/{fileName}", query.DocumentName);
         }
 
         [HttpDelete("{id}")]
@@ -82,12 +80,6 @@ namespace DocumentCrudService.Controllers
             return NoContent();
         }
 
-        private IFormFile GetFormFile(DocumentDto document)
-        {
-            var stream = new MemoryStream(document.DocumentBody);
-
-            return new FormFile(stream, 0, document.DocumentBody.Length, document.FileName, document.FileName);
-        }
 
         private byte[] GetByteArray(IFormFile file)
         {
