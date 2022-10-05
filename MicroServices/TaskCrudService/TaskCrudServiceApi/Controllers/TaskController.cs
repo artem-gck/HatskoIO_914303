@@ -8,7 +8,7 @@ using TaskCrudServiceApi.ViewModels.UpdateRequest;
 
 namespace TaskCrudService.Controllers
 {
-    [Route("tasks")]
+    [Route("api/tasks")]
     [Produces("application/json")]
     public class TaskController : Controller
     {
@@ -82,7 +82,7 @@ namespace TaskCrudService.Controllers
         /// <response code="200">Model ok</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("users/{id}")]
+        [HttpGet("~/api/users/{id}/tasks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
