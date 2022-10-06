@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
-using StructureServiceApi.ViewModels;
+using StructureServiceApi.ViewModels.AddRequest;
+using StructureServiceApi.ViewModels.Responce;
+using StructureServiceApi.ViewModels.UpdateRequest;
 
 namespace StructureServiceApi.Controllers
 {
@@ -39,9 +41,9 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PositionViewModel>> Get(Guid id)
+        public async Task<ActionResult<PositionResponce>> Get(Guid id)
         {
-            var positionViewModel = _controllerMapper.Map<PositionViewModel>(await _positionsService.GetAsync(id));
+            var positionViewModel = _controllerMapper.Map<PositionResponce>(await _positionsService.GetAsync(id));
 
             return Ok(positionViewModel);
         }
@@ -61,9 +63,9 @@ namespace StructureServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PositionViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PositionResponce>>> GetAll()
         {
-            var listOfPositonViewModel = (await _positionsService.GetAllAsync()).Select(pos => _controllerMapper.Map<PositionViewModel>(pos));
+            var listOfPositonViewModel = (await _positionsService.GetAllAsync()).Select(pos => _controllerMapper.Map<PositionResponce>(pos));
 
             return Ok(listOfPositonViewModel);
         }
@@ -116,7 +118,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(PositionViewModel positionViewModel)
+        public async Task<IActionResult> Post(AddPositionRequest positionViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -156,7 +158,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, PositionViewModel positionViewModel)
+        public async Task<IActionResult> Put(Guid id, UpdatePositionRequest positionViewModel)
         {
             if (!ModelState.IsValid)
             {

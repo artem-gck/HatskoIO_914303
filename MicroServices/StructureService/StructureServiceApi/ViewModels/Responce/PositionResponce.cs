@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StructureServiceApi.ViewModels
+namespace StructureServiceApi.ViewModels.Responce
 {
-    public class PositionViewModel
+    public class PositionResponce
     {
         public Guid Id { get; set; }
 

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
-using StructureServiceApi.ViewModels;
 using StructureService.Domain.Entities;
+using StructureServiceApi.ViewModels.AddRequest;
+using StructureServiceApi.ViewModels.Responce;
+using StructureServiceApi.ViewModels.UpdateRequest;
 
 namespace StructureServiceApi.Controllers
 {
@@ -39,9 +41,9 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<DepartmentViewModel>> Get(Guid id)
+        public async Task<ActionResult<DepartmentResponce>> Get(Guid id)
         {
-            var departmentViewModel = _controllerMapper.Map<DepartmentViewModel>(await _departmentsService.GetAsync(id));
+            var departmentViewModel = _controllerMapper.Map<DepartmentResponce>(await _departmentsService.GetAsync(id));
 
             return Ok(departmentViewModel);
         }
@@ -61,9 +63,9 @@ namespace StructureServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<DepartmentViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DepartmentResponce>>> GetAll()
         {
-            var listOfDepartmentViewModel = (await _departmentsService.GetAllAsync()).Select(dep => _controllerMapper.Map<DepartmentViewModel>(dep));
+            var listOfDepartmentViewModel = (await _departmentsService.GetAllAsync()).Select(dep => _controllerMapper.Map<DepartmentResponce>(dep));
 
             return Ok(listOfDepartmentViewModel);
         }
@@ -117,7 +119,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(DepartmentViewModel departmentViewModel)
+        public async Task<IActionResult> Post(AddDepartmentRequest departmentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -159,7 +161,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, DepartmentViewModel departmentViewModel)
+        public async Task<IActionResult> Put(Guid id, UpdateDepartmentRequest departmentViewModel)
         {
             if (!ModelState.IsValid)
             {
