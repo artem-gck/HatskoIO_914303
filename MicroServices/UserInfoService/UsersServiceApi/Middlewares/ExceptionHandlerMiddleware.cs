@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.Json;
 using UsersService.DataAccess.Exceptions;
 
-namespace UsersService.Middlewares
+namespace UsersServiceApi.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {

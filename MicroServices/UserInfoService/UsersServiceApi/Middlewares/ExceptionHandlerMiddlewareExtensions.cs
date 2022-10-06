@@ -1,4 +1,4 @@
-﻿namespace UsersService.Middlewares
+﻿namespace UsersServiceApi.Middlewares
 {
     public static class ExceptionHandlerMiddlewareExtensions
     {

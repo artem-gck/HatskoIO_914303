@@ -5,10 +5,10 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
-using UsersService.MapperProfiles;
-using UsersService.Middlewares;
 using UsersService.Services;
 using UsersService.Services.MapperProfiles;
+using UsersServiceApi.MapperProfiles;
+using UsersServiceApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
