@@ -7,11 +7,12 @@ using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.ViewModels;
+using DocumentCrudServiceApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentCrudService.Controllers
 {
-    [Route("documents")]
+    [Route("api/documents")]
     [Produces("application/json")]
     public class DocumentController : Controller
     {
@@ -28,55 +29,42 @@ namespace DocumentCrudService.Controllers
         /// Gets the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>File</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     GET documents/{id}
-        ///
-        /// </remarks>
-        /// <response code="200">Send file</response>
-        /// <response code="404">File not found</response>
-        /// <response code="500">Internal server error</response>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(string id)
-        {
-            var query = new GetDocumentByIdQuery() { Id = id };
-            var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
-
-            return File(documentDto.Body, "application/octet-stream", documentDto.Name);
-        }
-
-        /// <summary>
-        /// Gets file by name.
-        /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name="name">The name of document.</param>
         /// <param name="version">The version.</param>
         /// <returns>File</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET documents/name/{name}/version/{version}
+        ///     GET /api/documents
         ///
         /// </remarks>
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("name/{name}/version/{version}")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByName(string name, int version = -1)
+        public async Task<IActionResult> Get(string? id, string? name, int version = -1)
         {
-            var query = new GetDocumentByNameQuery()
+            DocumentDto documentDto;
+
+            if (id is not null)
             {
-                Name = name,
-                Version = version
-            };
-            var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
+                var query = new GetDocumentByIdQuery() { Id = id };
+                documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
+            }
+            else if (name is not null)
+            {
+                var query = new GetDocumentByNameQuery()
+                {
+                    Name = name,
+                    Version = version
+                };
+                documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
+            }
+            else
+                return BadRequest();
 
             return File(documentDto.Body, "application/octet-stream", documentDto.Name);
         }
@@ -89,7 +77,7 @@ namespace DocumentCrudService.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /documents
+        ///     POST /api/documents
         ///     {
         ///        "file": byte[],
         ///     }
@@ -127,7 +115,7 @@ namespace DocumentCrudService.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     DELETE documents/{id}
+        ///     DELETE /api/documents/{id}
         ///
         /// </remarks>
         /// <response code="204">File deleted</response>
@@ -153,7 +141,7 @@ namespace DocumentCrudService.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT /documents
+        ///     PUT /api/documents
         ///     {
         ///        "file": byte[],
         ///     }

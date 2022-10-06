@@ -1,14 +1,13 @@
 ﻿using DocumentCrudService.Cqrs.Dto;
 using DocumentCrudService.Cqrs.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
-using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using IResult = DocumentCrudService.Cqrs.Results.IResult;
 
 namespace DocumentCrudService.Controllers
 {
-    [Route("document-names")]
+    [Route("api/document-names")]
     [Produces("application/json")]
     public class DocumentNameController : Controller
     {
@@ -26,7 +25,7 @@ namespace DocumentCrudService.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /document-names
+        ///     GET api/document-names
         ///
         /// </remarks>
         /// <response code="200">Send file</response>
