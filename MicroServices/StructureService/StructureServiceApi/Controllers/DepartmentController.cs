@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StructureService.Application.Services.Dto;
 using StructureService.Application.Services;
-using StructureService.ViewModels;
+using StructureServiceApi.ViewModels;
+using StructureService.Domain.Entities;
 
-namespace StructureService.Controllers
+namespace StructureServiceApi.Controllers
 {
-    [Route("departments")]
+    [Route("api/departments")]
     [Produces("application/json")]
     public class DepartmentController : Controller
     {
-        private readonly IService<DepartmentDto> _departmentsService;
+        private readonly IService<DepartmentEntity> _departmentsService;
         private readonly IMapper _controllerMapper;
         private readonly ILogger<DepartmentController> _logger;
 
-        public DepartmentController(IService<DepartmentDto> departmentsService, IMapper controllerMapper, ILogger<DepartmentController> logger)
+        public DepartmentController(IService<DepartmentEntity> departmentsService, IMapper controllerMapper, ILogger<DepartmentController> logger)
         {
             _departmentsService = departmentsService ?? throw new ArgumentNullException(nameof(departmentsService));
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
@@ -126,7 +126,7 @@ namespace StructureService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _departmentsService.AddAsync(_controllerMapper.Map<DepartmentDto>(departmentViewModel));
+            var result = await _departmentsService.AddAsync(_controllerMapper.Map<DepartmentEntity>(departmentViewModel));
 
             return Created($"departments/{result}", result);
         }
@@ -168,7 +168,7 @@ namespace StructureService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _departmentsService.UpdateAsync(id, _controllerMapper.Map<DepartmentDto>(departmentViewModel));
+            var result = await _departmentsService.UpdateAsync(id, _controllerMapper.Map<DepartmentEntity>(departmentViewModel));
 
             return NoContent();
         }

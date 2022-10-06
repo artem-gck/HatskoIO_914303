@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StructureService.Domain.Entities;
 
-namespace StructureService.Dimain.Realisation.Context
+namespace StructureService.Infrastructure.DataBase.Context
 {
     public class StructureContext : DbContext
     {

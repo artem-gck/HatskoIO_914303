@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using StructureService.Application.Services;
-using StructureService.Application.Services.Dto;
 using StructureService.Domain.Services;
 using Microsoft.Extensions.Logging;
+using StructureService.Domain.Entities;
 
-namespace StructureService.Application.Realisation
+namespace StructureService.Infrastructure.Services
 {
     public class UserService : IUserService
     {
@@ -19,9 +19,9 @@ namespace StructureService.Application.Realisation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<DepartmentUnitDto> GetAsync(Guid id)
+        public async Task<DepartmentUnitEntity> GetAsync(Guid id)
         {
-            var dto = _mapper.Map<DepartmentUnitDto>(await _userRepository.GetAsync(id));
+            var dto = _mapper.Map<DepartmentUnitEntity>(await _userRepository.GetAsync(id));
 
             _logger.LogDebug("Geted DepartmentUnit from db = {@Dto}", dto);
 

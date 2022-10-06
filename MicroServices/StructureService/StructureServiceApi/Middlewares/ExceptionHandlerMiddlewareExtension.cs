@@ -1,4 +1,4 @@
-﻿namespace StructureService.Middlewares
+﻿namespace StructureServiceApi.Middlewares
 {
     public static class ExceptionHandlerMiddlewareExtension
     {

@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
-using StructureService.Application.Services.Dto;
-using StructureService.ViewModels;
+using StructureService.Domain.Entities;
+using StructureServiceApi.ViewModels;
 
-namespace StructureService.Controllers
+namespace StructureServiceApi.Controllers
 {
-    [Route("positions")]
+    [Route("api/positions")]
     [Produces("application/json")]
     public class PositionsController : Controller
     {
-        private readonly IService<PositionDto> _positionsService;
+        private readonly IService<PositionEntity> _positionsService;
         private readonly IMapper _controllerMapper;
         private readonly ILogger<PositionsController> _logger;
 
-        public PositionsController(IService<PositionDto> positionsService, IMapper controllerMapper, ILogger<PositionsController> logger)
+        public PositionsController(IService<PositionEntity> positionsService, IMapper controllerMapper, ILogger<PositionsController> logger)
         {
             _positionsService = positionsService ?? throw new ArgumentNullException(nameof(positionsService));
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
@@ -125,7 +125,7 @@ namespace StructureService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _positionsService.AddAsync(_controllerMapper.Map<PositionDto>(positionViewModel));
+            var result = await _positionsService.AddAsync(_controllerMapper.Map<PositionEntity>(positionViewModel));
 
             return Created($"positions/{result}", result);
         }
@@ -165,7 +165,7 @@ namespace StructureService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _positionsService.UpdateAsync(id, _controllerMapper.Map<PositionDto>(positionViewModel));
+            var result = await _positionsService.UpdateAsync(id, _controllerMapper.Map<PositionEntity>(positionViewModel));
 
             return NoContent();
         }

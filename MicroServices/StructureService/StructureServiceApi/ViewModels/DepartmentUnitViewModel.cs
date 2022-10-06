@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StructureService.ViewModels
+namespace StructureServiceApi.ViewModels
 {
     public class DepartmentUnitViewModel
     {

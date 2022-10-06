@@ -1,9 +1,9 @@
-﻿using StructureService.Application.Services.Dto;
+﻿using StructureService.Domain.Entities;
 
 namespace StructureService.Application.Services
 {
     public interface IUserService
     {
-        public Task<DepartmentUnitDto> GetAsync(Guid id);
+        public Task<DepartmentUnitEntity> GetAsync(Guid id);
     }
 }

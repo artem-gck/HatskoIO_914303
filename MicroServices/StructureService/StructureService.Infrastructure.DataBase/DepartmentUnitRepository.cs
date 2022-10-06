@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using StructureService.Dimain.Realisation.Context;
 using StructureService.Domain.Entities;
 using StructureService.Domain.Exceptions;
 using StructureService.Domain.Services;
+using StructureService.Infrastructure.DataBase.Context;
 
-namespace StructureService.Dimain.Realisation
+namespace StructureService.Infrastructure.DataBase
 {
     public class DepartmentUnitRepository : IRepository<DepartmentUnitEntity>
     {

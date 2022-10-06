@@ -2,7 +2,7 @@
 using StructureService.Domain.Exceptions;
 using System.Net;
 
-namespace StructureService.Middlewares
+namespace StructureServiceApi.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {
