@@ -6,10 +6,13 @@ using TaskCrudServiceApi.ViewModels.CreateRequest;
 using TaskCrudServiceApi.ViewModels.Responce;
 using TaskCrudServiceApi.ViewModels.UpdateRequest;
 
-namespace TaskCrudService.Controllers
+namespace TaskCrudServiceApi.Controllers.V1
 {
-    [Route("api/tasks")]
+    [ApiController]
+    [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class TaskController : Controller
     {
         private readonly IService<TaskEntity> _taskService;
@@ -82,7 +85,7 @@ namespace TaskCrudService.Controllers
         /// <response code="200">Model ok</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("~/api/users/{id}/tasks")]
+        [HttpGet("~/api/v{version:apiVersion}/users/{id}/tasks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
