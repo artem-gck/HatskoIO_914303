@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UsersService.VewModels
+namespace UsersServiceApi.VewModels
 {
-    public class UserInfoViewModel
+    public class AddUserInfoRequest
     {
-        public int Id { get; set; }
-
         [Required]
         [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,20}[a-zA-Z]$")]
         public string Name { get; set; }

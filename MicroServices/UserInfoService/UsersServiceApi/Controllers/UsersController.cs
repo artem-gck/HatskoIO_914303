@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersService.Services;
 using UsersService.Services.Dto;
-using UsersService.VewModels;
+using UsersServiceApi.VewModels;
 
-namespace UsersService.Controllers
+namespace UsersServiceApi.Controllers
 {
     [Route("users")]
     [Produces("application/json")]
@@ -36,11 +36,9 @@ namespace UsersService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserInfoViewModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserInfoResponce>>> GetAll()
         {
-            _userLogger.LogDebug("Getting list of user info from service");
-
-            var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoViewModel>(us));
+            var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoResponce>(us));
 
             var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
 
@@ -67,11 +65,11 @@ namespace UsersService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserInfoViewModel>> Get(int id)
+        public async Task<ActionResult<UserInfoResponce>> Get(int id)
         {
             _userLogger.LogDebug("Getting user info from service");
 
-            var user = _mapper.Map<UserInfoViewModel>(await _userService.GetUserInfoAsync(id));
+            var user = _mapper.Map<UserInfoResponce>(await _userService.GetUserInfoAsync(id));
 
             return Ok(user);
         }
@@ -127,7 +125,7 @@ namespace UsersService.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(UserInfoViewModel userInfoViewModel)
+        public async Task<IActionResult> Post(AddUserInfoRequest userInfoViewModel)
         {
             _userLogger.LogDebug("Adding user info to service with name = {name}", userInfoViewModel.Name);
 
@@ -140,7 +138,7 @@ namespace UsersService.Controllers
 
             var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
 
-            _userLogger.LogDebug("Id of added user indo is {id}", userInfoViewModel.Id);
+            _userLogger.LogDebug("Id of added user indo is {id}", result);
 
             return Created($"users/{result}", result);
         }
@@ -172,7 +170,7 @@ namespace UsersService.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, UserInfoViewModel userInfoViewModel)
+        public async Task<IActionResult> Put(int id, UpdateUserInfoRequest userInfoViewModel)
         {
             _userLogger.LogDebug("Updating user info at service with id = {id}", userInfoViewModel.Id);
 
