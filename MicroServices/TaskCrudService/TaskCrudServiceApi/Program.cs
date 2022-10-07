@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using NLog.Web;
 using System.Reflection;
 using TaskCrudService.Adapters.DataSource;
@@ -16,6 +15,7 @@ using TaskCrudService.Posts.DataSource;
 using TaskCrudServiceApi.MapperProfiles;
 using TaskCrudServiceApi.SwaggerConfiguration;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TaskConnection");
@@ -24,6 +24,8 @@ var connectionString = builder.Configuration.GetConnectionString("TaskConnection
 
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
+
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("TaskCrudServiceApi"));
 
 builder.Services.AddHealthChecksUI()
                 .AddInMemoryStorage();

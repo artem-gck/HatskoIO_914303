@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using TaskCrudService.Adapters.Output;
 using TaskCrudService.Domain.Entities;
 using TaskCrudService.Ports.Output;
 using TaskCrudServiceApi.ViewModels.CreateRequest;
@@ -17,11 +20,16 @@ namespace TaskCrudServiceApi.Controllers.V1
     {
         private readonly IService<TaskEntity> _taskService;
         private readonly IMapper _mapper;
-
-        public TaskController(IService<TaskEntity> taskService, IMapper mapper)
+        private readonly ILogger<TaskService> _logger;
+        private readonly IValidator<CreateTaskRequest> _createValidator;
+        private readonly IValidator<UpdateTaskRequest> _updateValidator;
+        public TaskController(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
         }
 
         /// <summary>
@@ -157,8 +165,12 @@ namespace TaskCrudServiceApi.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CreateTaskRequest taskViewModel)
         {
-            if (!ModelState.IsValid)
+            var validationResult = await _createValidator.ValidateAsync(taskViewModel);
+
+            if (!validationResult.IsValid)
             {
+                validationResult.AddToModelState(ModelState);
+                _logger.LogDebug("Invalid model state {ModelState}", ModelState);
                 return BadRequest(ModelState);
             }
 
@@ -206,8 +218,12 @@ namespace TaskCrudServiceApi.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(Guid id, [FromBody] UpdateTaskRequest taskViewModel)
         {
-            if (!ModelState.IsValid)
+            var validationResult = await _updateValidator.ValidateAsync(taskViewModel);
+
+            if (!validationResult.IsValid)
             {
+                validationResult.AddToModelState(ModelState);
+                _logger.LogDebug("Invalid model state {ModelState}", ModelState);
                 return BadRequest(ModelState);
             }
 
