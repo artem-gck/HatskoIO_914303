@@ -14,119 +14,21 @@ namespace TaskCrudServiceApi.Controllers.V1
     [ApiController]
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
-    [ApiVersion("1.0")]
     [ApiVersion("2.0")]
-    public class TaskController : Controller
+    public class TaskControllerV2 : Controller
     {
         private readonly IService<TaskEntity> _taskService;
         private readonly IMapper _mapper;
         private readonly ILogger<TaskService> _logger;
         private readonly IValidator<CreateTaskRequest> _createValidator;
         private readonly IValidator<UpdateTaskRequest> _updateValidator;
-        public TaskController(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator)
+        public TaskControllerV2(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
             _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
-        }
-
-        /// <summary>
-        /// Gets all.
-        /// </summary>
-        /// <returns>List of TaskViewModel</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     GET /tasks
-        ///
-        /// </remarks>
-        /// <response code="200">Model ok</response>
-        /// <response code="500">Internal server error</response>
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<TaskResponce>>> Get()
-        {
-            var listOfTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetAsync());
-
-            return Ok(listOfTaskViewModel);
-        }
-
-        /// <summary>
-        /// Gets the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>TaskViewModel</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     GET /tasks/{id}
-        ///
-        /// </remarks>
-        /// <response code="200">Model ok</response>
-        /// <response code="404">Model not found</response>
-        /// <response code="500">Internal server error</response>
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var taskViewModel = _mapper.Map<TaskResponce>(await _taskService.GetAsync(id));
-
-            return Ok(taskViewModel);
-        }
-
-        /// <summary>
-        /// Gets by the user id.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>TaskViewModel</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     GET /tasks/users/{id}
-        ///
-        /// </remarks>
-        /// <response code="200">Model ok</response>
-        /// <response code="404">Model not found</response>
-        /// <response code="500">Internal server error</response>
-        [HttpGet("~/api/v{version:apiVersion}/users/{id}/tasks")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByUserId(Guid id)
-        {
-            var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id));
-
-            return Ok(listTaskViewModel);
-        }
-
-        /// <summary>
-        /// Deletes the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>Status code</returns>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     DELETE /tasks/{id}
-        ///
-        /// </remarks>
-        /// <response code="204">Model deleted</response>
-        /// <response code="404">Model not found</response>
-        /// <response code="500">Internal server error</response>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            await _taskService.DeleteAsync(id);
-
-            return NoContent();
         }
 
         /// <summary>
