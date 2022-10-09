@@ -1,7 +1,10 @@
-﻿namespace UsersService.Services.Dto
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace UsersService.DataAccess.Entities
 {
-    public class UserInfoDto
+    public class UserEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }

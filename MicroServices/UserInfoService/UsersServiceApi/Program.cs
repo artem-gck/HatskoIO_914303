@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
 
 builder.Services.AddDbContext<UsersInfoContext>(opt =>
-    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService")));
+    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService.DataAccess")));
 
 builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile));
 

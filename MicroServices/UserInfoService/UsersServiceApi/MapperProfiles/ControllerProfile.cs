@@ -8,14 +8,14 @@ namespace UsersServiceApi.MapperProfiles
     {
         public ControllerProfile()
         {
-            CreateMap<UserInfoResponce, UserInfoDto>();
-            CreateMap<UserInfoDto, UserInfoResponce>();
+            CreateMap<UserResponce, UserInfoDto>();
+            CreateMap<UserInfoDto, UserResponce>();
 
-            CreateMap<UpdateUserInfoRequest, UserInfoDto>();
-            CreateMap<UserInfoDto, UpdateUserInfoRequest>();
+            CreateMap<UpdateUserRequest, UserInfoDto>();
+            CreateMap<UserInfoDto, UpdateUserRequest>();
 
-            CreateMap<AddUserInfoRequest, UserInfoDto>();
-            CreateMap<UserInfoDto, AddUserInfoRequest>();
+            CreateMap<AddUserRequest, UserInfoDto>();
+            CreateMap<UserInfoDto, AddUserRequest>();
         }
     }
 }

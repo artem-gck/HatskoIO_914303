@@ -2,9 +2,10 @@
 
 namespace UsersServiceApi.VewModels
 {
-    public class UpdateUserInfoRequest
+    public class UpdateUserRequest
     {
-        public int Id { get; set; }
+        [Required]
+        public Guid Id { get; set; }
 
         [Required]
         [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]{1,20}[a-zA-Z]$")]
@@ -20,5 +21,7 @@ namespace UsersServiceApi.VewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? PositionId { get; set; }
     }
 }
