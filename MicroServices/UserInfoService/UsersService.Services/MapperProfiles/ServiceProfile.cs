@@ -8,8 +8,8 @@ namespace UsersService.Services.MapperProfiles
     {
         public ServiceProfile()
         {
-            CreateMap<UserInfoEntity, UserInfoDto>();
-            CreateMap<UserInfoDto, UserInfoEntity>();
+            CreateMap<UserEntity, UserInfoDto>();
+            CreateMap<UserInfoDto, UserEntity>();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace UsersService.DataAccess
             _userAccessLogger = userAccessLogger ?? throw new ArgumentNullException(nameof(userAccessLogger));
         }
 
-        public async Task<int> AddUserInfoAsync(UserInfoEntity userInfo)
+        public async Task<Guid> AddUserInfoAsync(UserEntity userInfo)
         {
             _userAccessLogger.LogDebug("Adding entity to db with name = {name}", userInfo.Name);
 
@@ -27,7 +27,7 @@ namespace UsersService.DataAccess
             return userInfoEntity.Entity.Id;
         }
 
-        public async Task<int> DeleteUserInfoAsync(int id)
+        public async Task DeleteUserInfoAsync(Guid id)
         {
             _userAccessLogger.LogDebug("Deleting entity from db with id = {id}", id);
 
@@ -40,11 +40,9 @@ namespace UsersService.DataAccess
 
             var deletedUserInfoEntity = _usersContext.UsersInfo.Remove(userInfoEntity);
             await _usersContext.SaveChangesAsync();
-
-            return deletedUserInfoEntity.Entity.Id;
         }
 
-        public async Task<UserInfoEntity> GetUserInfoAsync(int id)
+        public async Task<UserEntity> GetUserInfoAsync(Guid id)
         {
             _userAccessLogger.LogDebug("Getting entity from db with id = {id}", id);
 
@@ -56,7 +54,7 @@ namespace UsersService.DataAccess
             return userInfoEntity;
         }
 
-        public async Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync()
+        public async Task<IEnumerable<UserEntity>> GetUsersInfoAsync()
         {
             _userAccessLogger.LogDebug("Getting entities from db");
 
@@ -65,7 +63,7 @@ namespace UsersService.DataAccess
             return listOfUserInfoEntities;
         }
 
-        public async Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo)
+        public async Task UpdateUserInfoAsync(Guid id, UserEntity userInfo)
         {
             _userAccessLogger.LogDebug("Updating entity from db with id = {id}", id);
 
@@ -80,8 +78,6 @@ namespace UsersService.DataAccess
             userInfoEntity.Email = userInfo.Email;
 
             await _usersContext.SaveChangesAsync();
-
-            return userInfoEntity.Id;
         }
     }
 }

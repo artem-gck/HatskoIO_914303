@@ -36,9 +36,9 @@ namespace UsersServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserInfoResponce>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserResponce>>> GetAll()
         {
-            var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoResponce>(us));
+            var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserResponce>(us));
             var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
 
             _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
@@ -64,11 +64,11 @@ namespace UsersServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<UserInfoResponce>> Get(int id)
+        public async Task<ActionResult<UserResponce>> Get(Guid id)
         {
             _userLogger.LogDebug("Getting user info from service");
 
-            var user = _mapper.Map<UserInfoResponce>(await _userService.GetUserInfoAsync(id));
+            var user = _mapper.Map<UserResponce>(await _userService.GetUserInfoAsync(id));
 
             return Ok(user);
         }
@@ -91,11 +91,11 @@ namespace UsersServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             _userLogger.LogDebug("Deleting user info from service with id = {id}", id);
 
-            var result = await _userService.DeleteUserInfoAsync(id);
+            await _userService.DeleteUserInfoAsync(id);
 
             return NoContent();
         }
@@ -124,7 +124,7 @@ namespace UsersServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(AddUserInfoRequest userInfoViewModel)
+        public async Task<IActionResult> Post(AddUserRequest userInfoViewModel)
         {
             _userLogger.LogDebug("Adding user info to service with name = {name}", userInfoViewModel.Name);
 
@@ -169,7 +169,7 @@ namespace UsersServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, UpdateUserInfoRequest userInfoViewModel)
+        public async Task<IActionResult> Put(Guid id, UpdateUserRequest userInfoViewModel)
         {
             _userLogger.LogDebug("Updating user info at service with id = {id}", userInfoViewModel.Id);
 
@@ -180,7 +180,7 @@ namespace UsersServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
+            await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
 
             return NoContent();
         }

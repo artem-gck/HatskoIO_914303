@@ -8,7 +8,7 @@ namespace UsersService.DataAccess.Exceptions
 {
     public class UserInfoNotFoundException : Exception
     {
-        public UserInfoNotFoundException(int id) 
+        public UserInfoNotFoundException(Guid id) 
             : base($"No userInfo with id = {id}")
         {
 

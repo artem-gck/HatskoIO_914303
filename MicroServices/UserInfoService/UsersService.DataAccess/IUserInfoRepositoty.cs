@@ -4,10 +4,10 @@ namespace UsersService.DataAccess
 {
     public interface IUserInfoRepositoty
     {
-        public Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync();
-        public Task<UserInfoEntity> GetUserInfoAsync(int id);
-        public Task<int> DeleteUserInfoAsync(int id);
-        public Task<int> AddUserInfoAsync(UserInfoEntity userInfo);
-        public Task<int> UpdateUserInfoAsync(int id, UserInfoEntity userInfo);
+        public Task<IEnumerable<UserEntity>> GetUsersInfoAsync();
+        public Task<UserEntity> GetUserInfoAsync(Guid id);
+        public Task DeleteUserInfoAsync(Guid id);
+        public Task<Guid> AddUserInfoAsync(UserEntity userInfo);
+        public Task UpdateUserInfoAsync(Guid id, UserEntity userInfo);
     }
 }
