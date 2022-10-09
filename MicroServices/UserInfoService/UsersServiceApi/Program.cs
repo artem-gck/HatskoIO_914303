@@ -22,7 +22,7 @@ builder.Services.AddDbContext<UsersInfoContext>(opt =>
 builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile));
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserAccess, UserAccess>();
+builder.Services.AddScoped<IUserInfoRepositoty, UserInfoRepository>();
 
 builder.Services.AddControllers();
 

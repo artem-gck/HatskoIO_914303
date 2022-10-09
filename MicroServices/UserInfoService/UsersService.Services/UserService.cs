@@ -8,48 +8,28 @@ namespace UsersService.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserAccess _userAccess;
+        private readonly IUserInfoRepositoty _userAccess;
         private readonly IMapper _mapper;
 
-        public UserService(IUserAccess userAccess, IMapper mapper)
+        public UserService(IUserInfoRepositoty userAccess, IMapper mapper)
         {
             _userAccess = userAccess ?? throw new ArgumentNullException(nameof(userAccess));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<int> AddUserInfoAsync(UserInfoDto userInfoDto)
-        {
-            var result = await _userAccess.AddUserInfoAsync(_mapper.Map<UserInfoEntity>(userInfoDto));
-
-            return result;
-        }
+            => await _userAccess.AddUserInfoAsync(_mapper.Map<UserInfoEntity>(userInfoDto));
 
         public async Task<int> DeleteUserInfoAsync(int id)
-        {
-            var result = await _userAccess.DeleteUserInfoAsync(id);
-
-            return result;
-        }
+            => await _userAccess.DeleteUserInfoAsync(id);
 
         public async Task<UserInfoDto> GetUserInfoAsync(int id)
-        {
-            var userInfoDto = _mapper.Map<UserInfoDto>(await _userAccess.GetUserInfoAsync(id));
-
-            return userInfoDto;
-        }
+            => _mapper.Map<UserInfoDto>(await _userAccess.GetUserInfoAsync(id));
 
         public async Task<IEnumerable<UserInfoDto>> GetUsersInfoAsync()
-        {
-            var listOfUsersDto = (await _userAccess.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoDto>(us));
-
-            return listOfUsersDto;
-        }
+            => (await _userAccess.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoDto>(us));
 
         public async Task<int> UpdateUserInfoAsync(int id, UserInfoDto userInfoDto)
-        {
-            var result = await _userAccess.UpdateUserInfoAsync(id, _mapper.Map<UserInfoEntity>(userInfoDto));
-
-            return result;
-        }
+            => await _userAccess.UpdateUserInfoAsync(id, _mapper.Map<UserInfoEntity>(userInfoDto));
     }
 }
