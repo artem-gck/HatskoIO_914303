@@ -2,7 +2,7 @@
 
 namespace UsersService.DataAccess
 {
-    public interface IUserAccess
+    public interface IUserInfoRepositoty
     {
         public Task<IEnumerable<UserInfoEntity>> GetUsersInfoAsync();
         public Task<UserInfoEntity> GetUserInfoAsync(int id);

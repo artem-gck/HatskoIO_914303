@@ -39,7 +39,6 @@ namespace UsersServiceApi.Controllers
         public async Task<ActionResult<IEnumerable<UserInfoResponce>>> GetAll()
         {
             var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoResponce>(us));
-
             var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
 
             _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
