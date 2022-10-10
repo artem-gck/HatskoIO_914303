@@ -17,7 +17,7 @@ namespace StructureService.Infrastructure.DataBase
             _structureContext = structureContext ?? throw new ArgumentNullException(nameof(structureContext));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<Guid> AddAsync(User entity)
+        public async Task<Guid> AddAsync(UserEntity entity)
         {
             entity.Department = await GetDepartment(entity.Department.Name);
             entity.Position = await GetPosition(entity.Position.Name);
@@ -41,7 +41,7 @@ namespace StructureService.Infrastructure.DataBase
             await _structureContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<UserEntity>> GetAllAsync()
         {
             var listOfEntities = await _structureContext.DepartmentUnits.Include(un => un.Position)
                                                                         .Include(un => un.Department)
@@ -50,7 +50,7 @@ namespace StructureService.Infrastructure.DataBase
             return listOfEntities;
         }
 
-        public async Task<User> GetAsync(Guid id)
+        public async Task<UserEntity> GetAsync(Guid id)
         {
             var entity = await _structureContext.DepartmentUnits.Include(un => un.Position)
                                                                 .Include(un => un.Department)
@@ -62,7 +62,7 @@ namespace StructureService.Infrastructure.DataBase
             return entity;
         }
 
-        public async Task UpdateAsync(Guid id, User entity)
+        public async Task UpdateAsync(Guid id, UserEntity entity)
         {
             entity.Id = id;
             entity.Department = await GetDepartment(entity.Department.Name);

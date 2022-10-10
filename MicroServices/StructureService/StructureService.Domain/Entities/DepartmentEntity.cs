@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public Guid CheifUserId { get; set; }
-        public List<User>? DepartmentUnits { get; set; }
+        public List<UserEntity>? DepartmentUnits { get; set; }
     }
 }

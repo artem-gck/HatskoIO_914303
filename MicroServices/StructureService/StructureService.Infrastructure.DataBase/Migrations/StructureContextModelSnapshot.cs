@@ -64,7 +64,7 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                     b.ToTable("Positions");
                 });
 
-            modelBuilder.Entity("StructureService.Domain.Entities.User", b =>
+            modelBuilder.Entity("StructureService.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -75,7 +75,7 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                     b.Property<Guid>("PositionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Selary")
+                    b.Property<int>("Salary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -90,7 +90,7 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                     b.ToTable("DepartmentUnits");
                 });
 
-            modelBuilder.Entity("StructureService.Domain.Entities.User", b =>
+            modelBuilder.Entity("StructureService.Domain.Entities.UserEntity", b =>
                 {
                     b.HasOne("StructureService.Domain.Entities.DepartmentEntity", "Department")
                         .WithMany("DepartmentUnits")

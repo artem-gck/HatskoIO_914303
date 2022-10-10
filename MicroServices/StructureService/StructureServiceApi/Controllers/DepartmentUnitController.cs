@@ -9,7 +9,7 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 
 namespace StructureServiceApi.Controllers
 {
-    [Route("api/department-units")]
+    [Route("api/users")]
     [Produces("application/json")]
     public class DepartmentUnitController : Controller
     {
@@ -42,9 +42,9 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<DepartmentUnitResponce>> Get(Guid id)
+        public async Task<ActionResult<UserResponce>> Get(Guid id)
         {
-            var departmentUnitViewModel = _controllerMapper.Map<DepartmentUnitResponce>(await _userService.GetAsync(id));
+            var departmentUnitViewModel = _controllerMapper.Map<UserResponce>(await _userService.GetAsync(id));
 
             return Ok(departmentUnitViewModel);
         }
@@ -99,7 +99,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(AddDepartmentUnitRequest departmentUnitViewModel)
+        public async Task<IActionResult> Post(AddUserRequest departmentUnitViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace StructureServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _userService.AddAsync(_controllerMapper.Map<User>(departmentUnitViewModel));
+            var result = await _userService.AddAsync(_controllerMapper.Map<UserEntity>(departmentUnitViewModel));
 
             return Created($"department-units/{result}", result);
         }
@@ -141,7 +141,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, UpdateDepartmentUnitRequest departmentUnitViewModel)
+        public async Task<IActionResult> Put(Guid id, UpdateUserRequest departmentUnitViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -150,7 +150,7 @@ namespace StructureServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _userService.UpdateAsync(id, _controllerMapper.Map<User>(departmentUnitViewModel));
+            await _userService.UpdateAsync(id, _controllerMapper.Map<UserEntity>(departmentUnitViewModel));
 
             return NoContent();
         }

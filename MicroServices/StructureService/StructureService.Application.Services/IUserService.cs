@@ -4,9 +4,9 @@ namespace StructureService.Application.Services
 {
     public interface IUserService
     {
-        public Task<User> GetAsync(Guid id);
-        public Task<Guid> AddAsync(User entity);
+        public Task<UserEntity> GetAsync(Guid id);
+        public Task<Guid> AddAsync(UserEntity entity);
         public Task DeleteAsync(Guid id);
-        public Task UpdateAsync(Guid id, User entity);
+        public Task UpdateAsync(Guid id, UserEntity entity);
     }
 }

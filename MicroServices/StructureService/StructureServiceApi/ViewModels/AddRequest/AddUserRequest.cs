@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StructureServiceApi.ViewModels.UpdateRequest
+namespace StructureServiceApi.ViewModels.AddRequest
 {
-    public class UpdateDepartmentUnitRequest
+    public class AddUserRequest
     {
         [Required]
         public Guid Id { get; set; }
-
-        [Required]
-        public Guid UserId { get; set; }
+        public int Salary { get; set; }
 
         [Required]
         public string Position { get; set; }
