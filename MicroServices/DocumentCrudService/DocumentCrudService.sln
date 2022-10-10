@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudServiceApi", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Cqrs", "DocumentCrudService.Cqrs\DocumentCrudService.Cqrs.csproj", "{01EE3550-6AD8-494A-821A-CF1BF09ECC74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Domain", "DocumentCrudService.Domain\DocumentCrudService.Domain.csproj", "{857FAB40-9700-4D2F-85AA-C53349781366}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Repositories", "DocumentCrudService.Repositories\DocumentCrudService.Repositories.csproj", "{B540B3F8-C033-4A9B-801C-FA8FE72A3923}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Repositories.Realisation", "DocumentCrudService.Repositories.Realisation\DocumentCrudService.Repositories.Realisation.csproj", "{5B89D3CB-DEAD-4672-9D85-EFC51FACBC45}"
@@ -29,10 +27,6 @@ Global
 		{01EE3550-6AD8-494A-821A-CF1BF09ECC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01EE3550-6AD8-494A-821A-CF1BF09ECC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01EE3550-6AD8-494A-821A-CF1BF09ECC74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{857FAB40-9700-4D2F-85AA-C53349781366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{857FAB40-9700-4D2F-85AA-C53349781366}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{857FAB40-9700-4D2F-85AA-C53349781366}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{857FAB40-9700-4D2F-85AA-C53349781366}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B540B3F8-C033-4A9B-801C-FA8FE72A3923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B540B3F8-C033-4A9B-801C-FA8FE72A3923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B540B3F8-C033-4A9B-801C-FA8FE72A3923}.Release|Any CPU.ActiveCfg = Release|Any CPU
