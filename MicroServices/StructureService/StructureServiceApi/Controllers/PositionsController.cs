@@ -90,7 +90,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _positionsService.DeleteAsync(id);
+            await _positionsService.DeleteAsync(id);
 
             return NoContent();
         }
@@ -167,7 +167,7 @@ namespace StructureServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _positionsService.UpdateAsync(id, _controllerMapper.Map<PositionEntity>(positionViewModel));
+            await _positionsService.UpdateAsync(id, _controllerMapper.Map<PositionEntity>(positionViewModel));
 
             return NoContent();
         }

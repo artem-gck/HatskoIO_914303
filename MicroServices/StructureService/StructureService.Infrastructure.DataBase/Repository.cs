@@ -29,7 +29,7 @@ namespace StructureService.Infrastructure.DataBase
             return entityDb.Entity.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var entity = await _entities.FindAsync(id);
 
@@ -39,8 +39,6 @@ namespace StructureService.Infrastructure.DataBase
             _entities.Remove(entity);
 
             await _structureContext.SaveChangesAsync();
-
-            return entity.Id;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -60,15 +58,13 @@ namespace StructureService.Infrastructure.DataBase
             return entity;
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, T entity)
+        public async Task UpdateAsync(Guid id, T entity)
         {
             entity.Id = id;
             
             _entities.Update(entity);
 
-            _structureContext.SaveChanges();
-
-            return id;
+            await _structureContext.SaveChangesAsync();
         }
     }
 }

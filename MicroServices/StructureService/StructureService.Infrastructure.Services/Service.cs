@@ -24,11 +24,11 @@ namespace StructureService.Infrastructure.Services
             return await _repository.AddAsync(entity);
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             _logger.LogDebug("{type} deleting from db with id = {id}", typeof(T), id);
 
-            return await _repository.DeleteAsync(id);
+            await _repository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -47,11 +47,11 @@ namespace StructureService.Infrastructure.Services
             return dto;
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, T entity)
+        public async Task UpdateAsync(Guid id, T entity)
         {
             _logger.LogDebug("Update {type} in db, new dto = {@Dto}", typeof(T), entity);
 
-            return await _repository.UpdateAsync(id, entity);
+            await _repository.UpdateAsync(id, entity);
         }
     }
 }

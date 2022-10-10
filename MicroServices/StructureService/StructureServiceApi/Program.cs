@@ -43,12 +43,10 @@ builder.Services.AddDbContext<StructureContext>(opt =>
 
 builder.Services.AddScoped<IRepository<PositionEntity>, Repository<PositionEntity>>();
 builder.Services.AddScoped<IRepository<DepartmentEntity>, Repository<DepartmentEntity>>();
-builder.Services.AddScoped<IRepository<DepartmentUnitEntity>, DepartmentUnitRepository>(); 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IService<PositionEntity>, Service<PositionEntity>>();
 builder.Services.AddScoped<IService<DepartmentEntity>, Service<DepartmentEntity>>();
-builder.Services.AddScoped<IService<DepartmentUnitEntity>, Service<DepartmentUnitEntity>>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();

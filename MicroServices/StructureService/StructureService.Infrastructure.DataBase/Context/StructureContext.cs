@@ -7,7 +7,7 @@ namespace StructureService.Infrastructure.DataBase.Context
     {
         public DbSet<PositionEntity> Positions { get; set; } = null!;
         public DbSet<DepartmentEntity> Departments { get; set; } = null!;
-        public DbSet<DepartmentUnitEntity> DepartmentUnits { get; set; } = null!;
+        public DbSet<User> DepartmentUnits { get; set; } = null!;
 
         public StructureContext(DbContextOptions<StructureContext> options)
             : base(options)
@@ -23,8 +23,8 @@ namespace StructureService.Infrastructure.DataBase.Context
                         .HasIndex(us => us.Name)
                         .IsUnique();
 
-            modelBuilder.Entity<DepartmentUnitEntity>()
-                        .HasIndex(us => us.UserId)
+            modelBuilder.Entity<User>()
+                        .HasIndex(us => us.Id)
                         .IsUnique();
 
             modelBuilder.Entity<DepartmentEntity>()
