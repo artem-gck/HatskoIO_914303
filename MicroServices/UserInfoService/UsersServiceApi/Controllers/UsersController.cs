@@ -110,10 +110,13 @@ namespace UsersServiceApi.Controllers
         ///
         ///     POST /users
         ///     {
+        ///        "id": "e7bc77c8-7075-4d89-b569-051d8b28676c",
         ///        "name": "Artem",
         ///        "surname": "Gatsko",
         ///        "patronymic": "Aliaksandrovich",
-        ///        "email": "qwe@gmail.com"
+        ///        "email": "qwe@gmail.com",
+        ///        "departmentId": "e7bc77c8-7075-4d89-b569-051d8b28676c",
+        ///        "positionId": "e7bc77c8-7075-4d89-b569-051d8b28676c"
         ///     }
         ///
         /// </remarks>
@@ -153,10 +156,13 @@ namespace UsersServiceApi.Controllers
         ///
         ///     PUT /users/{id}
         ///     {
+        ///        "id": "e7bc77c8-7075-4d89-b569-051d8b28676c",
         ///        "name": "Artem",
         ///        "surname": "Gatsko",
         ///        "patronymic": "Aliaksandrovich",
-        ///        "email": "qwe@gmail.com"
+        ///        "email": "qwe@gmail.com",
+        ///        "departmentId": "e7bc77c8-7075-4d89-b569-051d8b28676c",
+        ///        "positionId": "e7bc77c8-7075-4d89-b569-051d8b28676c"
         ///     }
         ///
         /// </remarks>
