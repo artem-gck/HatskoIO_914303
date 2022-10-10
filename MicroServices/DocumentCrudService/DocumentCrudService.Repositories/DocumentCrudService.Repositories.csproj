@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentCrudService.Domain\DocumentCrudService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

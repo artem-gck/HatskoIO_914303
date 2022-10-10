@@ -97,14 +97,15 @@ namespace DocumentCrudService.Controllers
 
             var file = GetByteArray(documentViewModel.File);
 
-            var query = new AddDocumentCommand() 
+            var command = new AddDocumentCommand() 
             {
                 Name = documentViewModel.File.FileName,
                 Body = file
             };
-            await _commandDispatcher.Send(query);
+            var result = await _commandDispatcher.Send(command);
+            var id = ((IdDto)result).Id;
 
-            return Created("document-names/{fileName}", query.Name);
+            return Created("api/documents/{id}", id);
         }
 
         /// <summary>
@@ -156,12 +157,12 @@ namespace DocumentCrudService.Controllers
         {
             var file = GetByteArray(documentViewModel.File);
 
-            var query = new UpdateDocumentCommand()
+            var command = new UpdateDocumentCommand()
             {
                 Name = documentViewModel.File.FileName,
                 Body = file
             };
-            await _commandDispatcher.Send(query);
+            await _commandDispatcher.Send(command);
 
             return NoContent();
         }

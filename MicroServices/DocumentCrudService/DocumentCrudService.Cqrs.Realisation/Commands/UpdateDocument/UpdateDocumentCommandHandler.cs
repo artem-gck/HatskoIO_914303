@@ -1,4 +1,5 @@
 ﻿using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Cqrs.Results;
 using DocumentCrudService.Repositories.DbServices;
 
 namespace DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument
@@ -12,9 +13,11 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument
             _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
         }
 
-        public async Task Handle(UpdateDocumentCommand command)
+        public async Task<IResult> Handle(UpdateDocumentCommand command)
         {
             await _documentRepository.UpdateAsync(command.Body, command.Name);
+
+            return null;
         }
     }
 }

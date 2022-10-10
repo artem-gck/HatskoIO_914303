@@ -9,10 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
-
+	
   <ItemGroup>
-    <ProjectReference Include="..\DocumentCrudService.Application.DbServices\DocumentCrudService.Repositories.csproj" />
-    <ProjectReference Include="..\DocumentCrudService.Application.Services\DocumentCrudService.Cqrs.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Cqrs\DocumentCrudService.Cqrs.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Repositories\DocumentCrudService.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

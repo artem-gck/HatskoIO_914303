@@ -20,11 +20,13 @@ namespace DocumentCrudService.Repositories.Realisation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));    
         }
 
-        public async Task AddAsync(byte[] document, string fileName)
+        public async Task<string> AddAsync(byte[] document, string fileName)
         {
             var id = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
 
             _logger.LogDebug("Add document with id = {Id}", id);
+
+            return id.ToString();
         }
 
         public async Task DeleteAsync(string id)

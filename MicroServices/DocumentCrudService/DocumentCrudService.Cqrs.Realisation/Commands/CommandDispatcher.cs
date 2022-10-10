@@ -1,5 +1,6 @@
 ﻿using DocumentCrudService.Cqrs.Commands;
 using DocumentCrudService.Cqrs.Exceptions;
+using DocumentCrudService.Cqrs.Results;
 using DocumentCrudService.Cqrs.Units;
 using Microsoft.Extensions.Logging;
 
@@ -16,12 +17,12 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task Send<T>(T command) where T : ICommand
+        public async Task<IResult> Send<T>(T command) where T : ICommand
         {
             var handler = _service.GetService(typeof(ICommandHandler<T>));
 
             if (handler != null)
-                await ((ICommandHandler<T>)handler).Handle(command);
+                return await ((ICommandHandler<T>)handler).Handle(command);
             else
             {
                 var exception = new NotFoundServiceException($"Command doesn't have any handler {command.GetType().Name}");

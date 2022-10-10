@@ -21,10 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DocumentCrudService.Application.DbServices\DocumentCrudService.Repositories.csproj" />
-    <ProjectReference Include="..\DocumentCrudService.Application.Services\DocumentCrudService.Cqrs.csproj" />
-    <ProjectReference Include="..\DocumentCrudService.Infrastructure.DbRrealisation\DocumentCrudService.Repositories.Realisation.csproj" />
-    <ProjectReference Include="..\DocumentCrudService.Infrastructure.Realisation\DocumentCrudService.Cqrs.Realisation.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Cqrs.Realisation\DocumentCrudService.Cqrs.Realisation.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Cqrs\DocumentCrudService.Cqrs.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Domain\DocumentCrudService.Domain.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Repositories.Realisation\DocumentCrudService.Repositories.Realisation.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Repositories\DocumentCrudService.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

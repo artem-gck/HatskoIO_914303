@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DocumentCrudService.Application.DbServices\DocumentCrudService.Repositories.csproj" />
+    <ProjectReference Include="..\DocumentCrudService.Repositories\DocumentCrudService.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

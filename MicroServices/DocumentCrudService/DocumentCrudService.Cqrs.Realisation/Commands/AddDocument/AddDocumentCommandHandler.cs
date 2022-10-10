@@ -1,4 +1,6 @@
 ﻿using DocumentCrudService.Cqrs.Commands;
+using DocumentCrudService.Cqrs.Dto;
+using DocumentCrudService.Cqrs.Results;
 using DocumentCrudService.Repositories.DbServices;
 
 namespace DocumentCrudService.Cqrs.Realisation.Commands.AddDocument
@@ -12,9 +14,11 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.AddDocument
             _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
         }
 
-        public async Task Handle(AddDocumentCommand command)
+        public async Task<IResult> Handle(AddDocumentCommand command)
         {
-            await _documentRepository.AddAsync(command.Body, command.Name);
+            var id = await _documentRepository.AddAsync(command.Body, command.Name);
+
+            return new IdDto() { Id = id };
         }
     }
 }
