@@ -11,10 +11,6 @@ namespace StructureServiceApi.ViewModels.UpdateRequest
 
         [Required]
         public string Position { get; set; }
-
-        [Required]
-        public string Department { get; set; }
-
         public Guid CheifUserId { get; set; }
     }
 }

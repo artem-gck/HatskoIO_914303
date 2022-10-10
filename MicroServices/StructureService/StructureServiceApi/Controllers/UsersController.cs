@@ -10,13 +10,13 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 namespace StructureServiceApi.Controllers
 {
     [Produces("application/json")]
-    public class DepartmentUnitController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserService _userService;
         private readonly IMapper _controllerMapper;
-        private readonly ILogger<DepartmentUnitController> _logger;
+        private readonly ILogger<UsersController> _logger;
 
-        public DepartmentUnitController(IUserService userService, IMapper controllerMapper, ILogger<DepartmentUnitController> logger)
+        public UsersController(IUserService userService, IMapper controllerMapper, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
@@ -26,12 +26,13 @@ namespace StructureServiceApi.Controllers
         /// <summary>
         /// Gets the specified identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="departmentId">The identifier of department.</param>
+        /// <param name="userId">The identifier of department.</param>
         /// <returns>DepartmentUnitViewModel</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/department-units/{id}
+        ///     GET /api/departments/{departmentId}/users/{userId}
         ///
         /// </remarks>
         /// <response code="200">Model ok</response>
@@ -51,12 +52,13 @@ namespace StructureServiceApi.Controllers
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="departmentId">The identifier of department.</param>
+        /// <param name="userId">The identifier of department.</param>
         /// <returns>Status code</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     DELETE /department-units/{id}
+        ///     DELETE /api/departments/{departmentId}/users/{userId}
         ///
         /// </remarks>
         /// <response code="204">Model deleted</response>
@@ -76,16 +78,18 @@ namespace StructureServiceApi.Controllers
         /// <summary>
         /// Posts the specified department unit view model.
         /// </summary>
+        /// <param name="departmentId">The identifier of department.</param>
         /// <param name="departmentUnitViewModel">The position view model.</param>
         /// <returns>Status code</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /department-units
+        ///     POST /api/departments/{departmentId}/users
         ///     {
-        ///        "userId": 1,
-        ///        "positionId": 1,
-        ///        "DepartmentId": 1
+        ///        "id": "a8a472d3-b7da-49f7-abae-28df32cc05b0",
+        ///        "salary": 123
+        ///        "position": "qwe",
+        ///        "cheifUserId": "a8a472d3-b7da-49f7-abae-28df32cc05b0"
         ///     }
         ///
         /// </remarks>
@@ -115,17 +119,19 @@ namespace StructureServiceApi.Controllers
         /// <summary>
         /// Puts the specified identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="departmentId">The identifier of department.</param>
+        /// <param name="userId">The identifier of department.</param>
         /// <param name="departmentUnitViewModel">The position view model.</param>
         /// <returns>Status code</returns>
         /// /// <remarks>
         /// Sample request:
         ///
-        ///     PUT /department-units
+        ///     PUT /api/departments/{departmentId}/users/{userId}
         ///     {
-        ///        "userId": 1,
-        ///        "positionId": 1,
-        ///        "DepartmentId": 1
+        ///        "id": "a8a472d3-b7da-49f7-abae-28df32cc05b0",
+        ///        "salary": 123
+        ///        "position": "qwe",
+        ///        "cheifUserId": "a8a472d3-b7da-49f7-abae-28df32cc05b0"
         ///     }
         ///
         /// </remarks>
