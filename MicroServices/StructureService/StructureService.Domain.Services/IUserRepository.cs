@@ -4,9 +4,9 @@ namespace StructureService.Domain.Services
 {
     public interface IUserRepository
     {
-        public Task<UserEntity> GetAsync(Guid id);
-        public Task<Guid> AddAsync(UserEntity entity);
-        public Task DeleteAsync(Guid id);
-        public Task UpdateAsync(Guid id, UserEntity entity);
+        public Task<UserEntity> GetAsync(Guid departmentId, Guid userId);
+        public Task<Guid> AddAsync(Guid departmentId, UserEntity entity);
+        public Task DeleteAsync(Guid departmentId, Guid userId);
+        public Task UpdateAsync(Guid departmentId, Guid userId, UserEntity entity);
     }
 }

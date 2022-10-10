@@ -10,16 +10,14 @@ namespace StructureService.Infrastructure.DataBase
     public class UserRepository : IUserRepository
     {
         private readonly StructureContext _structureContext;
-        private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(StructureContext structureContext, ILogger<UserRepository> logger)
+        public UserRepository(StructureContext structureContext)
         {
             _structureContext = structureContext ?? throw new ArgumentNullException(nameof(structureContext));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<Guid> AddAsync(UserEntity entity)
+        public async Task<Guid> AddAsync(Guid departmentId, UserEntity entity)
         {
-            entity.Department = await GetDepartment(entity.Department.Name);
+            entity.Department = await GetDepartment(departmentId);
             entity.Position = await GetPosition(entity.Position.Name);
 
             var entityDb = _structureContext.DepartmentUnits.Add(entity);
@@ -29,43 +27,36 @@ namespace StructureService.Infrastructure.DataBase
             return entityDb.Entity.Id;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid departmentId, Guid userId)
         {
-            var entity = await _structureContext.DepartmentUnits.FindAsync(id);
+            var departmentEntity = await GetDepartment(departmentId);
+
+            var entity = departmentEntity.DepartmentUnits.FirstOrDefault(us => us.Id == userId);
 
             if (entity is null)
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
 
             _structureContext.DepartmentUnits.Remove(entity);
 
             await _structureContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UserEntity>> GetAllAsync()
+        public async Task<UserEntity> GetAsync(Guid departmentId, Guid userId)
         {
-            var listOfEntities = await _structureContext.DepartmentUnits.Include(un => un.Position)
-                                                                        .Include(un => un.Department)
-                                                                        .ToListAsync();
+            var departmentEntity = await GetDepartment(departmentId);
 
-            return listOfEntities;
-        }
-
-        public async Task<UserEntity> GetAsync(Guid id)
-        {
-            var entity = await _structureContext.DepartmentUnits.Include(un => un.Position)
-                                                                .Include(un => un.Department)
-                                                                .FirstOrDefaultAsync(un => un.Id == id);
+            var entity = departmentEntity.DepartmentUnits.FirstOrDefault(us => us.Id == userId);
 
             if (entity is null)
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
 
             return entity;
         }
 
-        public async Task UpdateAsync(Guid id, UserEntity entity)
+        public async Task UpdateAsync(Guid departmentId, Guid userId, UserEntity entity)
         {
-            entity.Id = id;
-            entity.Department = await GetDepartment(entity.Department.Name);
+            entity.Id = userId;
+            entity.Department = await GetDepartment(departmentId);
             entity.Position = await GetPosition(entity.Position.Name);
 
             _structureContext.DepartmentUnits.Update(entity);
@@ -73,12 +64,14 @@ namespace StructureService.Infrastructure.DataBase
             await _structureContext.SaveChangesAsync();
         }
 
-        private async Task<DepartmentEntity> GetDepartment(string name)
+        private async Task<DepartmentEntity> GetDepartment(Guid departmentId)
         {
-            var entity = await _structureContext.Departments.FirstOrDefaultAsync(dep => dep.Name == name);
+            var entity = await _structureContext.Departments.Include(dep => dep.DepartmentUnits)
+                                                                .ThenInclude(us => us.Position)
+                                                            .FirstOrDefaultAsync(dep => dep.Id == departmentId);
 
             if (entity is null)
-                throw new NotFoundException<DepartmentEntity>(name);
+                throw new NotFoundException<DepartmentEntity>(departmentId);
 
             return entity;
         }

@@ -8,7 +8,6 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 
 namespace StructureServiceApi.Controllers
 {
-    [Route("api/departments")]
     [Produces("application/json")]
     public class DepartmentController : Controller
     {
@@ -37,7 +36,7 @@ namespace StructureServiceApi.Controllers
         /// <response code="200">Model ok</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("{id}")]
+        [HttpGet("api/departments/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -60,7 +59,7 @@ namespace StructureServiceApi.Controllers
         /// </remarks>
         /// <response code="200">Model ok</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet]
+        [HttpGet("api/departments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<DepartmentResponce>>> GetAll()
@@ -84,7 +83,7 @@ namespace StructureServiceApi.Controllers
         /// <response code="204">Model saved</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("api/departments/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -114,7 +113,7 @@ namespace StructureServiceApi.Controllers
         /// <response code="400">Invalid model state</response>
         /// <response code="409">Field is duplicated</response>
         /// <response code="500">Internal server error</response>
-        [HttpPost]
+        [HttpPost("api/departments")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -155,7 +154,7 @@ namespace StructureServiceApi.Controllers
         /// <response code="409">Field is duplicated</response>
         /// <response code="500">Internal server error</response>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPut("api/departments/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

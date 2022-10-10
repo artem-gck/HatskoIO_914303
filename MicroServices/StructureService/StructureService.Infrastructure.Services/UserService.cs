@@ -15,16 +15,16 @@ namespace StructureService.Infrastructure.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<Guid> AddAsync(UserEntity entity)
-            => await _userRepository.AddAsync(entity);
+        public async Task<Guid> AddAsync(Guid departmentId, UserEntity entity)
+            => await _userRepository.AddAsync(departmentId, entity);
 
-        public async Task DeleteAsync(Guid id)
-            => await _userRepository.DeleteAsync(id);
+        public async Task DeleteAsync(Guid departmentId, Guid userId)
+            => await _userRepository.DeleteAsync(departmentId, userId);
 
-        public async Task<UserEntity> GetAsync(Guid id)
-            => await _userRepository.GetAsync(id);
+        public async Task<UserEntity> GetAsync(Guid departmentId, Guid userId)
+            => await _userRepository.GetAsync(departmentId, userId);
 
-        public async Task UpdateAsync(Guid id, UserEntity entity)
-            => await _userRepository.UpdateAsync(id, entity);
+        public async Task UpdateAsync(Guid departmentId, Guid userId, UserEntity entity)
+            => await _userRepository.UpdateAsync(departmentId, userId, entity);
     }
 }
