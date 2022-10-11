@@ -19,13 +19,15 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
-        /// Gets all names of documents.
+        /// Gets names of documents.
         /// </summary>
+        /// <param name="page">The number of page.</param>
+        /// <param name="count">The count of record at page.</param>
         /// <returns>Names of files</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET api/document-names
+        ///     GET api/document-names?page=1 count=10
         ///
         /// </remarks>
         /// <response code="200">Send file</response>

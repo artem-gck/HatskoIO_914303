@@ -51,11 +51,12 @@ namespace DocumentCrudService.Controllers
         /// Gets the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
+        /// <param name="version">The version.</param>
         /// <returns>File</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/documents
+        ///     GET /api/documents/{id}/{version}
         ///
         /// </remarks>
         /// <response code="200">Send file</response>
@@ -89,6 +90,7 @@ namespace DocumentCrudService.Controllers
         ///
         ///     POST /api/documents
         ///     {
+        ///        "createrId": "81f77f19-24f2-43a2-a35f-41975c1d785a"
         ///        "file": byte[],
         ///     }
         ///
@@ -154,6 +156,8 @@ namespace DocumentCrudService.Controllers
         ///
         ///     PUT /api/documents
         ///     {
+        ///        "id": "81f77f19-24f2-43a2-a35f-41975c1d785a",
+        ///        "createrId": "1b2edca4-29a2-4a00-adde-3b6041cb60d1",
         ///        "file": byte[],
         ///     }
         ///

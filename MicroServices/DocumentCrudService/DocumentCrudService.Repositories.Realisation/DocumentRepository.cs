@@ -46,9 +46,9 @@ namespace DocumentCrudService.Repositories.Realisation
             var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
             var cursor = await _documentContext.GridFS.FindAsync(filter);
 
-            var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
+            var listOfFileInfo = await cursor.ToListAsync();
 
-            if (fileInfo is null)
+            if (listOfFileInfo is null)
             {
                 var exception = new DocumentNotFoundException(id.ToString());
 
@@ -57,7 +57,8 @@ namespace DocumentCrudService.Repositories.Realisation
                 throw exception;
             }
 
-            await _documentContext.GridFS.DeleteAsync(fileInfo.Id);
+            foreach(var doc in listOfFileInfo)
+                await _documentContext.GridFS.DeleteAsync(doc.Id);
 
             _logger.LogDebug("Delete document with id = {Id}", id);
         }
