@@ -4,6 +4,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById
 {
     public class GetDocumentByIdQuery : IQuery
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+        public int Version { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace DocumentCrudService.Cqrs.Dto
 {
     public class IdDto : IResult
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

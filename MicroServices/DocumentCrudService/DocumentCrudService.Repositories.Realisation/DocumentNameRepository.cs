@@ -23,12 +23,23 @@ namespace DocumentCrudService.Repositories.Realisation
             var options = new GridFSFindOptions { Sort = sort };
 
             var cursor = await _documentContext.GridFS.FindAsync(filter, options);
-            var listOfFileInfo = (await cursor.ToListAsync()).Select(info => new DocumentNameEntity()
+            var listOfFileInfo = new List<DocumentNameEntity>();
+
+            foreach (var item in await cursor.ToListAsync())
             {
-                Id = info.Id.ToString(),
-                FileName = info.Filename,
-                UploadDate = info.UploadDateTime
-            });
+                BsonValue idValue;
+
+                item.Metadata.TryGetValue("Id", out idValue);
+
+                var info = new DocumentNameEntity()
+                {
+                    Id = new Guid(idValue.AsString),
+                    FileName = item.Filename,
+                    UploadDate = item.UploadDateTime
+                };
+
+                listOfFileInfo.Add(info);
+            }
 
             return listOfFileInfo;
         }

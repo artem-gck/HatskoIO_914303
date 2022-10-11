@@ -4,10 +4,9 @@ namespace DocumentCrudService.Repositories.DbServices
 {
     public interface IDocumentRepository
     {
-        public Task<DocumentEntity> GetAsync(string id);
-        public Task<DocumentEntity> GetByNameAsync(string fileName, int version = -1);
-        public Task DeleteAsync(string id);
-        public Task<string> AddAsync(byte[] document, string fileName);
-        public Task UpdateAsync(byte[] document, string fileName);
+        public Task<DocumentEntity> GetAsync(Guid id, int version);
+        public Task DeleteAsync(Guid id);
+        public Task<Guid> AddAsync(Guid createrId, byte[] document, string fileName);
+        public Task UpdateAsync(Guid id, Guid createrId, byte[] document, string fileName);
     }
 }

@@ -16,7 +16,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.AddDocument
 
         public async Task<IResult> Handle(AddDocumentCommand command)
         {
-            var id = await _documentRepository.AddAsync(command.Body, command.Name);
+            var id = await _documentRepository.AddAsync(command.CreaterId, command.Body, command.Name);
 
             return new IdDto() { Id = id };
         }

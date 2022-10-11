@@ -4,6 +4,6 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument
 {
     public class DeleteDocumentCommand : ICommand
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById
 
         public async Task<IList<IResult>> Handle(GetDocumentByIdQuery query)
         {
-            var document = await _documentRepository.GetAsync(query.Id);
+            var document = await _documentRepository.GetAsync(query.Id, query.Version);
 
             var documentDto = new DocumentDto()
             {

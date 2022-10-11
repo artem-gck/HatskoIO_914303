@@ -7,7 +7,6 @@ using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
-using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.Repositories.DbServices;
 using DocumentCrudService.Repositories.Realisation;
 using DocumentCrudService.Repositories.Realisation.Context;
@@ -17,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Serilog.Events;
 using Serilog;
 using System.Reflection;
+using DocumentCrudServiceApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +48,6 @@ builder.Services.AddScoped<ICommandHandler<UpdateDocumentCommand>, UpdateDocumen
 
 builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsQuery>, GetAllNamesOfDocumentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
-builder.Services.AddScoped<IQueryHandler<GetDocumentByNameQuery>, GetDocumentByNameQueryHandler>();
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
@@ -89,5 +88,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.ConfigureCustomExceptionMiddleware();
 
 app.Run();

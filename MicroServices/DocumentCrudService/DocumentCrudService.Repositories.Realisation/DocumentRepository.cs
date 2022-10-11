@@ -20,86 +20,128 @@ namespace DocumentCrudService.Repositories.Realisation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));    
         }
 
-        public async Task<string> AddAsync(byte[] document, string fileName)
+        public async Task<Guid> AddAsync(Guid createrId, byte[] document, string fileName)
         {
-            var id = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+            var id = Guid.NewGuid();
+
+            var doc = new BsonDocument
+            {
+                {"Id", id.ToString()},
+                {"CreaterId", createrId.ToString()},
+                {"EditedAtDate", DateTime.Now.ToString()},
+                {"Version", 0}
+            };
+
+            var meta = new GridFSUploadOptions() { Metadata = doc };
+
+            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document, meta);
 
             _logger.LogDebug("Add document with id = {Id}", id);
 
-            return id.ToString();
+            return id;
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            await _documentContext.GridFS.DeleteAsync(new ObjectId(id));
+            var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
+            var cursor = await _documentContext.GridFS.FindAsync(filter);
 
-            _logger.LogDebug("Delete document with id = {Id}", id);
-        }
+            var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
 
-        public async Task<DocumentEntity> GetAsync(string id)
-        {
-            var filter = Builders<GridFSFileInfo>.Filter.Eq("_id", new ObjectId(id));
-
-            try
+            if (fileInfo is null)
             {
-                var document = await _documentContext.GridFS.DownloadAsBytesAsync(new ObjectId(id));
-
-                _logger.LogDebug("Get document with id = {Id}", id);
-
-                var cursor = await _documentContext.GridFS.FindAsync(filter);
-                var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
-
-                var documentEntity = new DocumentEntity()
-                {
-                    FileName = fileInfo.Filename,
-                    File = document
-                };
-
-                return documentEntity;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                var exception = new DocumentNotFoundException(id);
+                var exception = new DocumentNotFoundException(id.ToString());
 
                 _logger.LogWarning(exception, "No document with id = {Id}", id);
 
                 throw exception;
             }
+
+            await _documentContext.GridFS.DeleteAsync(fileInfo.Id);
+
+            _logger.LogDebug("Delete document with id = {Id}", id);
         }
 
-        public async Task<DocumentEntity> GetByNameAsync(string fileName, int version = -1)
+        public async Task<DocumentEntity> GetAsync(Guid id, int version)
         {
-            try
+            FilterDefinition<GridFSFileInfo> filter;
+
+            if (version == -1)
+                filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
+            else
+                filter = Builders<GridFSFileInfo>.Filter.And(Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString()),
+                                                             Builders<GridFSFileInfo>.Filter.Eq("metadata.Version", version));
+
+            var options = new GridFSFindOptions()
             {
-                var options = new GridFSDownloadByNameOptions { Revision = version };
+                Sort = Builders<GridFSFileInfo>.Sort.Descending("metadata.Version")
+            };
 
-                var document = await _documentContext.GridFS.DownloadAsBytesByNameAsync(fileName, options);
+            var cursor = await _documentContext.GridFS.FindAsync(filter, options);
 
-                var documentEntity = new DocumentEntity()
-                {
-                    FileName = fileName,
-                    File = document
-                };
+            var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
 
-                _logger.LogDebug("Gett document with name = {FileName}", documentEntity.FileName);
-
-                return documentEntity;
-            }
-            catch (IndexOutOfRangeException)
+            if (fileInfo is null)
             {
-                var exception = new DocumentNotFoundException(fileName);
+                var exception = new DocumentNotFoundException(id.ToString());
 
-                _logger.LogWarning(exception, "No document with name = {FileName}", fileName);
+                _logger.LogWarning(exception, "No document with id = {Id}", id);
 
                 throw exception;
             }
+
+            var document = await _documentContext.GridFS.DownloadAsBytesAsync(fileInfo.Id);
+
+            _logger.LogDebug("Get document with id = {Id}", id);
+
+            var documentEntity = new DocumentEntity()
+            {
+                FileName = fileInfo.Filename,
+                File = document
+            };
+
+            return documentEntity;
         }
 
-        public async Task UpdateAsync(byte[] document, string fileName)
+        public async Task UpdateAsync(Guid id, Guid createrId, byte[] document, string fileName)
         {
-            var id = await _documentContext.GridFS.UploadFromBytesAsync(fileName, document);
+            var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
 
-            _logger.LogDebug("Update document, new id = {id}", id);
+            var options = new GridFSFindOptions()
+            {
+                Sort = Builders<GridFSFileInfo>.Sort.Descending("metadata.Version")
+            };
+
+            var cursor = await _documentContext.GridFS.FindAsync(filter, options);
+            
+            var fileInfo = (await cursor.ToListAsync()).FirstOrDefault();
+
+            if (fileInfo is null)
+            {
+                var exception = new DocumentNotFoundException(id.ToString());
+
+                _logger.LogWarning(exception, "No documents with id = {Id}", id);
+
+                throw exception;
+            }
+
+            BsonElement version;
+
+            fileInfo.Metadata.TryGetElement("Version", out version);
+
+            var vers = version.Value.AsInt32 + 1;
+
+            var doc = new BsonDocument
+            {
+                {"Id", id.ToString()},
+                {"CreaterId", createrId.ToString()},
+                {"EditedAtDate", DateTime.Now},
+                {"Version", vers}
+            };
+
+            var meta = new GridFSUploadOptions() { Metadata = doc };
+
+            await _documentContext.GridFS.UploadFromBytesAsync(fileName, document, meta);
         }
     }
 }

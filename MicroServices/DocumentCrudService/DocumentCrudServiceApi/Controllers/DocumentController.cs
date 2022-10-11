@@ -5,7 +5,6 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
-using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentByName;
 using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +28,6 @@ namespace DocumentCrudService.Controllers
         /// Gets the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="name">The name of document.</param>
-        /// <param name="version">The version.</param>
         /// <returns>File</returns>
         /// <remarks>
         /// Sample request:
@@ -41,30 +38,43 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(string? id, string? name, int version = -1)
+        public async Task<IActionResult> Get(Guid id)
+        {
+            return await Get(id, -1);
+        }
+
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>File</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/documents
+        ///
+        /// </remarks>
+        /// <response code="200">Send file</response>
+        /// <response code="404">File not found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("{id}/{version}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(Guid id, int version)
         {
             DocumentDto documentDto;
 
-            if (id is not null)
-            {
-                var query = new GetDocumentByIdQuery() { Id = id };
-                documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
-            }
-            else if (name is not null)
-            {
-                var query = new GetDocumentByNameQuery()
-                {
-                    Name = name,
-                    Version = version
-                };
-                documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
-            }
-            else
-                return BadRequest();
+            var query = new GetDocumentByIdQuery() 
+            { 
+                Id = id,
+                Version = version
+            };
+            documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
 
             return File(documentDto.Body, "application/octet-stream", documentDto.Name);
         }
@@ -99,13 +109,13 @@ namespace DocumentCrudService.Controllers
 
             var command = new AddDocumentCommand() 
             {
+                CreaterId = documentViewModel.CreaterId,
                 Name = documentViewModel.File.FileName,
                 Body = file
             };
-            var result = await _commandDispatcher.Send(command);
-            var id = ((IdDto)result).Id;
+            var id = (IdDto)(await _commandDispatcher.Send(command));
 
-            return Created("api/documents/{id}", id);
+            return Created($"/api/documents/{id.Id}", id.Id);
         }
 
         /// <summary>
@@ -126,7 +136,7 @@ namespace DocumentCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteDocumentCommand() { Id = id };
             await _commandDispatcher.Send(command);
@@ -153,12 +163,14 @@ namespace DocumentCrudService.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(CreateDocumentRequest documentViewModel)
+        public async Task<IActionResult> Put(UpdateDocumentRequest documentViewModel)
         {
             var file = GetByteArray(documentViewModel.File);
 
             var command = new UpdateDocumentCommand()
             {
+                Id = documentViewModel.Id,
+                CreaterId = documentViewModel.CreaterId,
                 Name = documentViewModel.File.FileName,
                 Body = file
             };

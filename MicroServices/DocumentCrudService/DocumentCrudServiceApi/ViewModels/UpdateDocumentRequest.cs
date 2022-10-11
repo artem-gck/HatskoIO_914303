@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DocumentCrudService.ViewModels
+namespace DocumentCrudServiceApi.ViewModels
 {
-    public class CreateDocumentRequest
+    public class UpdateDocumentRequest
     {
+        [Required]
+        public Guid Id { get; set; }
+
         [Required]
         public Guid CreaterId { get; set; }
 
