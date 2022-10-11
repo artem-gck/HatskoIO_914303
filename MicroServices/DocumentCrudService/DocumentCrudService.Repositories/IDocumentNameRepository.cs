@@ -4,6 +4,6 @@ namespace DocumentCrudService.Repositories.DbServices
 {
     public interface IDocumentNameRepository
     {
-        public Task<IEnumerable<DocumentNameEntity>> GetAsync();
+        public Task<IEnumerable<DocumentNameEntity>> GetAsync(int numberOfPage, int countOnPage);
     }
 }

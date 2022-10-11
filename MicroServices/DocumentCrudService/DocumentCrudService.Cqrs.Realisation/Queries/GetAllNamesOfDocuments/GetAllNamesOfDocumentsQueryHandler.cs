@@ -16,7 +16,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments
 
         public async Task<IList<IResult>> Handle(GetAllNamesOfDocumentsQuery query)
         {
-            var listOfDocumentName = await _documentNameRepository.GetAsync();
+            var listOfDocumentName = await _documentNameRepository.GetAsync(query.NumberOfPage, query.CountOnPage);
 
             var documentNameList = new List<IResult>();
 
@@ -25,6 +25,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments
                 var doc = new DocumentNameDto()
                 {
                     Name = document.FileName,
+                    Version = document.Version,
                     Id = document.Id,
                     UploadDate = document.UploadDate,
                 };

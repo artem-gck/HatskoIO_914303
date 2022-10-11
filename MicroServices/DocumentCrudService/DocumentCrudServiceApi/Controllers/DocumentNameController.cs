@@ -33,9 +33,13 @@ namespace DocumentCrudService.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int page, int count)
         {
-            var query = new GetAllNamesOfDocumentsQuery();
+            var query = new GetAllNamesOfDocumentsQuery()
+            {
+                NumberOfPage = page,
+                CountOnPage = count
+            };
 
             var listOfFileName = await _queryDispatcher.Send(query);
             var listOfFileNameViewModel = MapToDocumentViewModel(listOfFileName);
@@ -54,6 +58,7 @@ namespace DocumentCrudService.Controllers
                 var fileNameViewModel = new DocumentNameResponce()
                 {
                     Name = fileNameDto.Name,
+                    Version = fileNameDto.Version,
                     Id = fileNameDto.Id,
                     UploadDate = fileNameDto.UploadDate,
                 };
