@@ -7,28 +7,28 @@ namespace UsersService.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserInfoRepositoty _userAccess;
+        private readonly IUserRepositoty _userAccess;
         private readonly IMapper _mapper;
 
-        public UserService(IUserInfoRepositoty userAccess, IMapper mapper)
+        public UserService(IUserRepositoty userAccess, IMapper mapper)
         {
             _userAccess = userAccess ?? throw new ArgumentNullException(nameof(userAccess));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<Guid> AddUserInfoAsync(UserInfoDto userInfoDto)
-            => await _userAccess.AddUserInfoAsync(_mapper.Map<UserEntity>(userInfoDto));
+        public async Task<Guid> AddUserAsync(UserDto userDto)
+            => await _userAccess.AddUserAsync(_mapper.Map<UserEntity>(userDto));
 
-        public async Task DeleteUserInfoAsync(Guid id)
-            => await _userAccess.DeleteUserInfoAsync(id);
+        public async Task DeleteUserAsync(Guid id)
+            => await _userAccess.DeleteUserAsync(id);
 
-        public async Task<UserInfoDto> GetUserInfoAsync(Guid id)
-            => _mapper.Map<UserInfoDto>(await _userAccess.GetUserInfoAsync(id));
+        public async Task<UserDto> GetUserAsync(Guid id)
+            => _mapper.Map<UserDto>(await _userAccess.GetUserAsync(id));
 
-        public async Task<IEnumerable<UserInfoDto>> GetUsersInfoAsync()
-            => (await _userAccess.GetUsersInfoAsync()).Select(us => _mapper.Map<UserInfoDto>(us));
+        public async Task<IEnumerable<UserDto>> GetUsersAsync()
+            => (await _userAccess.GetUsersAsync()).Select(us => _mapper.Map<UserDto>(us));
 
-        public async Task UpdateUserInfoAsync(Guid id, UserInfoDto userInfoDto)
-            => await _userAccess.UpdateUserInfoAsync(id, _mapper.Map<UserEntity>(userInfoDto));
+        public async Task UpdateUserAsync(Guid id, UserDto userDto)
+            => await _userAccess.UpdateUserAsync(id, _mapper.Map<UserEntity>(userDto));
     }
 }

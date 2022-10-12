@@ -16,13 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
 
-builder.Services.AddDbContext<UsersInfoContext>(opt =>
+builder.Services.AddDbContext<UsersContext>(opt =>
     opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService.DataAccess")));
 
 builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile));
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserInfoRepositoty, UserInfoRepository>();
+builder.Services.AddScoped<IUserRepositoty, UserRepository>();
 
 builder.Services.AddControllers();
 

@@ -10,8 +10,8 @@ using UsersService.DataAccess.Entities.Context;
 
 namespace UsersService.DataAccess.Migrations
 {
-    [DbContext(typeof(UsersInfoContext))]
-    partial class UsersInfoContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(UsersContext))]
+    partial class UsersContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,7 @@ namespace UsersService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsersInfo");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
