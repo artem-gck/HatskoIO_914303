@@ -17,8 +17,10 @@ using Serilog.Events;
 using Serilog;
 using System.Reflection;
 using DocumentCrudServiceApi.Middlewares;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+var identityString = builder.Configuration.GetValue<string>("IdentityPath");
 
 // Add services to the container.
 
@@ -51,6 +53,27 @@ builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQ
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+
+builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = identityString;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
+
+// adds an authorization policy to make sure the token is for scope 'api1'
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DocumentsScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "admin_api");
+    });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -85,6 +108,7 @@ app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

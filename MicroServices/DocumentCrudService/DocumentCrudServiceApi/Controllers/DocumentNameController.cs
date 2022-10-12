@@ -2,6 +2,7 @@
 using DocumentCrudService.Cqrs.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
 using DocumentCrudService.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IResult = DocumentCrudService.Cqrs.Results.IResult;
 
@@ -32,6 +33,7 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="200">Send file</response>
         /// <response code="500">Internal server error</response>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
