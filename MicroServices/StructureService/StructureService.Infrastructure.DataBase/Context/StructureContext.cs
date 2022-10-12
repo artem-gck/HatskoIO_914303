@@ -7,7 +7,7 @@ namespace StructureService.Infrastructure.DataBase.Context
     {
         public DbSet<PositionEntity> Positions { get; set; } = null!;
         public DbSet<DepartmentEntity> Departments { get; set; } = null!;
-        public DbSet<UserEntity> DepartmentUnits { get; set; } = null!;
+        public DbSet<UserEntity> Users { get; set; } = null!;
 
         public StructureContext(DbContextOptions<StructureContext> options)
             : base(options)

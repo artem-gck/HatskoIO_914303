@@ -87,19 +87,19 @@ namespace StructureService.Infrastructure.DataBase.Migrations
 
                     b.HasIndex("PositionId");
 
-                    b.ToTable("DepartmentUnits");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("StructureService.Domain.Entities.UserEntity", b =>
                 {
                     b.HasOne("StructureService.Domain.Entities.DepartmentEntity", "Department")
-                        .WithMany("DepartmentUnits")
+                        .WithMany("Users")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StructureService.Domain.Entities.PositionEntity", "Position")
-                        .WithMany("DepartmentUnits")
+                        .WithMany("Users")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -111,12 +111,12 @@ namespace StructureService.Infrastructure.DataBase.Migrations
 
             modelBuilder.Entity("StructureService.Domain.Entities.DepartmentEntity", b =>
                 {
-                    b.Navigation("DepartmentUnits");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("StructureService.Domain.Entities.PositionEntity", b =>
                 {
-                    b.Navigation("DepartmentUnits");
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

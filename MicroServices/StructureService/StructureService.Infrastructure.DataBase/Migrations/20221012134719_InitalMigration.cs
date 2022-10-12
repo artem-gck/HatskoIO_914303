@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StructureService.Infrastructure.DataBase.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,7 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentUnits",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -45,15 +45,15 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentUnits", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DepartmentUnits_Departments_DepartmentId",
+                        name: "FK_Users_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentUnits_Positions_PositionId",
+                        name: "FK_Users_Positions_PositionId",
                         column: x => x.PositionId,
                         principalTable: "Positions",
                         principalColumn: "Id",
@@ -73,32 +73,32 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentUnits_DepartmentId",
-                table: "DepartmentUnits",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DepartmentUnits_Id",
-                table: "DepartmentUnits",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DepartmentUnits_PositionId",
-                table: "DepartmentUnits",
-                column: "PositionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Positions_Name",
                 table: "Positions",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_DepartmentId",
+                table: "Users",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Id",
+                table: "Users",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PositionId",
+                table: "Users",
+                column: "PositionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DepartmentUnits");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Departments");

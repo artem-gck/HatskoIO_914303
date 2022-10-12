@@ -20,7 +20,7 @@ namespace StructureService.Infrastructure.DataBase
             entity.Department = await GetDepartment(departmentId);
             entity.Position = await GetPosition(entity.Position.Name);
 
-            var entityDb = _structureContext.DepartmentUnits.Add(entity);
+            var entityDb = _structureContext.Users.Add(entity);
 
             await _structureContext.SaveChangesAsync();
 
@@ -31,12 +31,12 @@ namespace StructureService.Infrastructure.DataBase
         {
             var departmentEntity = await GetDepartment(departmentId);
 
-            var entity = departmentEntity.DepartmentUnits.FirstOrDefault(us => us.Id == userId);
+            var entity = departmentEntity.Users.FirstOrDefault(us => us.Id == userId);
 
             if (entity is null)
                 throw new UserNotFoundException(userId);
 
-            _structureContext.DepartmentUnits.Remove(entity);
+            _structureContext.Users.Remove(entity);
 
             await _structureContext.SaveChangesAsync();
         }
@@ -45,7 +45,7 @@ namespace StructureService.Infrastructure.DataBase
         {
             var departmentEntity = await GetDepartment(departmentId);
 
-            var entity = departmentEntity.DepartmentUnits.FirstOrDefault(us => us.Id == userId);
+            var entity = departmentEntity.Users.FirstOrDefault(us => us.Id == userId);
 
             if (entity is null)
                 throw new UserNotFoundException(userId);
@@ -59,14 +59,14 @@ namespace StructureService.Infrastructure.DataBase
             entity.Department = await GetDepartment(departmentId);
             entity.Position = await GetPosition(entity.Position.Name);
 
-            _structureContext.DepartmentUnits.Update(entity);
+            _structureContext.Users.Update(entity);
 
             await _structureContext.SaveChangesAsync();
         }
 
         private async Task<DepartmentEntity> GetDepartment(Guid departmentId)
         {
-            var entity = await _structureContext.Departments.Include(dep => dep.DepartmentUnits)
+            var entity = await _structureContext.Departments.Include(dep => dep.Users)
                                                                 .ThenInclude(us => us.Position)
                                                             .FirstOrDefaultAsync(dep => dep.Id == departmentId);
 
