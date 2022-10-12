@@ -38,7 +38,7 @@ namespace UsersServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<UserResponce>>> GetAll()
         {
-            var listOfUserInfo = (await _userService.GetUsersInfoAsync()).Select(us => _mapper.Map<UserResponce>(us));
+            var listOfUserInfo = (await _userService.GetUsersAsync()).Select(us => _mapper.Map<UserResponce>(us));
             var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
 
             _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
@@ -68,7 +68,7 @@ namespace UsersServiceApi.Controllers
         {
             _userLogger.LogDebug("Getting user info from service");
 
-            var user = _mapper.Map<UserResponce>(await _userService.GetUserInfoAsync(id));
+            var user = _mapper.Map<UserResponce>(await _userService.GetUserAsync(id));
 
             return Ok(user);
         }
@@ -95,7 +95,7 @@ namespace UsersServiceApi.Controllers
         {
             _userLogger.LogDebug("Deleting user info from service with id = {id}", id);
 
-            await _userService.DeleteUserInfoAsync(id);
+            await _userService.DeleteUserAsync(id);
 
             return NoContent();
         }
@@ -138,7 +138,7 @@ namespace UsersServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _userService.AddUserInfoAsync(_mapper.Map<UserInfoDto>(userInfoViewModel));
+            var result = await _userService.AddUserAsync(_mapper.Map<UserDto>(userInfoViewModel));
 
             _userLogger.LogDebug("Id of added user indo is {id}", result);
 
@@ -186,7 +186,7 @@ namespace UsersServiceApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _userService.UpdateUserInfoAsync(id, _mapper.Map<UserInfoDto>(userInfoViewModel));
+            await _userService.UpdateUserAsync(id, _mapper.Map<UserDto>(userInfoViewModel));
 
             return NoContent();
         }

@@ -11,9 +11,9 @@ using UsersService.DataAccess.Entities.Context;
 
 namespace UsersService.DataAccess.Migrations
 {
-    [DbContext(typeof(UsersInfoContext))]
-    [Migration("20221009201938_InitalMigration")]
-    partial class InitalMigration
+    [DbContext(typeof(UsersContext))]
+    [Migration("20221012082729_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,7 @@ namespace UsersService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsersInfo");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
