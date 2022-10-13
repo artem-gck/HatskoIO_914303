@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="UserEntity\" />
+    <Folder Include="StructureEntities\" />
+  </ItemGroup>
+
 </Project>
