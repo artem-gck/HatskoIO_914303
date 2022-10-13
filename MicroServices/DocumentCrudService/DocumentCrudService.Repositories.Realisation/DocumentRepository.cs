@@ -20,6 +20,16 @@ namespace DocumentCrudService.Repositories.Realisation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));    
         }
 
+        public async Task<bool> IsDocumentExit(Guid id)
+        {
+            var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
+            var cursor = await _documentContext.GridFS.FindAsync(filter);
+
+            var listOfFileInfo = await cursor.ToListAsync();
+
+            return listOfFileInfo.Any();
+        }
+
         public async Task<Guid> AddAsync(Guid createrId, byte[] document, string fileName)
         {
             var id = Guid.NewGuid();

@@ -5,6 +5,7 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +34,7 @@ namespace DocumentCrudService.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/documents
+        ///     GET /api/documents/{id}
         ///
         /// </remarks>
         /// <response code="200">Send file</response>
@@ -41,12 +42,49 @@ namespace DocumentCrudService.Controllers
         /// <response code="500">Internal server error</response>
         [Authorize]
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status301MovedPermanently)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var query = new IsDocumentExitQuery()
+            {
+                Id = id
+            };
+            var isExist = (DocumentExistDto)(await _queryDispatcher.Send(query))[0];
+
+            return isExist.IsExist ? RedirectToActionPermanent("Get", new { id = id }) : NotFound();
+        }
+
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Last version of file</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/documents/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">Send file</response>
+        /// <response code="404">File not found</response>
+        /// <response code="500">Internal server error</response>
+        [Authorize]
+        [HttpGet("{id}/last-version")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> GetLastVersion(Guid id)
         {
-            return LocalRedirectPermanent($"~/api/documents/{id}/-1");
+            var query = new GetDocumentByIdQuery()
+            {
+                Id = id,
+                Version = -1
+            };
+            var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
+
+            return File(documentDto.Body, "application/octet-stream", documentDto.Name);
         }
 
         /// <summary>

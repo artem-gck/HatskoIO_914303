@@ -4,6 +4,7 @@ namespace DocumentCrudService.Repositories.DbServices
 {
     public interface IDocumentRepository
     {
+        public Task<bool> IsDocumentExit(Guid id);
         public Task<DocumentEntity> GetAsync(Guid id, int version);
         public Task DeleteAsync(Guid id);
         public Task<Guid> AddAsync(Guid createrId, byte[] document, string fileName);
