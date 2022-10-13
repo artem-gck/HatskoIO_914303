@@ -18,6 +18,9 @@ using Serilog;
 using System.Reflection;
 using DocumentCrudServiceApi.Middlewares;
 using Microsoft.IdentityModel.Tokens;
+using DocumentCrudServiceApi;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IdentityModel;
 
 var builder = WebApplication.CreateBuilder(args);
 var identityString = builder.Configuration.GetValue<string>("IdentityPath");
@@ -54,16 +57,20 @@ builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQ
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 
-builder.Services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = identityString;
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = false
-                    };
-                });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = identityString;
+    options.RequireHttpsMetadata = false;
+    options.Audience = "document_api";
+});
 
 // adds an authorization policy to make sure the token is for scope 'api1'
 builder.Services.AddAuthorization(options =>
@@ -71,7 +78,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("DocumentsScope", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireClaim("scope", "admin_api");
+        policy.RequireClaim("scope", "document_api");
     });
 });
 
@@ -87,6 +94,22 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for managing documents items",
     });
 
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
+                TokenUrl = new Uri($"{identityString}/connect/token"),
+                Scopes = new Dictionary<string, string> { { "document_api", "document Api" } }
+            }
+        }
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
@@ -97,7 +120,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setup =>
+    {
+        setup.SwaggerEndpoint($"https://localhost:7129/swagger/v1/swagger.json", "Version 1.0");
+        setup.OAuthClientId("document_api_swagger");
+        setup.OAuthAppName("Document API");
+        //setup.OAuthScopeSeparator(" ");
+        setup.OAuthUsePkce();
+    });
 }
 
 app.MapHealthChecks("/health", new HealthCheckOptions
