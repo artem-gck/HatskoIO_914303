@@ -27,10 +27,10 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the last version by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>File</returns>
+        /// <returns>Last version of file</returns>
         /// <remarks>
         /// Sample request:
         ///
@@ -57,14 +57,14 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
-        /// Gets the specified identifier.
+        /// Gets the last version by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Last version of file</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/documents/{id}
+        ///     GET /api/documents/{id}/last-version
         ///
         /// </remarks>
         /// <response code="200">Send file</response>
