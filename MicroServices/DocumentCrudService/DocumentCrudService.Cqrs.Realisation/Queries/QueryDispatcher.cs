@@ -21,8 +21,8 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries
         {
             var handler = _service.GetService(typeof(IQueryHandler<T>));
 
-            if (handler != null)
-                return await ((IQueryHandler<T>)handler).Handle(query);
+            if (handler is IQueryHandler<T> queryHandler)
+                return await queryHandler.Handle(query);
             else
             {
                 var exception = new NotFoundServiceException($"Query doesn't have any handler {query.GetType().Name}");

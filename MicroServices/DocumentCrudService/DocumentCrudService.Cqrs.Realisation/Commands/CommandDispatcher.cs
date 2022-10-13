@@ -21,8 +21,8 @@ namespace DocumentCrudService.Cqrs.Realisation.Commands
         {
             var handler = _service.GetService(typeof(ICommandHandler<T>));
 
-            if (handler != null)
-                return await ((ICommandHandler<T>)handler).Handle(command);
+            if (handler is ICommandHandler<T> commandHandler)
+                return await commandHandler.Handle(command);
             else
             {
                 var exception = new NotFoundServiceException($"Command doesn't have any handler {command.GetType().Name}");

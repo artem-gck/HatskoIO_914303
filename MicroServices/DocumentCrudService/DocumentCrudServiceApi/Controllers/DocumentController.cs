@@ -44,9 +44,9 @@ namespace DocumentCrudService.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            return await Get(id, -1);
+            return LocalRedirectPermanent($"~/api/documents/{id}/-1");
         }
 
         /// <summary>
