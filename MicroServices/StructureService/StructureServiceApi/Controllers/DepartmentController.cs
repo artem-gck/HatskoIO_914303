@@ -62,7 +62,7 @@ namespace StructureServiceApi.Controllers
         [HttpGet("api/departments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<DepartmentResponce>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DepartmentResponce>>> Get()
         {
             var listOfDepartmentViewModel = (await _departmentsService.GetAllAsync()).Select(dep => _controllerMapper.Map<DepartmentResponce>(dep));
 

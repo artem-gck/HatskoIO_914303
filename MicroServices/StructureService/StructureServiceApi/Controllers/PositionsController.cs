@@ -63,7 +63,7 @@ namespace StructureServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PositionResponce>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PositionResponce>>> Get()
         {
             var listOfPositonViewModel = (await _positionsService.GetAllAsync()).Select(pos => _controllerMapper.Map<PositionResponce>(pos));
 
