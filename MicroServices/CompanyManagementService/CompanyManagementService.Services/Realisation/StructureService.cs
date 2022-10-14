@@ -24,16 +24,11 @@ namespace CompanyManagementService.Services.Realisation
             var cheif = await _userInfoRepository.Get(cheifId);
             var cheifInfo = await _userStructureRepository.Get(cheif.DepartmentId.Value, cheifId);
             var users = (await _userInfoRepository.GetByDepartmentId(cheif.DepartmentId.Value)).Where(us => us.Id != cheifId);
+            var usersInfo = (await _userStructureRepository.GetByDepartmentId(cheif.DepartmentId.Value)).Where(us => us.Id != cheifId);
 
-            var listOfUsersInfo = new List<Tuple<UserResponce, DataAccess.UserEntity.UserResponce>>();
+            var listOfUsersInfo = usersInfo.Zip(users).ToList();
 
-            foreach (var us in users)
-            {
-                var userStructure = await _userStructureRepository.Get(us.DepartmentId.Value, us.Id);
-                listOfUsersInfo.Add(new (userStructure, us));
-            }
-
-            var cheifDto = _mapper.Map<UserDto>(new Tuple<UserResponce, DataAccess.UserEntity.UserResponce>(cheifInfo, cheif));
+            var cheifDto = _mapper.Map<UserDto>((cheifInfo, cheif));
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(listOfUsersInfo);
 
             var cheifStructureDto = new CheifStructureDto()

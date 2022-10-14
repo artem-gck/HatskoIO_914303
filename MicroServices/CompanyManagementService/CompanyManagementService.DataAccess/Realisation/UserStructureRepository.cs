@@ -56,6 +56,26 @@ namespace CompanyManagementService.DataAccess.Realisation
             };
         }
 
+        public async Task<IEnumerable<UserResponce>> GetByDepartmentId(Guid id)
+        {
+            using var client = _httpClientFactory.CreateClient(ClientName);
+            var answer = await client.GetAsync($"{id}/users");
+
+            if (answer.IsSuccessStatusCode)
+            {
+                var userResponce = await answer.Content.ReadAsStringAsync();
+                var users = JsonConvert.DeserializeObject<IEnumerable<UserResponce>>(userResponce);
+
+                return users;
+            }
+
+            throw answer.StatusCode switch
+            {
+                HttpStatusCode.NotFound => new NotFoundException(id),
+                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+            };
+        }
+
         public async Task<Guid> Post(Guid departmentId, AddUserRequest addUserRequest)
         {
             using var client = _httpClientFactory.CreateClient(ClientName);

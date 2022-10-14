@@ -8,7 +8,7 @@ namespace CompanyManagementService.Services.MapperProfiles
     {
         public ServicesProfile()
         {
-            CreateMap<Tuple<UserResponce, DataAccess.UserEntity.UserResponce>, UserDto>()
+            CreateMap<(UserResponce, DataAccess.UserEntity.UserResponce), UserDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Item2.Id))
                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Item2.Name))
                 .ForMember(d => d.Surname, opt => opt.MapFrom(s => s.Item2.Surname))

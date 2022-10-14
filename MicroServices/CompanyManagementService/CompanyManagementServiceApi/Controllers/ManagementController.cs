@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace CompanyManagementServiceApi.Controllers
 {
     [ApiController]
-    [Route("qwe")]
-    public class HomeController : Controller
+    [Route("management")]
+    public class ManagementController : Controller
     {
         private readonly IStructureService _structureService;
 
-        public HomeController(IStructureService structureService)
+        public ManagementController(IStructureService structureService)
         {
             _structureService = structureService;
         }
@@ -17,9 +17,7 @@ namespace CompanyManagementServiceApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var a = await _structureService.GetCheifStructure(id);
-
-            return Ok(a);
+            return Ok(await _structureService.GetCheifStructure(id));
         }
     }
 }
