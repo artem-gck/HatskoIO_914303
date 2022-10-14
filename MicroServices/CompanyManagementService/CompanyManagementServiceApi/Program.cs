@@ -18,7 +18,7 @@ builder.Services.AddHttpClient("positions", httpClient =>
 });
 builder.Services.AddHttpClient("userInfo", httpClient =>
 {
-    httpClient.BaseAddress = new Uri("https://localhost:7221/users/");
+    httpClient.BaseAddress = new Uri("https://localhost:7221/api/");
 });
 
 builder.Services.AddAutoMapper(typeof(ServicesProfile));

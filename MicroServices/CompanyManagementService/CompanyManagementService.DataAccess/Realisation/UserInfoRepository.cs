@@ -22,7 +22,7 @@ namespace CompanyManagementService.DataAccess.Realisation
         public async Task Delete(Guid id)
         {
             using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.DeleteAsync($"{id}");
+            var answer = await client.DeleteAsync($"users/{id}");
 
             if (answer.IsSuccessStatusCode)
                 return;
@@ -37,7 +37,7 @@ namespace CompanyManagementService.DataAccess.Realisation
         public async Task<UserResponce> Get(Guid id)
         {
             using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync($"{id}");
+            var answer = await client.GetAsync($"users/{id}");
 
             if (answer.IsSuccessStatusCode)
             {
@@ -45,6 +45,26 @@ namespace CompanyManagementService.DataAccess.Realisation
                 var user = JsonConvert.DeserializeObject<UserResponce>(userResponce);
 
                 return user;
+            }
+
+            throw answer.StatusCode switch
+            {
+                HttpStatusCode.NotFound => new NotFoundException(id),
+                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+            };
+        }
+
+        public async Task<IEnumerable<UserResponce>> GetByDepartmentId(Guid id)
+        {
+            using var client = _httpClientFactory.CreateClient(ClientName);
+            var answer = await client.GetAsync($"departments/{id}/users");
+
+            if (answer.IsSuccessStatusCode)
+            {
+                var userResponce = await answer.Content.ReadAsStringAsync();
+                var users = JsonConvert.DeserializeObject<IEnumerable<UserResponce>>(userResponce);
+
+                return users;
             }
 
             throw answer.StatusCode switch

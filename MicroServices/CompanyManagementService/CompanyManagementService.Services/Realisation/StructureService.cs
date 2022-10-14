@@ -23,7 +23,7 @@ namespace CompanyManagementService.Services.Realisation
         {
             var cheif = await _userInfoRepository.Get(cheifId);
             var cheifInfo = await _userStructureRepository.Get(cheif.DepartmentId.Value, cheifId);
-            var users = (await _userInfoRepository.Get()).Where(us => us.DepartmentId == cheif.DepartmentId && us.Id != cheifId);
+            var users = (await _userInfoRepository.GetByDepartmentId(cheif.DepartmentId.Value)).Where(us => us.Id != cheifId);
 
             var listOfUsersInfo = new List<Tuple<UserResponce, DataAccess.UserEntity.UserResponce>>();
 
