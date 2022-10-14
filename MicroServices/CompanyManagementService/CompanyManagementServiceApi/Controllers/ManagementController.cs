@@ -18,7 +18,18 @@ namespace CompanyManagementServiceApi.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Get cheif structure by cheif id
+        /// </summary>
+        /// <param name="id">Cheif id</param>
+        /// <returns>Cheif structure</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Get /api/management/cheifs/{id}
+        ///
+        /// </remarks>
+        [HttpGet("cheifs/{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructure(id));
@@ -26,6 +37,17 @@ namespace CompanyManagementServiceApi.Controllers
             return Ok(cheifStructureResponce);
         }
 
+        /// <summary>
+        /// Get full user info
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>User info</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Get /api/management/users/{id}
+        ///
+        /// </remarks>
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
