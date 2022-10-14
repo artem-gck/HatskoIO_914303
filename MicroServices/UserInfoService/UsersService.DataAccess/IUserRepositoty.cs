@@ -9,5 +9,6 @@ namespace UsersService.DataAccess
         public Task DeleteUserAsync(Guid id);
         public Task<Guid> AddUserAsync(UserEntity user);
         public Task UpdateUserAsync(Guid id, UserEntity user);
+        public Task<IEnumerable<UserEntity>> GetUsersByDepartmentId(Guid departmentId);
     }
 }
