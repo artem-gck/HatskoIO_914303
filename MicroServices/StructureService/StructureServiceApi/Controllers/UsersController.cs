@@ -50,6 +50,31 @@ namespace StructureServiceApi.Controllers
         }
 
         /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="departmentId">The identifier of department.</param>
+        /// <returns>DepartmentUnitViewModel</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/departments/{departmentId}/users
+        ///
+        /// </remarks>
+        /// <response code="200">Model ok</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("api/departments/{departmentId}/users")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UserResponce>> Get(Guid departmentId)
+        {
+            var listOfUserViewModel = _controllerMapper.Map<IEnumerable<UserResponce>>(await _userService.GetByDepartmentId(departmentId));
+
+            return Ok(listOfUserViewModel);
+        }
+
+        /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="departmentId">The identifier of department.</param>

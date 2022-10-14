@@ -53,6 +53,18 @@ namespace StructureService.Infrastructure.DataBase
             return entity;
         }
 
+        public async Task<IEnumerable<UserEntity>> GetByDepartmentId(Guid departmentId)
+        {
+            var departmentEntity = await GetDepartment(departmentId);
+
+            if (departmentEntity is null)
+                throw new UserNotFoundException(departmentId);
+
+            var entities = departmentEntity.Users;
+
+            return entities;
+        }
+
         public async Task UpdateAsync(Guid departmentId, Guid userId, UserEntity entity)
         {
             entity.Id = userId;

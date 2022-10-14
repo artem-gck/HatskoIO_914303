@@ -15,6 +15,9 @@ namespace StructureService.Infrastructure.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
+        public async Task<IEnumerable<UserEntity>> GetByDepartmentId(Guid departmentId)
+            => await _userRepository.GetByDepartmentId(departmentId);
+
         public async Task<Guid> AddAsync(Guid departmentId, UserEntity entity)
             => await _userRepository.AddAsync(departmentId, entity);
 
