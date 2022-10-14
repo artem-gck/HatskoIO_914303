@@ -63,6 +63,16 @@ namespace UsersService.DataAccess
             return listOfUserInfoEntities;
         }
 
+        public async Task<IEnumerable<UserEntity>> GetUsersByDepartmentId(Guid departmentId)
+        {
+            _userAccessLogger.LogDebug($"Getting entities from db by department id = {departmentId}");
+
+            var listOfUserInfoEntities = await _usersContext.Users.Where(us => us.DepartmentId == departmentId)
+                                                                  .ToArrayAsync();
+
+            return listOfUserInfoEntities;
+        }
+
         public async Task UpdateUserAsync(Guid id, UserEntity user)
         {
             _userAccessLogger.LogDebug("Updating entity from db with id = {id}", id);

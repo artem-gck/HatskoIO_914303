@@ -28,6 +28,9 @@ namespace UsersService.Services
         public async Task<IEnumerable<UserDto>> GetUsersAsync()
             => (await _userAccess.GetUsersAsync()).Select(us => _mapper.Map<UserDto>(us));
 
+        public async Task<IEnumerable<UserDto>> GetUsersByDepartmentId(Guid departmentId)
+            => _mapper.Map<IEnumerable<UserDto>>(await _userAccess.GetUsersByDepartmentId(departmentId));
+
         public async Task UpdateUserAsync(Guid id, UserDto userDto)
             => await _userAccess.UpdateUserAsync(id, _mapper.Map<UserEntity>(userDto));
     }

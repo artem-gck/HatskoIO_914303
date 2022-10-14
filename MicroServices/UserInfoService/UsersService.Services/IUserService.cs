@@ -1,4 +1,5 @@
-﻿using UsersService.Services.Dto;
+﻿using UsersService.DataAccess.Entities;
+using UsersService.Services.Dto;
 
 namespace UsersService.Services
 {
@@ -9,5 +10,6 @@ namespace UsersService.Services
         public Task DeleteUserAsync(Guid id);
         public Task<Guid> AddUserAsync(UserDto userDto);
         public Task UpdateUserAsync(Guid id, UserDto userDto);
+        public Task<IEnumerable<UserDto>> GetUsersByDepartmentId(Guid departmentId);
     }
 }

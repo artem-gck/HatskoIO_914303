@@ -6,7 +6,7 @@ using UsersServiceApi.VewModels;
 
 namespace UsersServiceApi.Controllers
 {
-    [Route("users")]
+    [Route("api/users")]
     [Produces("application/json")]
     public class UsersController : Controller
     {
@@ -36,7 +36,7 @@ namespace UsersServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserResponce>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserResponce>>> Get()
         {
             var listOfUserInfo = (await _userService.GetUsersAsync()).Select(us => _mapper.Map<UserResponce>(us));
             var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
@@ -71,6 +71,33 @@ namespace UsersServiceApi.Controllers
             var user = _mapper.Map<UserResponce>(await _userService.GetUserAsync(id));
 
             return Ok(user);
+        }
+
+        /// <summary>
+        /// Get user info by id
+        /// </summary>
+        /// <param name="id">The identifier</param>
+        /// <returns>User info model</returns>
+        /// /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /users/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">User info was getting</response>
+        /// <response code="404">No userInfo with this id</response>
+        /// <response code="500">Interal server error</response>
+        [HttpGet("~/api/departments/{id}/users")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UserResponce>> GetByDepartmentId(Guid id)
+        {
+            _userLogger.LogDebug("Getting user info from service by department id = {id}", id);
+
+            var users = _mapper.Map<IEnumerable<UserResponce>>(await _userService.GetUsersByDepartmentId(id));
+
+            return Ok(users);
         }
 
         /// <summary>
