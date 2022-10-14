@@ -19,5 +19,11 @@ namespace CompanyManagementServiceApi.Controllers
         {
             return Ok(await _structureService.GetCheifStructure(id));
         }
+
+        [HttpGet("users/{id}")]
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            return Ok(await _structureService.GetUser(id));
+        }
     }
 }

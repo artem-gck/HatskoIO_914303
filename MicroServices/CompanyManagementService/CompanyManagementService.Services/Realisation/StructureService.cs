@@ -10,12 +10,14 @@ namespace CompanyManagementService.Services.Realisation
     {
         private readonly IUserInfoRepository _userInfoRepository;
         private readonly IUserStructureRepository _userStructureRepository;
+        private readonly IPositionsRepository _positionsRepository;
         private readonly IMapper _mapper;
 
-        public StructureService(IUserInfoRepository userInfoRepository, IUserStructureRepository userStructureRepository, IMapper mapper)
+        public StructureService(IUserInfoRepository userInfoRepository, IUserStructureRepository userStructureRepository, IPositionsRepository positionsRepository, IMapper mapper)
         {
             _userInfoRepository = userInfoRepository ?? throw new ArgumentNullException(nameof(userInfoRepository));
             _userStructureRepository = userStructureRepository ?? throw new ArgumentNullException(nameof(userStructureRepository));
+            _positionsRepository = positionsRepository ?? throw new ArgumentNullException(nameof(positionsRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -39,6 +41,16 @@ namespace CompanyManagementService.Services.Realisation
             };
 
             return cheifStructureDto;
+        }
+
+        public async Task<UserDto> GetUser(Guid userId)
+        {
+            var user = await _userInfoRepository.Get(userId);
+            var position = await _positionsRepository.Get(user.PositionId.Value);
+
+            var userDto = _mapper.Map<UserDto>((position, user));
+
+            return userDto;
         }
     }
 }
