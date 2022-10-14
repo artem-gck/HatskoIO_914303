@@ -4,23 +4,19 @@ using CompanyManagementService.Services.Interfaces;
 using CompanyManagementService.Services.MapperProfiles;
 using CompanyManagementService.Services.Realisation;
 using CompanyManagementServiceApi.MapperProfiles;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddHttpClient("departments", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/");
-});
-builder.Services.AddHttpClient("positions", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://localhost:7130/api/positions/");
-});
-builder.Services.AddHttpClient("userInfo", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://localhost:7221/api/");
-});
+builder.Services.AddHttpClient("departments", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
+builder.Services.AddHttpClient("positions", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/positions/"); });
+builder.Services.AddHttpClient("userInfo", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7221/api/"); });
+
+builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 builder.Services.AddAutoMapper(typeof(ServicesProfile), typeof(ControllerProfile));
 
@@ -44,6 +40,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 
