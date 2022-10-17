@@ -4,6 +4,7 @@ using CompanyManagementService.Services.Interfaces;
 using CompanyManagementService.Services.MapperProfiles;
 using CompanyManagementService.Services.Realisation;
 using CompanyManagementServiceApi.MapperProfiles;
+using CompanyManagementServiceApi.Middlewares;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
@@ -61,7 +62,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
-
+app.ConfigureCustomExceptionMiddleware();
 app.UseAuthorization();
 
 app.MapControllers();
