@@ -27,3 +27,8 @@ Microservices structure:
    CQRS pattern
    
 ![image](https://user-images.githubusercontent.com/72604580/194356313-6676d325-5356-435c-aed0-a14eb4f91159.png)
+
+5. Company management service
+   N-Layer architecture
+
+![image](https://user-images.githubusercontent.com/72604580/196154263-7ec59b12-4bcb-495a-b725-049b7b5fe42e.png)
