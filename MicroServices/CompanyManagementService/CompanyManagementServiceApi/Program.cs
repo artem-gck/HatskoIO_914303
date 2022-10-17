@@ -19,6 +19,11 @@ builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 builder.Services.AddAutoMapper(typeof(ServicesProfile), typeof(ControllerProfile));
 
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "CompanyManagementService_";
+});
+
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IPositionsRepository, PositionsRepository>();
 builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
