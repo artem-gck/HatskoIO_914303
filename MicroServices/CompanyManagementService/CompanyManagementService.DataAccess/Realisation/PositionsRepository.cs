@@ -11,20 +11,18 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class PositionsRepository : IPositionsRepository
     {
-        private const string ClientName = "positions";
         private const string ServiceName = "Position";
 
-        private IHttpClientFactory _httpClientFactory;
+        private HttpClient _httpClient;
 
-        public PositionsRepository(IHttpClientFactory httpClientFactory)
+        public PositionsRepository(HttpClient httpClient)
         {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task Delete(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.DeleteAsync($"{id}");
+            var answer = await _httpClient.DeleteAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
                 return;
@@ -38,8 +36,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<PositionResponce> Get(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync($"{id}");
+            var answer = await _httpClient.GetAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
             {
@@ -58,8 +55,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<PositionResponce>> Get()
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync(string.Empty);
+            var answer = await _httpClient.GetAsync(string.Empty);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -77,8 +73,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<Guid> Post(AddPositionRequest addPositionRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PostAsJsonAsync(string.Empty, addPositionRequest);
+            var answer = await _httpClient.PostAsJsonAsync(string.Empty, addPositionRequest);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -98,8 +93,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task Put(Guid id, UpdatePositionRequest updatePositionRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PutAsJsonAsync($"{id}", updatePositionRequest);
+            var answer = await _httpClient.PutAsJsonAsync($"{id}", updatePositionRequest);
 
             if (answer.IsSuccessStatusCode)
                 return;

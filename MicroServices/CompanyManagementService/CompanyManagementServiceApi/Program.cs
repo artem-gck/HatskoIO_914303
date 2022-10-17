@@ -14,10 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddHttpClient("departments", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
-builder.Services.AddHttpClient("positions", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/positions/"); });
-builder.Services.AddHttpClient("userInfo", httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7221/api/"); });
-
 builder.Services.AddHealthChecks();
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
@@ -27,6 +23,11 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IPositionsRepository, PositionsRepository>();
 builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
 builder.Services.AddScoped<IUserStructureRepository, UserStructureRepository>();
+
+builder.Services.AddHttpClient<IDepartmentRepository, DepartmentRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
+builder.Services.AddHttpClient<IUserStructureRepository, UserStructureRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
+builder.Services.AddHttpClient<IPositionsRepository, PositionsRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/positions/"); });
+builder.Services.AddHttpClient<IUserInfoRepository, UserInfoRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7221/api/"); });
 
 builder.Services.AddScoped<IStructureService, StructureService>();
 

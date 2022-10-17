@@ -9,20 +9,18 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class UserInfoRepository : IUserInfoRepository
     {
-        private const string ClientName = "userInfo";
         private const string ServiceName = "UserInfo";
 
-        private IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
 
-        public UserInfoRepository(IHttpClientFactory httpClientFactory)
+        public UserInfoRepository(HttpClient httpClient)
         {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task Delete(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.DeleteAsync($"users/{id}");
+            var answer = await _httpClient.DeleteAsync($"users/{id}");
 
             if (answer.IsSuccessStatusCode)
                 return;
@@ -36,8 +34,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<UserResponce> Get(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync($"users/{id}");
+            var answer = await _httpClient.GetAsync($"users/{id}");
 
             if (answer.IsSuccessStatusCode)
             {
@@ -56,8 +53,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<UserResponce>> GetByDepartmentId(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync($"departments/{id}/users");
+            var answer = await _httpClient.GetAsync($"departments/{id}/users");
 
             if (answer.IsSuccessStatusCode)
             {
@@ -76,8 +72,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<UserResponce>> Get()
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync(string.Empty);
+            var answer = await _httpClient.GetAsync(string.Empty);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -95,8 +90,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<Guid> Post(AddUserRequest addUserRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PostAsJsonAsync(string.Empty, addUserRequest);
+            var answer = await _httpClient.PostAsJsonAsync(string.Empty, addUserRequest);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -116,8 +110,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task Put(Guid id, UpdateUserRequest updateUserRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PutAsJsonAsync($"{id}", updateUserRequest);
+            var answer = await _httpClient.PutAsJsonAsync($"{id}", updateUserRequest);
 
             if (answer.IsSuccessStatusCode)
                 return;

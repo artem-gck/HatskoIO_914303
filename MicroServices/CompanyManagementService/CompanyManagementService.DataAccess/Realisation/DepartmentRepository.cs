@@ -11,20 +11,18 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        private const string ClientName = "departments";
         private const string ServiceName = "Department";
 
-        private IHttpClientFactory _httpClientFactory;
+        private HttpClient _httpClient;
 
-        public DepartmentRepository(IHttpClientFactory httpClientFactory)
+        public DepartmentRepository(HttpClient httpClient)
         {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task Delete(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.DeleteAsync($"{id}");
+            var answer = await _httpClient.DeleteAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
                 return;
@@ -38,8 +36,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<DepartmentResponce> Get(Guid id)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync($"{id}");
+            var answer = await _httpClient.GetAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
             {
@@ -58,8 +55,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<DepartmentResponce>> Get()
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.GetAsync(string.Empty);
+            var answer = await _httpClient.GetAsync(string.Empty);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -77,8 +73,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<Guid> Post(AddDepartmentRequest addDepartmentRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PostAsJsonAsync(string.Empty, addDepartmentRequest);
+            var answer = await _httpClient.PostAsJsonAsync(string.Empty, addDepartmentRequest);
 
             if (answer.IsSuccessStatusCode)
             {
@@ -98,8 +93,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task Put(Guid id, UpdateDepartmentRequest updateDepartmentRequest)
         {
-            using var client = _httpClientFactory.CreateClient(ClientName);
-            var answer = await client.PutAsJsonAsync($"{id}", updateDepartmentRequest);
+            var answer = await _httpClient.PutAsJsonAsync($"{id}", updateDepartmentRequest);
 
             if (answer.IsSuccessStatusCode)
                 return;
