@@ -11,6 +11,11 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+var departmentsConnectionString = builder.Configuration.GetConnectionString("Departments");
+var usersStructureConnectionString = builder.Configuration.GetConnectionString("UsersStructure");
+var positionsConnectionString = builder.Configuration.GetConnectionString("Positions");
+var usersInfoConnectionString = builder.Configuration.GetConnectionString("UsersInfo");
 
 // Add services to the container.
 
@@ -20,7 +25,7 @@ builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 builder.Services.AddAutoMapper(typeof(ServicesProfile), typeof(ControllerProfile));
 
 builder.Services.AddStackExchangeRedisCache(options => {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.Configuration = redisConnectionString;
     options.InstanceName = "CompanyManagementService_";
 });
 
@@ -29,10 +34,10 @@ builder.Services.AddScoped<IPositionsRepository, PositionsRepository>();
 builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
 builder.Services.AddScoped<IUserStructureRepository, UserStructureRepository>();
 
-builder.Services.AddHttpClient<IDepartmentRepository, DepartmentRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
-builder.Services.AddHttpClient<IUserStructureRepository, UserStructureRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/departments/"); });
-builder.Services.AddHttpClient<IPositionsRepository, PositionsRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7130/api/positions/"); });
-builder.Services.AddHttpClient<IUserInfoRepository, UserInfoRepository>(httpClient => { httpClient.BaseAddress = new Uri("https://localhost:7221/api/"); });
+builder.Services.AddHttpClient<IDepartmentRepository, DepartmentRepository>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); });
+builder.Services.AddHttpClient<IUserStructureRepository, UserStructureRepository>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); });
+builder.Services.AddHttpClient<IPositionsRepository, PositionsRepository>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); });
+builder.Services.AddHttpClient<IUserInfoRepository, UserInfoRepository>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); });
 
 builder.Services.AddScoped<IStructureService, StructureService>();
 
