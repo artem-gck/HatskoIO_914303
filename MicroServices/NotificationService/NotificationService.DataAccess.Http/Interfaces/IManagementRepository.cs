@@ -2,7 +2,7 @@
 
 namespace NotificationService.DataAccess.Http.Interfaces
 {
-    internal interface IManagementRepository
+    public interface IManagementRepository
     {
         public Task<UserResponce> GetUserInfoAsync(Guid id);
     }
