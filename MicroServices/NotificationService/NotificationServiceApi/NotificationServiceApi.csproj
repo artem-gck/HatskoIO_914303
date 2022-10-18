@@ -14,4 +14,10 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NotificationService.DataAccess\NotificationService.DataAccess.csproj" />
+    <ProjectReference Include="..\NotificationService.Notification\NotificationService.Notification.csproj" />
+    <ProjectReference Include="..\NotificationService.Services\NotificationService.Services.csproj" />
+  </ItemGroup>
+
 </Project>
