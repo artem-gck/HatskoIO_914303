@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotificationService.DataAccess\NotificationService.DataAccess.Http.csproj" />
+    <ProjectReference Include="..\NotificationService.DataAccess.Http\NotificationService.DataAccess.Http.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ namespace NotificationService.Notification.Jobs
             var tasks = (await _taskRepository.GetTasksAsync())
                             .Where(task => (task.DeadLine - DateTime.UtcNow) <= TimeSpan.FromDays(1));
 
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 var user = await _managementRepository.GetUserInfoAsync(task.OwnerUserId);
 
