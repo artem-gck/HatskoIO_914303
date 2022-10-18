@@ -36,8 +36,8 @@ namespace NotificationService.Notification.Jobs
 
                 using var message = new MailMessage(_senderEmail, user.Email);
 
-                message.Subject = "Новостная рассылка";
-                message.Body = "Новости сайта: бла бла бла";
+                message.Subject = $"Task \"{task.Header}\"";
+                message.Body = $"You need to complete task \"{task.Header}\" before {task.DeadLine:dd.MM.yyyy}";
 
                 using var smtpClient = new SmtpClient()
                 {
