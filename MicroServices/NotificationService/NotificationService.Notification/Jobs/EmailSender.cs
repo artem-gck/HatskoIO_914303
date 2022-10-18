@@ -20,7 +20,7 @@ namespace NotificationService.Notification.Jobs
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
             _managementRepository = managementRepository ?? throw new ArgumentNullException(nameof(managementRepository));
 
-            _senderEmail = configuration["EmailSettings:Login"];
+            _senderEmail = configuration["EmailSettings:Email"];
             _senderPassword = configuration["EmailSettings:Password"];
             _host = configuration["EmailSettings:Host"];
         }
