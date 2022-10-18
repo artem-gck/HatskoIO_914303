@@ -25,17 +25,22 @@ namespace CompanyManagementService.Services.Realisation
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<CheifStructureDto> GetCheifStructure(Guid cheifId)
+        public async Task<CheifStructureDto> GetCheifStructureAsync(Guid cheifId)
         {
             var cacheId = $"Cheif_{cheifId}";
             var cheifStructureDto = await _cache.GetRecordAsync<CheifStructureDto>(cacheId);
 
             if (cheifStructureDto is null)
             {
-                var cheif = await _userInfoRepository.Get(cheifId);
-                var cheifInfo = await _userStructureRepository.Get(cheif.DepartmentId.Value, cheifId);
-                var users = (await _userInfoRepository.GetByDepartmentId(cheif.DepartmentId.Value)).Where(us => us.Id != cheifId);
-                var usersInfo = (await _userStructureRepository.GetByDepartmentId(cheif.DepartmentId.Value)).Where(us => us.CheifUserId == cheifId);
+                var cheif = await _userInfoRepository.GetAsync(cheifId);
+
+                var cheifInfo = await _userStructureRepository.GetAsync(cheif.DepartmentId.Value, cheifId);
+                
+                var users = (await _userInfoRepository.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
+                                                      .Where(us => us.Id != cheifId);
+                
+                var usersInfo = (await _userStructureRepository.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
+                                                               .Where(us => us.CheifUserId == cheifId);
 
                 var listOfUsersInfo = usersInfo.Zip(users).ToList();
 
@@ -55,15 +60,15 @@ namespace CompanyManagementService.Services.Realisation
             return cheifStructureDto;
         }
 
-        public async Task<UserDto> GetUser(Guid userId)
+        public async Task<UserDto> GetUserAsync(Guid userId)
         {
             var cacheId = $"User_{userId}";
             var userDto = await _cache.GetRecordAsync<UserDto>(cacheId);
 
             if (userDto is null)
             {
-                var user = await _userInfoRepository.Get(userId);
-                var position = await _positionsRepository.Get(user.PositionId.Value);
+                var user = await _userInfoRepository.GetAsync(userId);
+                var position = await _positionsRepository.GetAsync(user.PositionId.Value);
 
                 userDto = _mapper.Map<UserDto>((position, user));
                 await _cache.SetRecordAsync(cacheId, userDto);

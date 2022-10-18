@@ -6,10 +6,10 @@ namespace CompanyManagementService.DataAccess.Interfaces
 {
     public interface IPositionsRepository
     {
-        public Task<PositionResponce> Get(Guid id);
-        public Task<IEnumerable<PositionResponce>> Get();
-        public Task Delete(Guid id);
-        public Task<Guid> Post(AddPositionRequest addPositionRequest);
-        public Task Put(Guid id, UpdatePositionRequest updatePositionRequest);
+        public Task<PositionResponce> GetAsync(Guid id);
+        public Task<IEnumerable<PositionResponce>> GetAsync();
+        public Task DeleteAsync(Guid id);
+        public Task<Guid> PostAsync(AddPositionRequest addPositionRequest);
+        public Task PutAsync(Guid id, UpdatePositionRequest updatePositionRequest);
     }
 }

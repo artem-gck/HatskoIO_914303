@@ -30,7 +30,6 @@ namespace CompanyManagementServiceApi.Middlewares
                 {
                     InvalidModelStateException => (int)HttpStatusCode.BadRequest,
                     NotFoundException => (int)HttpStatusCode.NotFound,
-                    DbUpdateException => (int)HttpStatusCode.Conflict,
                     Exception => (int)HttpStatusCode.InternalServerError,
                 };
 

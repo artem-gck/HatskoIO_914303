@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
+using StructureService.Infrastructure.Services;
 using StructureServiceApi.ViewModels.AddRequest;
 using StructureServiceApi.ViewModels.Responce;
 using StructureServiceApi.ViewModels.UpdateRequest;

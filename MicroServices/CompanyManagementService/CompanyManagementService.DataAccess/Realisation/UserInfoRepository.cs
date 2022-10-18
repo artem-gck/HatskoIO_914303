@@ -9,8 +9,6 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class UserInfoRepository : IUserInfoRepository
     {
-        private const string ServiceName = "UserInfo";
-
         private readonly HttpClient _httpClient;
 
         public UserInfoRepository(HttpClient httpClient)
@@ -18,7 +16,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var answer = await _httpClient.DeleteAsync($"users/{id}");
 
@@ -28,11 +26,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
 
-        public async Task<UserResponce> Get(Guid id)
+        public async Task<UserResponce> GetAsync(Guid id)
         {
             var answer = await _httpClient.GetAsync($"users/{id}");
 
@@ -47,11 +45,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
 
-        public async Task<IEnumerable<UserResponce>> GetByDepartmentId(Guid id)
+        public async Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id)
         {
             var answer = await _httpClient.GetAsync($"departments/{id}/users");
 
@@ -66,11 +64,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
 
-        public async Task<IEnumerable<UserResponce>> Get()
+        public async Task<IEnumerable<UserResponce>> GetAsync()
         {
             var answer = await _httpClient.GetAsync(string.Empty);
 
@@ -84,11 +82,11 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
 
-        public async Task<Guid> Post(AddUserRequest addUserRequest)
+        public async Task<Guid> PostAsync(AddUserRequest addUserRequest)
         {
             var answer = await _httpClient.PostAsJsonAsync(string.Empty, addUserRequest);
 
@@ -104,11 +102,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(addUserRequest)),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
 
-        public async Task Put(Guid id, UpdateUserRequest updateUserRequest)
+        public async Task PutAsync(Guid id, UpdateUserRequest updateUserRequest)
         {
             var answer = await _httpClient.PutAsJsonAsync($"{id}", updateUserRequest);
 
@@ -120,7 +118,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(updateUserRequest)),
                 HttpStatusCode.NotFound => new NotFoundException(id),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
             };
         }
     }

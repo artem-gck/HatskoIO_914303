@@ -11,8 +11,6 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        private const string ServiceName = "Department";
-
         private HttpClient _httpClient;
 
         public DepartmentRepository(HttpClient httpClient)
@@ -20,7 +18,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var answer = await _httpClient.DeleteAsync($"{id}");
 
@@ -30,11 +28,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
             };
         }
 
-        public async Task<DepartmentResponce> Get(Guid id)
+        public async Task<DepartmentResponce> GetAsync(Guid id)
         {
             var answer = await _httpClient.GetAsync($"{id}");
 
@@ -49,11 +47,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
             };
         }
 
-        public async Task<IEnumerable<DepartmentResponce>> Get()
+        public async Task<IEnumerable<DepartmentResponce>> GetAsync()
         {
             var answer = await _httpClient.GetAsync(string.Empty);
 
@@ -67,11 +65,11 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
             };
         }
 
-        public async Task<Guid> Post(AddDepartmentRequest addDepartmentRequest)
+        public async Task<Guid> PostAsync(AddDepartmentRequest addDepartmentRequest)
         {
             var answer = await _httpClient.PostAsJsonAsync(string.Empty, addDepartmentRequest);
 
@@ -87,11 +85,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest           => new InvalidModelStateException(nameof(addDepartmentRequest)),
                 HttpStatusCode.Conflict             => new DbUpdateException(),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
             };
         }
 
-        public async Task Put(Guid id, UpdateDepartmentRequest updateDepartmentRequest)
+        public async Task PutAsync(Guid id, UpdateDepartmentRequest updateDepartmentRequest)
         {
             var answer = await _httpClient.PutAsJsonAsync($"{id}", updateDepartmentRequest);
 
@@ -103,7 +101,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest           => new InvalidModelStateException(nameof(updateDepartmentRequest)),
                 HttpStatusCode.NotFound             => new NotFoundException(id),
                 HttpStatusCode.Conflict             => new DbUpdateException(),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
             };
         }
     }

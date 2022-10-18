@@ -38,11 +38,10 @@ namespace CompanyManagementServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
-            var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructure(id));
+            var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructureAsync(id));
 
             return Ok(cheifStructureResponce);
         }
@@ -67,11 +66,10 @@ namespace CompanyManagementServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var userResponce = _mapper.Map<UserResponce>(await _structureService.GetUser(id));
+            var userResponce = _mapper.Map<UserResponce>(await _structureService.GetUserAsync(id));
 
             return Ok(userResponce);
         }

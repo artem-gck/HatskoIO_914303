@@ -6,10 +6,10 @@ namespace CompanyManagementService.DataAccess.Interfaces
 {
     public interface IDepartmentRepository
     {
-        public Task<DepartmentResponce> Get(Guid id);
-        public Task<IEnumerable<DepartmentResponce>> Get();
-        public Task Delete(Guid id);
-        public Task<Guid> Post(AddDepartmentRequest addDepartmentRequest);
-        public Task Put(Guid id, UpdateDepartmentRequest updateDepartmentRequest);
+        public Task<DepartmentResponce> GetAsync(Guid id);
+        public Task<IEnumerable<DepartmentResponce>> GetAsync();
+        public Task DeleteAsync(Guid id);
+        public Task<Guid> PostAsync(AddDepartmentRequest addDepartmentRequest);
+        public Task PutAsync(Guid id, UpdateDepartmentRequest updateDepartmentRequest);
     }
 }

@@ -4,11 +4,11 @@ namespace CompanyManagementService.DataAccess.Interfaces
 {
     public interface IUserInfoRepository
     {
-        public Task<UserResponce> Get(Guid id);
-        public Task<IEnumerable<UserResponce>> GetByDepartmentId(Guid id);
-        public Task<IEnumerable<UserResponce>> Get();
-        public Task Delete(Guid id);
-        public Task<Guid> Post(AddUserRequest addUserRequest);
-        public Task Put(Guid id, UpdateUserRequest updateUserRequest);
+        public Task<UserResponce> GetAsync(Guid id);
+        public Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id);
+        public Task<IEnumerable<UserResponce>> GetAsync();
+        public Task DeleteAsync(Guid id);
+        public Task<Guid> PostAsync(AddUserRequest addUserRequest);
+        public Task PutAsync(Guid id, UpdateUserRequest updateUserRequest);
     }
 }

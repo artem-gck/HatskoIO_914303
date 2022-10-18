@@ -4,7 +4,7 @@ namespace CompanyManagementService.Services.Interfaces
 {
     public interface IStructureService
     {
-        public Task<CheifStructureDto> GetCheifStructure(Guid cheifId);
-        public Task<UserDto> GetUser(Guid userId);
+        public Task<CheifStructureDto> GetCheifStructureAsync(Guid cheifId);
+        public Task<UserDto> GetUserAsync(Guid userId);
     }
 }

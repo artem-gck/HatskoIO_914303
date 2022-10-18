@@ -11,16 +11,14 @@ namespace CompanyManagementService.DataAccess.Realisation
 {
     public class PositionsRepository : IPositionsRepository
     {
-        private const string ServiceName = "Position";
-
         private HttpClient _httpClient;
 
         public PositionsRepository(HttpClient httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(PositionsRepository));
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var answer = await _httpClient.DeleteAsync($"{id}");
 
@@ -30,11 +28,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsRepository))
             };
         }
 
-        public async Task<PositionResponce> Get(Guid id)
+        public async Task<PositionResponce> GetAsync(Guid id)
         {
             var answer = await _httpClient.GetAsync($"{id}");
 
@@ -49,11 +47,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsRepository))
             };
         }
 
-        public async Task<IEnumerable<PositionResponce>> Get()
+        public async Task<IEnumerable<PositionResponce>> GetAsync()
         {
             var answer = await _httpClient.GetAsync(string.Empty);
 
@@ -67,11 +65,11 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
             };
         }
 
-        public async Task<Guid> Post(AddPositionRequest addPositionRequest)
+        public async Task<Guid> PostAsync(AddPositionRequest addPositionRequest)
         {
             var answer = await _httpClient.PostAsJsonAsync(string.Empty, addPositionRequest);
 
@@ -87,11 +85,11 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(addPositionRequest)),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
             };
         }
 
-        public async Task Put(Guid id, UpdatePositionRequest updatePositionRequest)
+        public async Task PutAsync(Guid id, UpdatePositionRequest updatePositionRequest)
         {
             var answer = await _httpClient.PutAsJsonAsync($"{id}", updatePositionRequest);
 
@@ -103,7 +101,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(updatePositionRequest)),
                 HttpStatusCode.NotFound => new NotFoundException(id),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(ServiceName)
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
             };
         }
     }
