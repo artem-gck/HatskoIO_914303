@@ -28,6 +28,9 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddScoped<IMessageService, MessageService>();
 
+builder.Services.AddScoped<IManagementAccess, ManagementAccess>();
+builder.Services.AddScoped<ITaskAccess, TaskAccess>();
+
 builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); });
 builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); });
 
