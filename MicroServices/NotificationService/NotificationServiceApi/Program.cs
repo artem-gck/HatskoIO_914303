@@ -1,6 +1,7 @@
 ﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using NotificationService.DataAccess.DataBase;
 using NotificationService.DataAccess.DataBase.Context;
 using NotificationService.DataAccess.Http.Interfaces;
@@ -10,6 +11,7 @@ using NotificationService.Services;
 using NotificationService.Services.MapperProfiles;
 using NotificationServiceApi.MapperProfiles;
 using Quartz;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = builder.Configuration.GetConnectionString("Sqlite");
@@ -53,7 +55,18 @@ builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Notification API",
+        Description = "An ASP.NET Core Web API for notification of user",
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 builder.Services.AddHealthChecks().AddSqlite(dbConnectionString);
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
