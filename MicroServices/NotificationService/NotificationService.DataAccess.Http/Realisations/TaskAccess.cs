@@ -6,11 +6,11 @@ using System.Net;
 
 namespace NotificationService.DataAccess.Http.Realisations
 {
-    public class TaskRepository : ITaskRepository
+    public class TaskAccess : ITaskAccess
     {
         private readonly HttpClient _httpClient;
 
-        public TaskRepository(HttpClient httpClient)
+        public TaskAccess(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }

@@ -12,10 +12,10 @@ namespace NotificationService.Notification.Jobs
         private readonly string _senderPassword;
         private readonly string _host;
 
-        private readonly ITaskRepository _taskRepository;
-        private readonly IManagementRepository _managementRepository;
+        private readonly ITaskAccess _taskRepository;
+        private readonly IManagementAccess _managementRepository;
 
-        public EmailSender(ITaskRepository taskRepository, IManagementRepository managementRepository, IConfiguration configuration)
+        public EmailSender(ITaskAccess taskRepository, IManagementAccess managementRepository, IConfiguration configuration)
         {
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
             _managementRepository = managementRepository ?? throw new ArgumentNullException(nameof(managementRepository));

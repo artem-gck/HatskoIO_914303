@@ -2,7 +2,7 @@
 
 namespace NotificationService.DataAccess.Http.Interfaces
 {
-    public interface ITaskRepository
+    public interface ITaskAccess
     {
         public Task<IEnumerable<TaskResponce>> GetTasksAsync();
     }

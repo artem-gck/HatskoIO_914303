@@ -1,19 +1,25 @@
-﻿using NotificationService.DataAccess.Http.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using NotificationService.DataAccess.DataBase.Context;
+using NotificationService.DataAccess.Http.Interfaces;
 using NotificationService.DataAccess.Http.Realisations;
 using NotificationService.Notification.Jobs;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
+var dbConnectionString = builder.Configuration.GetConnectionString("Sqlite");
 var managenmentConnectionString = builder.Configuration.GetConnectionString("ManagementService");
 var tasksConnectionString = builder.Configuration.GetConnectionString("TasksService");
 
 // Add services to the container.
 
-builder.Services.AddScoped<IManagementRepository, ManagementRepository>();
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddDbContext<MessageContext>(opt =>
+    opt.UseSqlite(dbConnectionString, b => b.MigrationsAssembly("NotificationService.DataAccess.DataBase")));
 
-builder.Services.AddHttpClient<IManagementRepository, ManagementRepository>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); });
-builder.Services.AddHttpClient<ITaskRepository, TaskRepository>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); });
+builder.Services.AddScoped<IManagementAccess, ManagementAccess>();
+builder.Services.AddScoped<ITaskAccess, TaskAccess>();
+
+builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); });
+builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); });
 
 builder.Services.AddQuartz(q =>
 {

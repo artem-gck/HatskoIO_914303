@@ -6,11 +6,11 @@ using System.Net;
 
 namespace NotificationService.DataAccess.Http.Realisations
 {
-    public class ManagementRepository : IManagementRepository
+    public class ManagementAccess : IManagementAccess
     {
         private readonly HttpClient _httpClient;
 
-        public ManagementRepository(HttpClient httpClient)
+        public ManagementAccess(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));   
         }
