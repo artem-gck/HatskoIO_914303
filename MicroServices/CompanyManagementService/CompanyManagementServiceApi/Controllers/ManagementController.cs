@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CompanyManagementServiceApi.Controllers
 {
     [ApiController]
-    [Route("management")]
+    [Route("api/management")]
     public class ManagementController : Controller
     {
         private readonly IStructureService _structureService;
