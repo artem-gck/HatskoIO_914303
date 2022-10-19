@@ -9,11 +9,11 @@ using System.Net.Http.Json;
 
 namespace CompanyManagementService.DataAccess.Realisation
 {
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentAccess : IDepartmentAccess
     {
         private HttpClient _httpClient;
 
-        public DepartmentRepository(HttpClient httpClient)
+        public DepartmentAccess(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
@@ -28,7 +28,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
             };
         }
 
@@ -47,7 +47,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
             };
         }
 
@@ -65,7 +65,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
             };
         }
 
@@ -85,7 +85,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest           => new InvalidModelStateException(nameof(addDepartmentRequest)),
                 HttpStatusCode.Conflict             => new DbUpdateException(),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
             };
         }
 
@@ -101,7 +101,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest           => new InvalidModelStateException(nameof(updateDepartmentRequest)),
                 HttpStatusCode.NotFound             => new NotFoundException(id),
                 HttpStatusCode.Conflict             => new DbUpdateException(),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
             };
         }
     }

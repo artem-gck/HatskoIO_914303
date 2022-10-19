@@ -29,15 +29,15 @@ builder.Services.AddStackExchangeRedisCache(options => {
     options.InstanceName = "CompanyManagementService_";
 });
 
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<IPositionsRepository, PositionsRepository>();
-builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
-builder.Services.AddScoped<IUserStructureRepository, UserStructureRepository>();
+builder.Services.AddScoped<IDepartmentAccess, DepartmentAccess>();
+builder.Services.AddScoped<IPositionsAccess, PositionsAccess>();
+builder.Services.AddScoped<IUserInfoAccess, UserInfoAccess>();
+builder.Services.AddScoped<IUserStructureAccess, UserStructureAccess>();
 
-builder.Services.AddHttpClient<IDepartmentRepository, DepartmentRepository>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); });
-builder.Services.AddHttpClient<IUserStructureRepository, UserStructureRepository>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); });
-builder.Services.AddHttpClient<IPositionsRepository, PositionsRepository>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); });
-builder.Services.AddHttpClient<IUserInfoRepository, UserInfoRepository>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); });
+builder.Services.AddHttpClient<IDepartmentAccess, DepartmentAccess>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); });
+builder.Services.AddHttpClient<IUserStructureAccess, UserStructureAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); });
+builder.Services.AddHttpClient<IPositionsAccess, PositionsAccess>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); });
+builder.Services.AddHttpClient<IUserInfoAccess, UserInfoAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); });
 
 builder.Services.AddScoped<IStructureService, StructureService>();
 

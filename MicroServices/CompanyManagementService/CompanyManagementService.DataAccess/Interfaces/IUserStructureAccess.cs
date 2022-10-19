@@ -4,7 +4,7 @@ using CompanyManagementService.DataAccess.StructureEntities.UpdateRequest;
 
 namespace CompanyManagementService.DataAccess.Interfaces
 {
-    public interface IUserStructureRepository
+    public interface IUserStructureAccess
     {
         public Task<UserResponce> GetAsync(Guid departmentId, Guid userId);
         public Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id);

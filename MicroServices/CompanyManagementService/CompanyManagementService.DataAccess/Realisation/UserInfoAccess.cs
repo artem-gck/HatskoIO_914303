@@ -7,11 +7,11 @@ using CompanyManagementService.DataAccess.UserEntity;
 
 namespace CompanyManagementService.DataAccess.Realisation
 {
-    public class UserInfoRepository : IUserInfoRepository
+    public class UserInfoAccess : IUserInfoAccess
     {
         private readonly HttpClient _httpClient;
 
-        public UserInfoRepository(HttpClient httpClient)
+        public UserInfoAccess(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
@@ -26,7 +26,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
 
@@ -45,7 +45,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
 
@@ -64,7 +64,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new NotFoundException(id),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
 
@@ -82,7 +82,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
 
@@ -102,7 +102,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(addUserRequest)),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
 
@@ -118,7 +118,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(updateUserRequest)),
                 HttpStatusCode.NotFound => new NotFoundException(id),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(UserInfoAccess))
             };
         }
     }

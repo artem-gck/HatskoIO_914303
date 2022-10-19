@@ -9,13 +9,13 @@ using System.Net;
 
 namespace CompanyManagementService.DataAccess.Realisation
 {
-    public class PositionsRepository : IPositionsRepository
+    public class PositionsAccess : IPositionsAccess
     {
         private HttpClient _httpClient;
 
-        public PositionsRepository(HttpClient httpClient)
+        public PositionsAccess(HttpClient httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(PositionsRepository));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(PositionsAccess));
         }
 
         public async Task DeleteAsync(Guid id)
@@ -28,7 +28,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsAccess))
             };
         }
 
@@ -47,7 +47,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsRepository))
+                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsAccess))
             };
         }
 
@@ -65,7 +65,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsAccess))
             };
         }
 
@@ -85,7 +85,7 @@ namespace CompanyManagementService.DataAccess.Realisation
             {
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(addPositionRequest)),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsAccess))
             };
         }
 
@@ -101,7 +101,7 @@ namespace CompanyManagementService.DataAccess.Realisation
                 HttpStatusCode.BadRequest => new InvalidModelStateException(nameof(updatePositionRequest)),
                 HttpStatusCode.NotFound => new NotFoundException(id),
                 HttpStatusCode.Conflict => new DbUpdateException(),
-                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsRepository))
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsAccess))
             };
         }
     }

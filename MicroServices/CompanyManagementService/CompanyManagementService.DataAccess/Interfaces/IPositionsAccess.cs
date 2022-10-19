@@ -4,12 +4,12 @@ using CompanyManagementService.DataAccess.StructureEntities.UpdateRequest;
 
 namespace CompanyManagementService.DataAccess.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IPositionsAccess
     {
-        public Task<DepartmentResponce> GetAsync(Guid id);
-        public Task<IEnumerable<DepartmentResponce>> GetAsync();
+        public Task<PositionResponce> GetAsync(Guid id);
+        public Task<IEnumerable<PositionResponce>> GetAsync();
         public Task DeleteAsync(Guid id);
-        public Task<Guid> PostAsync(AddDepartmentRequest addDepartmentRequest);
-        public Task PutAsync(Guid id, UpdateDepartmentRequest updateDepartmentRequest);
+        public Task<Guid> PostAsync(AddPositionRequest addPositionRequest);
+        public Task PutAsync(Guid id, UpdatePositionRequest updatePositionRequest);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CompanyManagementService.Cache;
 using CompanyManagementService.DataAccess.Interfaces;
+using CompanyManagementService.DataAccess.Realisation;
 using CompanyManagementService.DataAccess.StructureEntities.Responce;
 using CompanyManagementService.Services.Dto;
 using CompanyManagementService.Services.Interfaces;
@@ -10,17 +11,17 @@ namespace CompanyManagementService.Services.Realisation
 {
     public class StructureService : IStructureService
     {
-        private readonly IUserInfoRepository _userInfoRepository;
-        private readonly IUserStructureRepository _userStructureRepository;
-        private readonly IPositionsRepository _positionsRepository;
+        private readonly IUserInfoAccess _userInfoAccess;
+        private readonly IUserStructureAccess _userStructureAccess;
+        private readonly IPositionsAccess _positionsAccess;
         private readonly IDistributedCache _cache;
         private readonly IMapper _mapper;
 
-        public StructureService(IUserInfoRepository userInfoRepository, IUserStructureRepository userStructureRepository, IPositionsRepository positionsRepository, IDistributedCache cache, IMapper mapper)
+        public StructureService(IUserInfoAccess userInfoAccess, IUserStructureAccess userStructureAccess, IPositionsAccess positionsAccess, IDistributedCache cache, IMapper mapper)
         {
-            _userInfoRepository = userInfoRepository ?? throw new ArgumentNullException(nameof(userInfoRepository));
-            _userStructureRepository = userStructureRepository ?? throw new ArgumentNullException(nameof(userStructureRepository));
-            _positionsRepository = positionsRepository ?? throw new ArgumentNullException(nameof(positionsRepository));
+            _userInfoAccess = userInfoAccess ?? throw new ArgumentNullException(nameof(userInfoAccess));
+            _userStructureAccess = userStructureAccess ?? throw new ArgumentNullException(nameof(userStructureAccess));
+            _positionsAccess = positionsAccess ?? throw new ArgumentNullException(nameof(positionsAccess));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -32,14 +33,12 @@ namespace CompanyManagementService.Services.Realisation
 
             if (cheifStructureDto is null)
             {
-                var cheif = await _userInfoRepository.GetAsync(cheifId);
-
-                var cheifInfo = await _userStructureRepository.GetAsync(cheif.DepartmentId.Value, cheifId);
+                var cheif = await _userInfoAccess.GetAsync(cheifId);
+                var cheifInfo = await _userStructureAccess.GetAsync(cheif.DepartmentId.Value, cheifId);
                 
-                var users = (await _userInfoRepository.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
+                var users = (await _userInfoAccess.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
                                                       .Where(us => us.Id != cheifId);
-                
-                var usersInfo = (await _userStructureRepository.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
+                var usersInfo = (await _userStructureAccess.GetByDepartmentIdAsync(cheif.DepartmentId.Value))
                                                                .Where(us => us.CheifUserId == cheifId);
 
                 var listOfUsersInfo = usersInfo.Zip(users).ToList();
@@ -67,8 +66,8 @@ namespace CompanyManagementService.Services.Realisation
 
             if (userDto is null)
             {
-                var user = await _userInfoRepository.GetAsync(userId);
-                var position = await _positionsRepository.GetAsync(user.PositionId.Value);
+                var user = await _userInfoAccess.GetAsync(userId);
+                var position = await _positionsAccess.GetAsync(user.PositionId.Value);
 
                 userDto = _mapper.Map<UserDto>((position, user));
                 await _cache.SetRecordAsync(cacheId, userDto);

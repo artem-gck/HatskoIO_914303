@@ -2,7 +2,7 @@
 
 namespace CompanyManagementService.DataAccess.Interfaces
 {
-    public interface IUserInfoRepository
+    public interface IUserInfoAccess
     {
         public Task<UserResponce> GetAsync(Guid id);
         public Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id);
