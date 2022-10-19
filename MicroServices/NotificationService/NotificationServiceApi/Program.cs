@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NotificationService.DataAccess.DataBase;
 using NotificationService.DataAccess.DataBase.Context;
 using NotificationService.DataAccess.Http.Interfaces;
 using NotificationService.DataAccess.Http.Realisations;
 using NotificationService.Notification.Jobs;
+using NotificationService.Services;
+using NotificationService.Services.MapperProfiles;
+using NotificationServiceApi.MapperProfiles;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +19,14 @@ var tasksConnectionString = builder.Configuration.GetConnectionString("TasksServ
 builder.Services.AddDbContext<MessageContext>(opt =>
     opt.UseSqlite(dbConnectionString, b => b.MigrationsAssembly("NotificationService.DataAccess.DataBase")));
 
+builder.Services.AddAutoMapper(typeof(ControllerProfile), typeof(ServiceProfile));
+
 builder.Services.AddScoped<IManagementAccess, ManagementAccess>();
 builder.Services.AddScoped<ITaskAccess, TaskAccess>();
+
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); });
 builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); });

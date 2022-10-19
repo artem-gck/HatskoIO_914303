@@ -1,4 +1,4 @@
-﻿namespace NotificationService.DataAccess.Http.Exceptions
+﻿namespace NotificationService.DataAccess.DataBase.Exceptions
 {
     public class NotFoundMessageException : Exception
     {

@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NotificationService.DataAccess.DataBase.Context;
 using NotificationService.DataAccess.DataBase.Entity;
-using NotificationService.DataAccess.DataBase.Interfaces;
-using NotificationService.DataAccess.Http.Exceptions;
+using NotificationService.DataAccess.DataBase.Exceptions;
 
-namespace NotificationService.DataAccess.DataBase.Realisations
+namespace NotificationService.DataAccess.DataBase
 {
     public class MessageRepository : IMessageRepository
     {
@@ -17,6 +16,8 @@ namespace NotificationService.DataAccess.DataBase.Realisations
 
         public async Task<Guid> AddAsync(MessageEntity entity)
         {
+            entity.CreatedDate = DateTime.Now;
+
             var messageDb = _messageContext.Messages.Add(entity);
 
             await _messageContext.SaveChangesAsync();
