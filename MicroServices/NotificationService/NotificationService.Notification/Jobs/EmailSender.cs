@@ -5,6 +5,7 @@ using NotificationService.DataAccess.Http.Interfaces;
 using Microsoft.Extensions.Configuration;
 using NotificationService.DataAccess.DataBase;
 using NotificationService.DataAccess.DataBase.Entity;
+using System.Text;
 
 namespace NotificationService.Notification.Jobs
 {
@@ -32,16 +33,21 @@ namespace NotificationService.Notification.Jobs
         public async Task Execute(IJobExecutionContext context)
         {
             var tasks = (await _taskRepository.GetTasksAsync())
-                            .Where(task => (task.DeadLine - DateTime.Now) <= TimeSpan.FromDays(1));
+                            .Where(task => (task.DeadLine - DateTime.Now) <= TimeSpan.FromDays(1))
+                            .GroupBy(task => task.OwnerUserId);
 
             foreach (var task in tasks)
             {
-                var user = await _managementAccess.GetUserInfoAsync(task.OwnerUserId);
+                var user = await _managementAccess.GetUserInfoAsync(task.Key);
 
                 using var message = new MailMessage(_senderEmail, user.Email);
 
-                message.Subject = $"Task \"{task.Header}\"";
-                message.Body = $"You need to complete task \"{task.Header}\" before {task.DeadLine:dd.MM.yyyy}";
+                message.Subject = $"Task deadlines";
+
+                var body = new StringBuilder();
+                body.AppendJoin('\n', task.Select(ta => $"You need to complete task <{ta.Header}> before {ta.DeadLine:dd.MM.yyyy}"));
+
+                message.Body = body.ToString();
 
                 using var smtpClient = new SmtpClient()
                 {

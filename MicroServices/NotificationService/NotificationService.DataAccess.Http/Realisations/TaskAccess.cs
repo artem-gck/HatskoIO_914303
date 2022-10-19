@@ -17,7 +17,7 @@ namespace NotificationService.DataAccess.Http.Realisations
 
         public async Task<IEnumerable<TaskResponce>> GetTasksAsync()
         {
-            var answer = await _httpClient.GetAsync("{id}");
+            var answer = await _httpClient.GetAsync(string.Empty);
 
             if (answer.IsSuccessStatusCode)
             {

@@ -17,7 +17,7 @@ namespace NotificationService.DataAccess.Http.Realisations
 
         public async Task<UserResponce> GetUserInfoAsync(Guid id)
         {
-            var answer = await _httpClient.GetAsync("{id}");
+            var answer = await _httpClient.GetAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
             {

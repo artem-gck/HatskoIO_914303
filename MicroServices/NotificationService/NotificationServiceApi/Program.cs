@@ -43,7 +43,7 @@ builder.Services.AddQuartz(q =>
                     .ForJob(jobKey)
                     .WithIdentity("taskReminder", "emailGroup")
                     .WithCronSchedule("0 0 8/6 ? * * *"));
-                    //.WithCronSchedule("* * * ? * * *"));
+                    //.WithCronSchedule("0/30 * * ? * * *"));
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
