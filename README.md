@@ -32,3 +32,8 @@ Microservices structure:
    N-Layer architecture
 
 ![image](https://user-images.githubusercontent.com/72604580/196154263-7ec59b12-4bcb-495a-b725-049b7b5fe42e.png)
+
+6. Notification service
+   N-Layer architecture
+   
+![image](https://user-images.githubusercontent.com/72604580/196687373-41b89ac2-74f2-4e68-821b-0ef36d2fc6e7.png)
