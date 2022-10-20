@@ -10,6 +10,7 @@ using NotificationService.Notification.Jobs;
 using NotificationService.Services;
 using NotificationService.Services.MapperProfiles;
 using NotificationServiceApi.MapperProfiles;
+using NotificationServiceApi.Middlewares;
 using Quartz;
 using System.Reflection;
 
@@ -80,7 +81,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
@@ -88,7 +88,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 app.MapHealthChecksUI();
-
+app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
 
 app.Run();

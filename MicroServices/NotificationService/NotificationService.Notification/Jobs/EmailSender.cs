@@ -15,13 +15,13 @@ namespace NotificationService.Notification.Jobs
         private readonly string _senderPassword;
         private readonly string _host;
 
-        private readonly ITaskAccess _taskRepository;
+        private readonly ITaskAccess _taskAccess;
         private readonly IManagementAccess _managementAccess;
         private readonly IMessageRepository _messageRepository;
 
-        public EmailSender(ITaskAccess taskRepository, IManagementAccess managementAccess, IMessageRepository messageRepository, IConfiguration configuration)
+        public EmailSender(ITaskAccess taskAccess, IManagementAccess managementAccess, IMessageRepository messageRepository, IConfiguration configuration)
         {
-            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+            _taskAccess = taskAccess ?? throw new ArgumentNullException(nameof(taskAccess));
             _managementAccess = managementAccess ?? throw new ArgumentNullException(nameof(managementAccess));
             _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
 
@@ -32,7 +32,7 @@ namespace NotificationService.Notification.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var tasks = (await _taskRepository.GetTasksAsync())
+            var tasks = (await _taskAccess.GetTasksAsync())
                             .Where(task => (task.DeadLine - DateTime.Now) <= TimeSpan.FromDays(1))
                             .GroupBy(task => task.OwnerUserId);
 
