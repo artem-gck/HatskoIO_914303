@@ -15,12 +15,16 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
         public async Task<Guid> AddUserAsync(UserEntity user)
         {
-            var sql = $"INSERT INTO Users (Id, PublicKey, PrivateKey)" +
-                      $"VALUES ({user.Id}, {user.PublicKey}, {user.PrivateKey})";
+            var sql = $"INSERT INTO users (Id, PublicKey, PrivateKey) " +
+                      $"VALUES ('{user.Id}', @Public, @Private)";
 
             using var connection = _provider.GetDbConnection();
 
-            await connection.ExecuteAsync(sql);
+            await connection.ExecuteAsync(sql, new { Public = user.PublicKey, Private = user.PrivateKey});
+
+            var b = "SELECT * FROM users";
+
+            var a = await connection.QueryAsync<UserEntity>(b);
 
             return user.Id;
         }

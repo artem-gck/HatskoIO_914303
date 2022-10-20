@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\SignatureService.DataAccess.DataBase\SignatureService.DataAccess.DataBase.csproj" />
+    <ProjectReference Include="..\SignatureService.Services\SignatureService.Services.csproj" />
   </ItemGroup>
 
 </Project>
