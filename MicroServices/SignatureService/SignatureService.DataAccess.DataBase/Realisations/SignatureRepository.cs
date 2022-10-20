@@ -15,7 +15,7 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
         public async Task AddAsync(SignatureEntity entity)
         {
-            var sql = $"INSERT INTO signature (DocumentId, Version, Hash, UserId) " +
+            var sql = $"INSERT INTO signatures (DocumentId, Version, Hash, UserId) " +
                       $"VALUES ('{entity.DocumentId}', {entity.Version}, @Hash, '{entity.UserId}')";
 
             using var connection = _provider.GetDbConnection();
@@ -26,7 +26,7 @@ namespace SignatureService.DataAccess.DataBase.Realisations
         public async Task<IEnumerable<SignatureEntity>> GetByDocumentIdAsync(Guid id, int version)
         {
             var sql = $"SELECT * " +
-                      $"FROM signature " +
+                      $"FROM signatures " +
                       $"WHERE DocumentId = '{id}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
@@ -39,7 +39,7 @@ namespace SignatureService.DataAccess.DataBase.Realisations
         public async Task<SignatureEntity> GetSignatureAync(Guid userId, Guid documentId, int version)
         {
             var sql = $"SELECT * " +
-                      $"FROM signature " +
+                      $"FROM signatures " +
                       $"WHERE UserId = {userId} AND DocumentId = '{documentId}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();

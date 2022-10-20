@@ -8,17 +8,17 @@ namespace SignatureServiceApi.Controllers
     [Route("api/signatures")]
     public class SignatureController : Controller
     {
-        private readonly ISignatureService _signatureService;
+        private readonly ISignService _signService;
 
-        public SignatureController(ISignatureService signatureService)
+        public SignatureController(ISignService signService)
         {
-            _signatureService = signatureService ?? throw new ArgumentNullException(nameof(signatureService));
+            _signService = signService ?? throw new ArgumentNullException(nameof(signService));
         }
 
         [HttpPost("{userId}/{documentId}/{version}")]
         public async Task<IActionResult> Post(Guid userId, Guid documentId, int version)
         {
-            await _signatureService.AddAsync(userId, documentId, version);
+            await _signService.AddAsync(userId, documentId, version);
 
             return Created("", "");
         }
@@ -26,7 +26,7 @@ namespace SignatureServiceApi.Controllers
         [HttpGet("~/api/documents/{documentId}/{version}")]
         public async Task<IActionResult> Get(Guid documentId, int version)
         {
-            var users = await _signatureService.GetUsersByDocumentIdAsync(documentId, version);
+            var users = await _signService.GetUsersByDocumentIdAsync(documentId, version);
 
             return Ok(users);
         }
@@ -34,7 +34,7 @@ namespace SignatureServiceApi.Controllers
         [HttpGet("{userId}/{documentId}/{version}")]
         public async Task<IActionResult> Get(Guid userId, Guid documentId, int version)
         {
-            var result = await _signatureService.CheckDocumentByUser(userId, documentId, version);
+            var result = await _signService.CheckDocumentByUser(userId, documentId, version);
 
             return result ? Ok() : NotFound();
         }

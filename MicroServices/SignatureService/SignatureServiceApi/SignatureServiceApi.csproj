@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SignatureService.DataAccess.DataBase\SignatureService.DataAccess.DataBase.csproj" />
+    <ProjectReference Include="..\SignatureService.DataAccess.Http\SignatureService.DataAccess.Http.csproj" />
     <ProjectReference Include="..\SignatureService.Services\SignatureService.Services.csproj" />
   </ItemGroup>
 

@@ -1,18 +1,19 @@
 ﻿using SignatureService.DataAccess.DataBase.Entities;
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.Http.Interfaces;
+using SignatureService.DataAccess.Http.Responce;
 using SignatureService.Services.Interfaces;
 using System.Security.Cryptography;
 
 namespace SignatureService.Services.Realisations
 {
-    public class SignatureService : ISignatureService
+    public class SignService : ISignService
     {
         private readonly IDocumentAccess _documentAccess;
         private readonly ISignatureRepository _signatureRepository;
         private readonly IUserRepository _userRepository;
 
-        public SignatureService(IDocumentAccess documentAccess, ISignatureRepository signatureRepository, IUserRepository userRepository)
+        public SignService(IDocumentAccess documentAccess, ISignatureRepository signatureRepository, IUserRepository userRepository)
         {
             _documentAccess = documentAccess ?? throw new ArgumentNullException(nameof(documentAccess));
             _signatureRepository = signatureRepository ?? throw new ArgumentNullException(nameof(signatureRepository));
