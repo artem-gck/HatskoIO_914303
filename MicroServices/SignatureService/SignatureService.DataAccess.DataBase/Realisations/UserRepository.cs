@@ -13,7 +13,7 @@ namespace SignatureService.DataAccess.DataBase.Realisations
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
-        public async Task<Guid> AddUserAsync(UserEntity user)
+        public async Task<Guid> AddAsync(UserEntity user)
         {
             var sql = $"INSERT INTO users (Id, PublicKey, PrivateKey) " +
                       $"VALUES ('{user.Id}', @Public, @Private)";

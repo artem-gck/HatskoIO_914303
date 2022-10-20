@@ -51,9 +51,9 @@ namespace SignatureService.Services.Realisations
             return signature is not null;
         }
 
-        public async Task<IEnumerable<Guid>> GetUsersByDocumentIdAsync(Guid id, int version)
+        public async Task<IEnumerable<Guid>> GetUsersByDocumentIdAsync(Guid documentId, int version)
         {
-            var signatures = await _signatureRepository.GetByDocumentIdAsync(id, version);
+            var signatures = await _signatureRepository.GetByDocumentIdAsync(documentId, version);
 
             return signatures.Select(sig => sig.UserId);
         }

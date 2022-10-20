@@ -28,7 +28,7 @@ namespace SignatureService.Services.Realisations
                 PrivateKey = privateKey,
             };
 
-            return await _userRepository.AddUserAsync(user);
+            return await _userRepository.AddAsync(user);
         }
     }
 }
