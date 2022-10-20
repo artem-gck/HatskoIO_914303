@@ -22,10 +22,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             await connection.ExecuteAsync(sql, new { Public = user.PublicKey, Private = user.PrivateKey});
 
-            var b = "SELECT * FROM users";
-
-            var a = await connection.QueryAsync<UserEntity>(b);
-
             return user.Id;
         }
     }
