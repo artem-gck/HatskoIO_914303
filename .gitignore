@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+MicroServices/NotificationService/NotificationServiceApi/Messages.db
+MicroServices/NotificationService/NotificationServiceApi/Messages.db-wal
+MicroServices/NotificationService/NotificationServiceApi/Messages.db-shm
