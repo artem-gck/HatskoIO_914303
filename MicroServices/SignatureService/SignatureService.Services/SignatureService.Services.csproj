@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SignatureService.DataAccess.DataBase\SignatureService.DataAccess.DataBase.csproj" />
+    <ProjectReference Include="..\SignatureService.DataAccess.Http\SignatureService.DataAccess.Http.csproj" />
   </ItemGroup>
 
 </Project>

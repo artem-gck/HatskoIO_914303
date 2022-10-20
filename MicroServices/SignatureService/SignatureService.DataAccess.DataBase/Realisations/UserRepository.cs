@@ -24,5 +24,18 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             return user.Id;
         }
+
+        public async Task<UserEntity> GetAsync(Guid id)
+        {
+            var sql = $"SELECT * " +
+                      $"FROM users " +
+                      $"WHERE Id = '{id}'";
+
+            using var connection = _provider.GetDbConnection();
+
+            var user = await connection.QueryFirstOrDefaultAsync<UserEntity>(sql);
+
+            return user;
+        }
     }
 }
