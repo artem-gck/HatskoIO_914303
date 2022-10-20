@@ -23,11 +23,24 @@ namespace SignatureService.DataAccess.DataBase.Realisations
             await connection.ExecuteAsync(sql, new { Hash = entity.Hash });
         }
 
-        public async Task<SignatureEntity> GetByDocumentIdAsync(Guid id, int version)
+        public async Task<IEnumerable<SignatureEntity>> GetByDocumentIdAsync(Guid id, int version)
         {
             var sql = $"SELECT * " +
                       $"FROM signature " +
                       $"WHERE DocumentId = '{id}' AND Version = {version}";
+
+            using var connection = _provider.GetDbConnection();
+
+            var signatureEntity = await connection.QueryAsync<SignatureEntity>(sql);
+
+            return signatureEntity;
+        }
+
+        public async Task<SignatureEntity> GetSignatureAync(Guid userId, Guid documentId, int version)
+        {
+            var sql = $"SELECT * " +
+                      $"FROM signature " +
+                      $"WHERE UserId = {userId} AND DocumentId = '{documentId}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
 

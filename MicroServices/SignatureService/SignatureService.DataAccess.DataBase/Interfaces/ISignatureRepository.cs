@@ -5,6 +5,7 @@ namespace SignatureService.DataAccess.DataBase.Interfaces
     public interface ISignatureRepository
     {
         public Task AddAsync(SignatureEntity entity);
-        public Task<SignatureEntity> GetByDocumentIdAsync(Guid id, int version);
+        public Task<IEnumerable<SignatureEntity>> GetByDocumentIdAsync(Guid id, int version);
+        public Task<SignatureEntity> GetSignatureAync(Guid userId, Guid documentId, int version);
     }
 }

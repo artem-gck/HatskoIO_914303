@@ -12,7 +12,6 @@ namespace SignatureService.Services.Realisations
         private readonly ISignatureRepository _signatureRepository;
         private readonly IUserRepository _userRepository;
 
-
         public SignatureService(IDocumentAccess documentAccess, ISignatureRepository signatureRepository, IUserRepository userRepository)
         {
             _documentAccess = documentAccess ?? throw new ArgumentNullException(nameof(documentAccess));
@@ -45,9 +44,18 @@ namespace SignatureService.Services.Realisations
             await _signatureRepository.AddAsync(signatureEntity);
         }
 
-        public Task GetByDocumentIdAsync(Guid id, int version)
+        public async Task<bool> CheckDocumentByUser(Guid userId, Guid documentId, int version)
         {
-            throw new NotImplementedException();
+            var signature = await _signatureRepository.GetSignatureAync(userId, documentId, version);
+
+            return signature is not null;
+        }
+
+        public async Task<IEnumerable<Guid>> GetUsersByDocumentIdAsync(Guid id, int version)
+        {
+            var signatures = await _signatureRepository.GetByDocumentIdAsync(id, version);
+
+            return signatures.Select(sig => sig.UserId);
         }
     }
 }
