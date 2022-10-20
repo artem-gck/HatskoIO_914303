@@ -4,7 +4,7 @@ using SignatureService.Services.Interfaces;
 namespace SignatureServiceApi.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("api/users")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 namespace SignatureServiceApi.Controllers
 {
     [ApiController]
-    [Route("signatures")]
+    [Route("api/signatures")]
     public class SignatureController : Controller
     {
         private readonly ISignatureService _signatureService;
