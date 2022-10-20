@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin", "IdentityService\src\IdentityService.Admin\IdentityService.Admin.csproj", "{0CF57E72-1DF9-4891-846B-EF776E99C2FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.STS.Identity", "IdentityService\src\IdentityService.STS.Identity\IdentityService.STS.Identity.csproj", "{D1452C52-6963-49A5-824F-E87B7255E72C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin.Api", "IdentityService\src\IdentityService.Admin.Api\IdentityService.Admin.Api.csproj", "{B643FEDD-2901-4D47-87AA-7CE4BDFD3103}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin.EntityFramework.Shared", "IdentityService\src\IdentityService.Admin.EntityFramework.Shared\IdentityService.Admin.EntityFramework.Shared.csproj", "{6BC1DD6B-7AB0-44C2-A61E-FA3A28C596C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin.EntityFramework.MySql", "IdentityService\src\IdentityService.Admin.EntityFramework.MySql\IdentityService.Admin.EntityFramework.MySql.csproj", "{7B64935D-FB6B-4A25-8AB7-C0BA1DB13ADB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin.EntityFramework.PostgreSQL", "IdentityService\src\IdentityService.Admin.EntityFramework.PostgreSQL\IdentityService.Admin.EntityFramework.PostgreSQL.csproj", "{01D38FD3-33CF-49A6-9ADD-37DF0D55C445}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Admin.EntityFramework.SqlServer", "IdentityService\src\IdentityService.Admin.EntityFramework.SqlServer\IdentityService.Admin.EntityFramework.SqlServer.csproj", "{145D98FE-C335-4DEC-9EFC-76DBE6995333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Shared", "IdentityService\src\IdentityService.Shared\IdentityService.Shared.csproj", "{E734C681-44A4-4F54-BBF5-00B110067905}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CF57E72-1DF9-4891-846B-EF776E99C2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CF57E72-1DF9-4891-846B-EF776E99C2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CF57E72-1DF9-4891-846B-EF776E99C2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CF57E72-1DF9-4891-846B-EF776E99C2FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1452C52-6963-49A5-824F-E87B7255E72C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1452C52-6963-49A5-824F-E87B7255E72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1452C52-6963-49A5-824F-E87B7255E72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1452C52-6963-49A5-824F-E87B7255E72C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B643FEDD-2901-4D47-87AA-7CE4BDFD3103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B643FEDD-2901-4D47-87AA-7CE4BDFD3103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B643FEDD-2901-4D47-87AA-7CE4BDFD3103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B643FEDD-2901-4D47-87AA-7CE4BDFD3103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BC1DD6B-7AB0-44C2-A61E-FA3A28C596C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BC1DD6B-7AB0-44C2-A61E-FA3A28C596C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BC1DD6B-7AB0-44C2-A61E-FA3A28C596C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BC1DD6B-7AB0-44C2-A61E-FA3A28C596C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B64935D-FB6B-4A25-8AB7-C0BA1DB13ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B64935D-FB6B-4A25-8AB7-C0BA1DB13ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B64935D-FB6B-4A25-8AB7-C0BA1DB13ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B64935D-FB6B-4A25-8AB7-C0BA1DB13ADB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D38FD3-33CF-49A6-9ADD-37DF0D55C445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D38FD3-33CF-49A6-9ADD-37DF0D55C445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D38FD3-33CF-49A6-9ADD-37DF0D55C445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D38FD3-33CF-49A6-9ADD-37DF0D55C445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145D98FE-C335-4DEC-9EFC-76DBE6995333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145D98FE-C335-4DEC-9EFC-76DBE6995333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145D98FE-C335-4DEC-9EFC-76DBE6995333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145D98FE-C335-4DEC-9EFC-76DBE6995333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E734C681-44A4-4F54-BBF5-00B110067905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E734C681-44A4-4F54-BBF5-00B110067905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E734C681-44A4-4F54-BBF5-00B110067905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E734C681-44A4-4F54-BBF5-00B110067905}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCB128F5-8E21-4044-934C-8BB153984A9F}
+	EndGlobalSection
+EndGlobal
