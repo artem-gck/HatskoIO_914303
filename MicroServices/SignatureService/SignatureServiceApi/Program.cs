@@ -1,5 +1,6 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.OpenApi.Models;
 using SignatureService.DataAccess.DataBase;
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.DataBase.Realisations;
@@ -7,6 +8,7 @@ using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.Services.Interfaces;
 using SignatureService.Services.Realisations;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +33,18 @@ builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => Ht
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Signature API",
+        Description = "An ASP.NET Core Web API for managing signature items",
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 var app = builder.Build();
 

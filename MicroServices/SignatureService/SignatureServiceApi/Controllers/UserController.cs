@@ -14,6 +14,17 @@ namespace SignatureServiceApi.Controllers
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
+        /// <summary>
+        /// Add user.
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>Status code</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/users/{id}
+        ///
+        /// </remarks>
         [HttpPost("{id}")]
         public async Task<IActionResult> Post(Guid id)
         {

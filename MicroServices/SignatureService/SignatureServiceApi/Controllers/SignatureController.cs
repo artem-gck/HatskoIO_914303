@@ -14,6 +14,19 @@ namespace SignatureServiceApi.Controllers
             _signService = signService ?? throw new ArgumentNullException(nameof(signService));
         }
 
+        /// <summary>
+        /// Add signature for document.
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="documentId">Document id</param>
+        /// <param name="version">Version</param>
+        /// <returns>Status code</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/signatures/{userId}/{documentId}/{version}
+        ///
+        /// </remarks>
         [HttpPost("{userId}/{documentId}/{version}")]
         public async Task<IActionResult> Post(Guid userId, Guid documentId, int version)
         {
@@ -22,6 +35,18 @@ namespace SignatureServiceApi.Controllers
             return Created($"/api/documents/{documentId}/{version}", new { DocumentId = documentId, Version = version });
         }
 
+        /// <summary>
+        /// Get users that signature document.
+        /// </summary>
+        /// <param name="documentId">Document id</param>
+        /// <param name="version">Version</param>
+        /// <returns>List of user id</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/documents/{documentId}/{version}
+        ///
+        /// </remarks>
         [HttpGet("~/api/documents/{documentId}/{version}")]
         public async Task<IActionResult> Get(Guid documentId, int version)
         {
@@ -30,6 +55,19 @@ namespace SignatureServiceApi.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Check user that signature document.
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="documentId">Document id</param>
+        /// <param name="version">Version</param>
+        /// <returns>Status code</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/signatures/{userId}/{documentId}/{version}
+        ///
+        /// </remarks>
         [HttpGet("{userId}/{documentId}/{version}")]
         public async Task<IActionResult> Get(Guid userId, Guid documentId, int version)
         {
