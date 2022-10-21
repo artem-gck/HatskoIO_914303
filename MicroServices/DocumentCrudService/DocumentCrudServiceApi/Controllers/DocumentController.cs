@@ -5,6 +5,7 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
@@ -27,6 +28,39 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
+        /// Gets hash of specific document.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="version">The version.</param>
+        /// <returns>Hash of file</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/documents/hash/{id}/{version}
+        ///
+        /// </remarks>
+        /// <response code="200">Send file</response>
+        /// <response code="404">File not found</response>
+        /// <response code="500">Internal server error</response>
+        [Authorize]
+        [HttpGet("hash/{id}/{version}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetHash(Guid id, int version)
+        {
+            var query = new GetHashOfDocumentQuery()
+            {
+                Id = id,
+                Version = version
+            };
+
+            var hash = (HashDto)(await _queryDispatcher.Send(query))[0];
+
+            return Ok(hash);
+        }
+
+        /// <summary>
         /// Gets the last version by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -40,7 +74,7 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status301MovedPermanently)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,7 +104,7 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}/last-version")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -102,7 +136,7 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}/{version}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,7 +172,7 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="201">File created</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -176,7 +210,7 @@ namespace DocumentCrudService.Controllers
         /// <response code="204">File deleted</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -207,7 +241,7 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="204">File updated</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

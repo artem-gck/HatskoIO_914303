@@ -22,6 +22,7 @@ using DocumentCrudServiceApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IdentityModel;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 
 var builder = WebApplication.CreateBuilder(args);
 var identityString = builder.Configuration.GetValue<string>("IdentityPath");
@@ -55,6 +56,7 @@ builder.Services.AddScoped<ICommandHandler<UpdateDocumentCommand>, UpdateDocumen
 builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsQuery>, GetAllNamesOfDocumentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<IsDocumentExitQuery>, IsDocumentExitQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetHashOfDocumentQuery>, GetHashOfDocumentQueryHandler>();
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
