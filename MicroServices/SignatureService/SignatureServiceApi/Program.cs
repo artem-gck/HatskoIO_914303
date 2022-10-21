@@ -1,3 +1,5 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using SignatureService.DataAccess.DataBase;
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.DataBase.Realisations;
@@ -12,6 +14,8 @@ var dBConnectionString = builder.Configuration.GetConnectionString("SqlServer");
 var documentsConnectionString = builder.Configuration.GetConnectionString("DocumentService");
 
 // Add services to the container.
+
+builder.Services.AddHealthChecks().AddSqlServer(dBConnectionString);
 
 builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
 
@@ -37,6 +41,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseHttpsRedirection();
 
