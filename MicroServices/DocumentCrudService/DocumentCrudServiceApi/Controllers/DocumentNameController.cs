@@ -33,11 +33,11 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="200">Send file</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int page, int count)
+        public async Task<IActionResult> Get(int page = 1, int count = 10)
         {
             var query = new GetAllNamesOfDocumentsQuery()
             {
