@@ -5,9 +5,11 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
+using k8s.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +26,20 @@ namespace DocumentCrudService.Controllers
         {
             _commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
             _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
+        }
+
+        [HttpGet("hash/{id}/{version}")]
+        public async Task<IActionResult> GetHash(Guid id, int version)
+        {
+            var query = new GetHashOfDocumentQuery()
+            {
+                Id = id,
+                Version = version
+            };
+
+            var hash = (HashDto)(await _queryDispatcher.Send(query))[0];
+
+            return Ok(hash);
         }
 
         /// <summary>
