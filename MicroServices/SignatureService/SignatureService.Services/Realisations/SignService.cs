@@ -45,7 +45,7 @@ namespace SignatureService.Services.Realisations
             await _signatureRepository.AddAsync(signatureEntity);
         }
 
-        public async Task<bool> CheckDocumentByUser(Guid userId, Guid documentId, int version)
+        public async Task<bool> CheckDocumentByUserAsync(Guid userId, Guid documentId, int version)
         {
             var signature = await _signatureRepository.GetSignatureAync(userId, documentId, version);
 

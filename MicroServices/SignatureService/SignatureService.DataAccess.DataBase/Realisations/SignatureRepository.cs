@@ -20,7 +20,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
                       $"VALUES ('{entity.DocumentId}', {entity.Version}, @Hash, '{entity.UserId}')";
 
             using var connection = _provider.GetDbConnection();
-
             await connection.ExecuteAsync(sql, new { Hash = entity.Hash });
         }
 
@@ -31,7 +30,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
                       $"WHERE DocumentId = '{id}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
-
             var signatureEntity = await connection.QueryAsync<SignatureEntity>(sql);
 
             if (signatureEntity is null || signatureEntity.Count() == 0)
@@ -47,7 +45,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
                       $"WHERE UserId = '{userId}' AND DocumentId = '{documentId}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
-
             var signatureEntity = await connection.QueryFirstOrDefaultAsync<SignatureEntity>(sql);
 
             return signatureEntity;

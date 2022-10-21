@@ -20,15 +20,15 @@ var documentsConnectionString = builder.Configuration.GetConnectionString("Docum
 
 builder.Services.AddHealthChecks().AddSqlServer(dBConnectionString);
 
-builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
-
 builder.Services.AddScoped<IDocumentAccess, DocumentAccess>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISignatureRepository, SignatureRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISignService, SignService>();
 
+builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
 builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString));
 
 builder.Services.AddControllers();

@@ -19,7 +19,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
                       $"VALUES ('{user.Id}', @Public, @Private)";
 
             using var connection = _provider.GetDbConnection();
-
             await connection.ExecuteAsync(sql, new { Public = user.PublicKey, Private = user.PrivateKey});
 
             return user.Id;
@@ -32,7 +31,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
                       $"WHERE Id = '{id}'";
 
             using var connection = _provider.GetDbConnection();
-
             var user = await connection.QueryFirstOrDefaultAsync<UserEntity>(sql);
 
             return user;

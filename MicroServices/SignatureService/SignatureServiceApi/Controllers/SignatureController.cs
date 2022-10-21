@@ -87,7 +87,7 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid userId, Guid documentId, int version)
         {
-            var result = await _signService.CheckDocumentByUser(userId, documentId, version);
+            var result = await _signService.CheckDocumentByUserAsync(userId, documentId, version);
 
             return result ? Ok() : NotFound();
         }

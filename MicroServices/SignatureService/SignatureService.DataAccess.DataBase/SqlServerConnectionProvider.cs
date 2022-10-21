@@ -8,13 +8,9 @@ namespace SignatureService.DataAccess.DataBase
         private readonly string _connectionString;
 
         public SqlServerConnectionProvider(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+            => _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
 
         public IDbConnection GetDbConnection()
-        {
-            return new SqlConnection(_connectionString);
-        }
+            => new SqlConnection(_connectionString);
     }
 }
