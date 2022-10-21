@@ -6,10 +6,9 @@ namespace DocumentCrudService.Cqrs.Realisation
     {
         public static byte[] GetMD5Hash(this byte[] file)
         {
-            using var md5 = MD5.Create();
-            using var stream = new MemoryStream(file);
+            using var alg = SHA256.Create();
 
-            return md5.ComputeHash(stream);
+            return alg.ComputeHash(file);
         }
     }
 }

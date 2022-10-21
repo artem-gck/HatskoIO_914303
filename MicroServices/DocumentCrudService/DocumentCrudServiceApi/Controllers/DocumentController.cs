@@ -42,8 +42,8 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
-        [HttpGet("hash/{id}/{version}")]
+        //[Authorize]
+        [HttpGet("{id}/{version}/hash")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
