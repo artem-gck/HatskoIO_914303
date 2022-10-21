@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using SignatureService.DataAccess.DataBase.Entities;
+using SignatureService.DataAccess.DataBase.Exceptiions;
 using SignatureService.DataAccess.DataBase.Interfaces;
 
 namespace SignatureService.DataAccess.DataBase.Realisations
@@ -33,6 +34,9 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             var signatureEntity = await connection.QueryAsync<SignatureEntity>(sql);
 
+            if (signatureEntity is null || signatureEntity.Count() == 0)
+                throw new NotFoundException(id, version);
+
             return signatureEntity;
         }
 
@@ -40,11 +44,14 @@ namespace SignatureService.DataAccess.DataBase.Realisations
         {
             var sql = $"SELECT * " +
                       $"FROM signatures " +
-                      $"WHERE UserId = {userId} AND DocumentId = '{documentId}' AND Version = {version}";
+                      $"WHERE UserId = '{userId}' AND DocumentId = '{documentId}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
 
             var signatureEntity = await connection.QueryFirstOrDefaultAsync<SignatureEntity>(sql);
+
+            if (signatureEntity is null)
+                throw new NotFoundException(documentId, version);
 
             return signatureEntity;
         }

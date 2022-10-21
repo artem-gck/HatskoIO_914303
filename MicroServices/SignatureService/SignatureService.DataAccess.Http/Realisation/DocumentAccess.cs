@@ -17,7 +17,7 @@ namespace SignatureService.DataAccess.Http.Realisation
 
         public async Task<HashResponce> GetHashAsync(Guid documentId, int version)
         {
-            var answer = await _httpClient.GetAsync($"{documentId}/{version}");
+            var answer = await _httpClient.GetAsync($"{documentId}/{version}/hash");
 
             if (answer.IsSuccessStatusCode)
             {

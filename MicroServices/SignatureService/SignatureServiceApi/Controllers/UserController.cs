@@ -17,7 +17,9 @@ namespace SignatureServiceApi.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> Post(Guid id)
         {
-            return Ok(await _userService.AddUserAsync(id));
+            await _userService.AddUserAsync(id);
+
+            return Created(string.Empty, null);
         }
     }
 }

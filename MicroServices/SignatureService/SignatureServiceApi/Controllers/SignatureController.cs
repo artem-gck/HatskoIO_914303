@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SignatureService.Services.Interfaces;
-using System.Diagnostics.Contracts;
 
 namespace SignatureServiceApi.Controllers
 {
@@ -20,7 +19,7 @@ namespace SignatureServiceApi.Controllers
         {
             await _signService.AddAsync(userId, documentId, version);
 
-            return Created("", "");
+            return Created($"/api/documents/{documentId}/{version}", new { DocumentId = documentId, Version = version });
         }
 
         [HttpGet("~/api/documents/{documentId}/{version}")]
