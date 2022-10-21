@@ -27,7 +27,11 @@ namespace SignatureServiceApi.Controllers
         ///     POST /api/signatures/{userId}/{documentId}/{version}
         ///
         /// </remarks>
+        /// <response code="201">Signature created</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost("{userId}/{documentId}/{version}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(Guid userId, Guid documentId, int version)
         {
             await _signService.AddAsync(userId, documentId, version);
@@ -47,7 +51,13 @@ namespace SignatureServiceApi.Controllers
         ///     GET /api/documents/{documentId}/{version}
         ///
         /// </remarks>
+        /// <response code="200">Users that sign this document</response>
+        /// <response code="404">Not found users</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("~/api/documents/{documentId}/{version}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid documentId, int version)
         {
             var users = await _signService.GetUsersByDocumentIdAsync(documentId, version);
@@ -68,7 +78,13 @@ namespace SignatureServiceApi.Controllers
         ///     GET /api/signatures/{userId}/{documentId}/{version}
         ///
         /// </remarks>
+        /// <response code="200">Found matching</response>
+        /// <response code="404">Not found document</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("{userId}/{documentId}/{version}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid userId, Guid documentId, int version)
         {
             var result = await _signService.CheckDocumentByUser(userId, documentId, version);

@@ -50,9 +50,6 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             var signatureEntity = await connection.QueryFirstOrDefaultAsync<SignatureEntity>(sql);
 
-            if (signatureEntity is null)
-                throw new NotFoundException(documentId, version);
-
             return signatureEntity;
         }
     }

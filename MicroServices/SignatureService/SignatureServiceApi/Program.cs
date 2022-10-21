@@ -8,6 +8,7 @@ using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.Services.Interfaces;
 using SignatureService.Services.Realisations;
+using SignatureServiceApi.Middlewares;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,7 +64,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
 
 app.Run();
