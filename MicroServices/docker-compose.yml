@@ -1,7 +1,9 @@
 version: "3.9"
 services:
     user_info:
-        build: .\UserInfoService .
+        build: 
+            context: .
+            dockerfile: UserInfoService/Dockerfile
         ports:
             - "8000:80"
             - "8001:443"
@@ -15,7 +17,32 @@ services:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
             - user_info_sql
+
+    structure:
+        build:
+            context: .
+            dockerfile: StructureService/Dockerfile
+        ports:
+            - "8002:80"
+            - "8003:443"
+        environment:
+            ASPNETCORE_URLS: "https://+;http://+"
+            ASPNETCORE_HTTPS_PORT: "8003"
+            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+        volumes:
+            - C:\Users\agats\.aspnet\https:/https/
+        depends_on:
+            - structure_sql
+
     user_info_sql:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "yourStrong(!)Password"
+            ACCEPT_EULA: "Y"
+
+    structure_sql:
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"

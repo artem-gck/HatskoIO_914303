@@ -12,7 +12,7 @@ namespace StructureService.Infrastructure.DataBase.Context
         public StructureContext(DbContextOptions<StructureContext> options)
             : base(options)
         {
-
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
