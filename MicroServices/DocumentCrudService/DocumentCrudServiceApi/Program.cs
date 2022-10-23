@@ -17,10 +17,8 @@ using Serilog.Events;
 using Serilog;
 using System.Reflection;
 using DocumentCrudServiceApi.Middlewares;
-using Microsoft.IdentityModel.Tokens;
 using DocumentCrudServiceApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdentityModel;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 
@@ -42,7 +40,6 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
 builder.Services.AddHealthChecks().AddMongoDb(builder.Configuration.GetConnectionString("MongoDb"));
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 builder.Services.AddScoped<DocumentContext>();
 
@@ -126,7 +123,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"https://localhost:7129/swagger/v1/swagger.json", "Version 1.0");
+        //setup.SwaggerEndpoint($"https://localhost:7129/swagger/v1/swagger.json", "Version 1.0");
         setup.OAuthClientId("document_api_swagger");
         setup.OAuthAppName("Document API");
         //setup.OAuthScopeSeparator(" ");
@@ -138,7 +135,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 

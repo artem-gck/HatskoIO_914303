@@ -54,6 +54,24 @@ services:
         depends_on:
             - tasks_sql
 
+    documents:
+        build:
+            context: .
+            dockerfile: DocumentCrudService/Dockerfile
+        ports:
+            - "8006:80"
+            - "8007:443"
+        environment:
+            ASPNETCORE_URLS: "https://+;http://+"
+            ASPNETCORE_HTTPS_PORT: "8007"
+            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+        volumes:
+            - C:\Users\agats\.aspnet\https:/https/
+        depends_on:
+            - documents_mongo
+
     user_info_sql:
         image: "mcr.microsoft.com/mssql/server"
         environment:
@@ -71,3 +89,6 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
+
+    documents_mongo:
+        image: "mongo"
