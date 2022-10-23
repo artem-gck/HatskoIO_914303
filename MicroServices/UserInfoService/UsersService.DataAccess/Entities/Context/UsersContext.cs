@@ -9,7 +9,7 @@ namespace UsersService.DataAccess.Entities.Context
         public UsersContext(DbContextOptions<UsersContext> options) 
             : base(options)
         {
-
+            Database.Migrate();
         }
     }
 }
