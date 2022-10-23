@@ -13,7 +13,7 @@ namespace TaskCrudService.Adapters.DataSource.Context
         public TaskContext(DbContextOptions<TaskContext> options)
             : base(options)
         {
-
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

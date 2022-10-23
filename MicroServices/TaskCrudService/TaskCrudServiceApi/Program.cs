@@ -21,8 +21,6 @@ var connectionString = builder.Configuration.GetConnectionString("TaskConnection
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
-builder.Services.AddHealthChecksUI()
-                .AddInMemoryStorage();
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
 
@@ -71,6 +69,5 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.MapHealthChecksUI();
 
 app.Run();

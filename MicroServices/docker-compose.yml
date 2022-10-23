@@ -36,6 +36,24 @@ services:
         depends_on:
             - structure_sql
 
+    tasks:
+        build:
+            context: .
+            dockerfile: TaskCrudService/Dockerfile
+        ports:
+            - "8004:80"
+            - "8005:443"
+        environment:
+            ASPNETCORE_URLS: "https://+;http://+"
+            ASPNETCORE_HTTPS_PORT: "8005"
+            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+        volumes:
+            - C:\Users\agats\.aspnet\https:/https/
+        depends_on:
+            - tasks_sql
+
     user_info_sql:
         image: "mcr.microsoft.com/mssql/server"
         environment:
@@ -43,6 +61,12 @@ services:
             ACCEPT_EULA: "Y"
 
     structure_sql:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "yourStrong(!)Password"
+            ACCEPT_EULA: "Y"
+
+    tasks_sql:
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
