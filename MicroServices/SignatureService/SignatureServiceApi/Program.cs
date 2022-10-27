@@ -14,7 +14,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var dBConnectionString = builder.Configuration.GetConnectionString("SqlServer");
+var dBConnectionString = Environment.GetEnvironmentVariable("SqlServer") ?? builder.Configuration.GetConnectionString("SqlServer");
 var documentsConnectionString = builder.Configuration.GetConnectionString("DocumentService");
 
 // Add services to the container.
