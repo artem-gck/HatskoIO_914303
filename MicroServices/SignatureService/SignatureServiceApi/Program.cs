@@ -2,6 +2,7 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using SignatureService.DataAccess.DataBase;
+using SignatureService.DataAccess.DataBase.Helpers;
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.DataBase.Realisations;
 using SignatureService.DataAccess.Http.Interfaces;
@@ -46,6 +47,10 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+
+await CreateDbHelper.CreateDb(serviceProvider);
 
 var app = builder.Build();
 
