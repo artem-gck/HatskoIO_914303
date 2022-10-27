@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-    user_info_api:
+    user_info:
         build: 
             context: .
             dockerfile: UserInfoService/Dockerfile
         ports:
-            - "8000:80"
-            - "8001:443"
+            - "8080:80"
+            - "8081:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8001"
+            ASPNETCORE_HTTPS_PORT: "8081"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -18,16 +18,16 @@ services:
         depends_on:
             - user_info_sql
 
-    structure_api:
+    structure:
         build:
             context: .
             dockerfile: StructureService/Dockerfile
         ports:
-            - "8002:80"
-            - "8003:443"
+            - "8082:80"
+            - "8083:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8003"
+            ASPNETCORE_HTTPS_PORT: "8083"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -36,16 +36,16 @@ services:
         depends_on: 
             - structure_sql
 
-    tasks_api:
+    tasks:
         build:
             context: .
             dockerfile: TaskCrudService/Dockerfile
         ports:
-            - "8004:80"
-            - "8005:443"
+            - "8084:80"
+            - "8085:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8005"
+            ASPNETCORE_HTTPS_PORT: "8085"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -54,16 +54,16 @@ services:
         depends_on:
             - tasks_sql
 
-    documents_api:
+    documents:
         build:
             context: .
             dockerfile: DocumentCrudService/Dockerfile
         ports:
-            - "8006:80"
-            - "8007:443"
+            - "8086:80"
+            - "8087:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8007"
+            ASPNETCORE_HTTPS_PORT: "8087"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -72,16 +72,16 @@ services:
         depends_on:
             - documents_mongo
 
-    company_management_api:
+    company_management:
         build:
             context: .
             dockerfile: CompanyManagementService/Dockerfile
         ports:
-            - "8008:80"
-            - "8009:443"
+            - "8088:80"
+            - "8089:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8009"
+            ASPNETCORE_HTTPS_PORT: "8089"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -89,27 +89,27 @@ services:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
             - company_management_redis
-            - user_info_api
-            - structure_api
+            - user_info
+            - structure
 
-    notification_api:
+    notification:
         build:
             context: .
             dockerfile: NotificationService/Dockerfile
         ports:
-            - "8010:80"
-            - "8011:443"
+            - "8090:80"
+            - "8091:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8011"
+            ASPNETCORE_HTTPS_PORT: "8091"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
-            - company_management_api
-            - tasks_api
+            - company_management
+            - tasks
 
     nginx-proxy:
         image: jwilder/nginx-proxy
