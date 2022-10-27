@@ -2,6 +2,7 @@
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Responce;
+using SignatureService.Services.Dto;
 using SignatureService.Services.Interfaces;
 using System.Security.Cryptography;
 
@@ -25,7 +26,7 @@ namespace SignatureService.Services.Realisations
             var user = await _userRepository.GetAsync(userId);
             var hash = await _documentAccess.GetHashAsync(documentId, version);
 
-            var rsa = RSA.Create();
+            using var rsa = RSA.Create();
             rsa.ImportRSAPublicKey(user.PublicKey, out int bytesRead);
             rsa.ImportRSAPrivateKey(user.PrivateKey, out bytesRead);
 
@@ -45,18 +46,33 @@ namespace SignatureService.Services.Realisations
             await _signatureRepository.AddAsync(signatureEntity);
         }
 
-        public async Task<bool> CheckDocumentByUserAsync(Guid userId, Guid documentId, int version)
+        public async Task<bool> CheckDocumentByUserAsync(Guid documentId, int version, byte[] publicKey)
         {
-            var signature = await _signatureRepository.GetSignatureAync(userId, documentId, version);
+            using var rsa = RSA.Create();
+            rsa.ImportRSAPublicKey(publicKey, out int bytesRead);
 
-            return signature is not null;
+            var rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
+            rsaDeformatter.SetHashAlgorithm(nameof(SHA256));
+
+            var signedHashes = await _signatureRepository.GetDocumentHashes(documentId, version);
+            var hash = await _documentAccess.GetHashAsync(documentId, version);
+
+            foreach (var signedHash in signedHashes)
+                if (rsaDeformatter.VerifySignature(hash.Hash, signedHash))
+                    return true;
+
+            return false;
         }
 
-        public async Task<IEnumerable<Guid>> GetUsersByDocumentIdAsync(Guid documentId, int version)
+        public async Task<IEnumerable<UserPublicKey>> GetUsersByDocumentIdAsync(Guid documentId, int version)
         {
             var signatures = await _signatureRepository.GetByDocumentIdAsync(documentId, version);
 
-            return signatures.Select(sig => sig.UserId);
+            return signatures.Select(sig => new UserPublicKey
+            {
+                Id = sig.Id,    
+                PublicKey = sig.User.PublicKey
+            });      
         }
     }
 }

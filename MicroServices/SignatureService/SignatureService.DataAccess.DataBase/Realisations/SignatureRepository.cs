@@ -2,6 +2,7 @@
 using SignatureService.DataAccess.DataBase.Entities;
 using SignatureService.DataAccess.DataBase.Exceptiions;
 using SignatureService.DataAccess.DataBase.Interfaces;
+using static Dapper.SqlMapper;
 
 namespace SignatureService.DataAccess.DataBase.Realisations
 {
@@ -27,10 +28,16 @@ namespace SignatureService.DataAccess.DataBase.Realisations
         {
             var sql = $"SELECT * " +
                       $"FROM signatures " +
-                      $"WHERE DocumentId = '{id}' AND Version = {version}";
+                      $"WHERE DocumentId = '{id}' AND Version = {version} " +
+                      $"JOIN users ON signatures.UserId = users.Id";
 
             using var connection = _provider.GetDbConnection();
-            var signatureEntity = await connection.QueryAsync<SignatureEntity>(sql);
+            var signatureEntity = await connection.QueryAsync<SignatureEntity, UserEntity, SignatureEntity>(sql, (signature, user) =>
+            {
+                signature.User = user;
+                return signature;
+            },
+            splitOn: "UserId");
 
             if (signatureEntity is null || signatureEntity.Count() == 0)
                 throw new NotFoundException(id, version);
@@ -38,16 +45,16 @@ namespace SignatureService.DataAccess.DataBase.Realisations
             return signatureEntity;
         }
 
-        public async Task<SignatureEntity> GetSignatureAync(Guid userId, Guid documentId, int version)
+        public async Task<IEnumerable<byte[]>> GetDocumentHashes(Guid id, int version)
         {
-            var sql = $"SELECT * " +
-                      $"FROM signatures " +
-                      $"WHERE UserId = '{userId}' AND DocumentId = '{documentId}' AND Version = {version}";
+            var sql = "SELECT Hash " +
+                      "FROM signatures " +
+                     $"WHERE DocumentId = '{id}' AND Version = {version}";
 
             using var connection = _provider.GetDbConnection();
-            var signatureEntity = await connection.QueryFirstOrDefaultAsync<SignatureEntity>(sql);
+            var hashes = await connection.QueryAsync<byte[]>(sql);
 
-            return signatureEntity;
+            return hashes;
         }
     }
 }

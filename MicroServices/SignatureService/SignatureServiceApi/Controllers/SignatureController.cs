@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SignatureService.Services.Interfaces;
+using SignatureServiceApi.ViewModels;
 
 namespace SignatureServiceApi.Controllers
 {
@@ -81,13 +82,13 @@ namespace SignatureServiceApi.Controllers
         /// <response code="200">Found matching</response>
         /// <response code="404">Not found document</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet("{userId}/{documentId}/{version}")]
+        [HttpPost("{documentId}/{version}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid userId, Guid documentId, int version)
+        public async Task<IActionResult> Get(Guid documentId, int version, CheckPublicKeyRequest publicKey)
         {
-            var result = await _signService.CheckDocumentByUserAsync(userId, documentId, version);
+            var result = await _signService.CheckDocumentByUserAsync(documentId, version, publicKey.Key);
 
             return result ? Ok() : NotFound();
         }

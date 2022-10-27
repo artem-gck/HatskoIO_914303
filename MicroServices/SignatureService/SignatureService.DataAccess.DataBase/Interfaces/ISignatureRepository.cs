@@ -6,6 +6,6 @@ namespace SignatureService.DataAccess.DataBase.Interfaces
     {
         public Task AddAsync(SignatureEntity entity);
         public Task<IEnumerable<SignatureEntity>> GetByDocumentIdAsync(Guid id, int version);
-        public Task<SignatureEntity> GetSignatureAync(Guid userId, Guid documentId, int version);
+        public Task<IEnumerable<byte[]>> GetDocumentHashes(Guid id, int version);
     }
 }
