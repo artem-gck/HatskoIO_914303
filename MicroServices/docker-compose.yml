@@ -1,6 +1,7 @@
 version: "3.9"
 services:
     user_info:
+        container_name: user_info_api
         build: 
             context: .
             dockerfile: UserInfoService/Dockerfile
@@ -19,6 +20,7 @@ services:
             - user_info_sql
 
     structure:
+        container_name: structure_api
         build:
             context: .
             dockerfile: StructureService/Dockerfile
@@ -37,6 +39,7 @@ services:
             - structure_sql
 
     tasks:
+        container_name: tasks_api
         build:
             context: .
             dockerfile: TaskCrudService/Dockerfile
@@ -55,6 +58,7 @@ services:
             - tasks_sql
 
     documents:
+        container_name: documents_api
         build:
             context: .
             dockerfile: DocumentCrudService/Dockerfile
@@ -73,6 +77,7 @@ services:
             - documents_mongo
 
     company_management:
+        container_name: company_management_api
         build:
             context: .
             dockerfile: CompanyManagementService/Dockerfile
@@ -93,6 +98,7 @@ services:
             - structure
 
     notification:
+        container_name: notification_api
         build:
             context: .
             dockerfile: NotificationService/Dockerfile
@@ -112,6 +118,7 @@ services:
             - tasks
 
     signatures:
+        container_name: signatures_api
         build:
             context: .
             dockerfile: SignatureService/Dockerfile
@@ -119,6 +126,7 @@ services:
             - "8092:80"
             - "8093:443"
         environment:
+            SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User ID=SA;Password=Your_password123;TrustServerCertificate=True"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_HTTPS_PORT: "8093"
             ASPNETCORE_ENVIRONMENT: "Development"
@@ -133,9 +141,9 @@ services:
     nginx-proxy:
         image: jwilder/nginx-proxy
         container_name: nginx
-        ports:
-            - '80:80'
-            - '443:443'
+        # ports:
+        #     - '80:80'
+        #     - '443:443'
         volumes:
             - '/var/run/docker.sock:/tmp/docker.sock:ro'
             - './IdentityServer4.Admin/shared/nginx/vhost.d:/etc/nginx/vhost.d'
@@ -154,7 +162,7 @@ services:
         build:
             context: .
             dockerfile: IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Dockerfile
-        container_name: skoruba-identityserver4-admin
+        container_name: identityserver_admin
         environment:
             - VIRTUAL_HOST=admin.skoruba.local
             - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
@@ -193,7 +201,7 @@ services:
         build:
             context: .
             dockerfile: IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin.Api/Dockerfile
-        container_name: skoruba-identityserver4-admin-api
+        container_name: identityserver_admin_api
         environment:
             - VIRTUAL_HOST=admin-api.skoruba.local
             - AdminApiConfiguration__RequireHttpsMetadata=false
@@ -218,7 +226,7 @@ services:
         build:
             context: .
             dockerfile: IdentityServer4.Admin/src/Skoruba.IdentityServer4.STS.Identity/Dockerfile
-        container_name: skoruba-identityserver4-sts-identity
+        container_name: identityserver_sts_identity
         environment:
             - VIRTUAL_HOST=sts.skoruba.local
             - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
@@ -244,34 +252,36 @@ services:
                     - sts.skoruba.local
 
     user_info_sql:
+        container_name: user_info_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
 
     structure_sql:
+        container_name: structure_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
 
     tasks_sql:
+        container_name: tasks_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
 
     signatures_sql:
+        container_name: signatures_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
-            SA_PASSWORD: "yourStrong(!)Password"
+            SA_PASSWORD: "Your_password123"
             ACCEPT_EULA: "Y"
 
     identity_sql:
+        container_name: identity_sql
         image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
-        ports:
-            - '7900:1433'
-        container_name: skoruba-identityserver4-db
         environment:
             SA_PASSWORD: '${DB_PASSWORD:-Password_123}'
             ACCEPT_EULA: 'Y'
@@ -281,9 +291,11 @@ services:
             identityserverui: null
 
     documents_mongo:
+        container_name: documents_mongo
         image: "mongo"
     
     company_management_redis:
+        container_name: company_management_redis
         image: "redis"
 
 volumes:
