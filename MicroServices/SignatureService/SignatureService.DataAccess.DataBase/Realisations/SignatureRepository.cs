@@ -28,8 +28,9 @@ namespace SignatureService.DataAccess.DataBase.Realisations
         {
             var sql = $"SELECT * " +
                       $"FROM signatures " +
-                      $"WHERE DocumentId = '{id}' AND Version = {version} " +
-                      $"JOIN users ON signatures.UserId = users.Id";
+                      $"JOIN users ON signatures.UserId = users.Id " +
+                      $"WHERE DocumentId = '{id}' AND Version = {version}";
+                      
 
             using var connection = _provider.GetDbConnection();
             var signatureEntity = await connection.QueryAsync<SignatureEntity, UserEntity, SignatureEntity>(sql, (signature, user) =>
@@ -53,6 +54,9 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             using var connection = _provider.GetDbConnection();
             var hashes = await connection.QueryAsync<byte[]>(sql);
+
+            if (hashes is null || hashes.Count() == 0)
+                throw new NotFoundException(id, version);
 
             return hashes;
         }
