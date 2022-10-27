@@ -111,6 +111,25 @@ services:
             - company_management
             - tasks
 
+    signatures:
+        build:
+            context: .
+            dockerfile: SignatureService/Dockerfile
+        ports:
+            - "8092:80"
+            - "8093:443"
+        environment:
+            ASPNETCORE_URLS: "https://+;http://+"
+            ASPNETCORE_HTTPS_PORT: "8093"
+            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+        volumes:
+            - C:\Users\agats\.aspnet\https:/https/
+        depends_on:
+            - documents
+            - signatures_sql
+
     nginx-proxy:
         image: jwilder/nginx-proxy
         container_name: nginx
@@ -237,6 +256,12 @@ services:
             ACCEPT_EULA: "Y"
 
     tasks_sql:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "yourStrong(!)Password"
+            ACCEPT_EULA: "Y"
+
+    signatures_sql:
         image: "mcr.microsoft.com/mssql/server"
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
