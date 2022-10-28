@@ -1,4 +1,5 @@
 using HealthChecks.UI.Client;
+using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using SignatureService.DataAccess.DataBase;
@@ -8,6 +9,8 @@ using SignatureService.DataAccess.DataBase.Realisations;
 using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.Services.Interfaces;
+using SignatureService.Services.Messages.Consumers;
+using SignatureService.Services.Messages.Messages;
 using SignatureService.Services.Realisations;
 using SignatureServiceApi.Middlewares;
 using System.Reflection;
@@ -17,7 +20,28 @@ var builder = WebApplication.CreateBuilder(args);
 var dBConnectionString = Environment.GetEnvironmentVariable("SqlServer") ?? builder.Configuration.GetConnectionString("SqlServer");
 var documentsConnectionString = builder.Configuration.GetConnectionString("DocumentService");
 
+var connectionString = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
+var newPurchaseTopic = "new-user-topic";
+var subscriptionName = "signature-service";
+
 // Add services to the container.
+
+builder.Services.AddMassTransit(serviceCollectionConfigurator =>
+{
+    serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+    
+    serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator => 
+        {
+            configurator.Host(connectionString);
+
+            configurator.Message<NewUserMessage>(m => { m.SetEntityName(newPurchaseTopic); });
+
+            configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
+            {
+                endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+            });
+        }));
+});
 
 builder.Services.AddHealthChecks().AddSqlServer(dBConnectionString);
 
