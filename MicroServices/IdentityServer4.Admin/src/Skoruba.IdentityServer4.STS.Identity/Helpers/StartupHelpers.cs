@@ -32,7 +32,7 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.SqlServer;
 using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
 using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 using MassTransit;
-using Skoruba.IdentityServer4.STS.Identity.Messages;
+using Messages;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {
@@ -100,7 +100,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
             {
                 busFactoryConfig.Host(connectionString);
 
-                busFactoryConfig.Message<NewUser>(configTopology =>
+                busFactoryConfig.Message<NewUserMessage>(configTopology =>
                 {
                     configTopology.SetEntityName(newUserTopic);
                 });
