@@ -1,5 +1,9 @@
 using HealthChecks.UI.Client;
 using MassTransit;
+<<<<<<< Updated upstream
+=======
+using Messages;
+>>>>>>> Stashed changes
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using SignatureService.DataAccess.DataBase;
@@ -10,7 +14,10 @@ using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.Services.Interfaces;
 using SignatureService.Services.Messages.Consumers;
+<<<<<<< Updated upstream
 using SignatureService.Services.Messages.Messages;
+=======
+>>>>>>> Stashed changes
 using SignatureService.Services.Realisations;
 using SignatureServiceApi.Middlewares;
 using System.Reflection;
@@ -53,8 +60,18 @@ builder.Services.AddScoped<ISignatureRepository, SignatureRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISignService, SignService>();
 
+<<<<<<< Updated upstream
 builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
 builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString));
+=======
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
+
+builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
+builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString)).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+>>>>>>> Stashed changes
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

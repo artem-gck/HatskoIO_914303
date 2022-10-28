@@ -14,4 +14,13 @@
     <ProjectReference Include="..\SignatureService.Services\SignatureService.Services.csproj" />
   </ItemGroup>
 
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+>>>>>>> Stashed changes
 </Project>
