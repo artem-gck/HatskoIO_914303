@@ -15,12 +15,14 @@
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SignatureService.DataAccess.DataBase\SignatureService.DataAccess.DataBase.csproj" />
     <ProjectReference Include="..\SignatureService.DataAccess.Http\SignatureService.DataAccess.Http.csproj" />
+    <ProjectReference Include="..\SignatureService.Services.Messages\SignatureService.Services.Messages.csproj" />
     <ProjectReference Include="..\SignatureService.Services\SignatureService.Services.csproj" />
   </ItemGroup>
 
