@@ -17,6 +17,7 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 using Skoruba.IdentityServer4.STS.Identity.Configuration;
 using Skoruba.IdentityServer4.STS.Identity.Helpers;
 using Skoruba.IdentityServer4.STS.Identity.Helpers.Localization;
+using Skoruba.IdentityServer4.STS.Identity.Messages;
 using Skoruba.IdentityServer4.STS.Identity.ViewModels.Account;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Controllers
@@ -51,6 +53,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
         private readonly RegisterConfiguration _registerConfiguration;
         private readonly IdentityOptions _identityOptions;
         private readonly ILogger<AccountController<TUser, TKey>> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public AccountController(
             UserResolver<TUser> userResolver,
@@ -65,7 +68,8 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             LoginConfiguration loginConfiguration,
             RegisterConfiguration registerConfiguration,
             IdentityOptions identityOptions,
-            ILogger<AccountController<TUser, TKey>> logger)
+            ILogger<AccountController<TUser, TKey>> logger,
+            IPublishEndpoint publishEndpoint)
         {
             _userResolver = userResolver;
             _userManager = userManager;
@@ -80,6 +84,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             _registerConfiguration = registerConfiguration;
             _identityOptions = identityOptions;
             _logger = logger;
+            _publishEndpoint = publishEndpoint;
         }
 
         /// <summary>
@@ -619,6 +624,10 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            await _publishEndpoint.Publish(new NewUser { Id = Guid.Parse(userId) });
+
             if (result.Succeeded)
             {
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

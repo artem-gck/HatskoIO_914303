@@ -373,45 +373,45 @@ namespace Skoruba.IdentityServer4.Admin.UI.Helpers
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                        options =>
-                        {
-                            options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
-                        })
-                    .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
-                    {
-                        options.BackchannelHttpHandler = clientHandler;
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
+                })
+            .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
+            {
+                options.BackchannelHttpHandler = clientHandler;
 
-                        options.Authority = adminConfiguration.IdentityServerBaseUrl;
-                        options.RequireHttpsMetadata = adminConfiguration.RequireHttpsMetadata;
-                        options.ClientId = adminConfiguration.ClientId;
-                        options.ClientSecret = adminConfiguration.ClientSecret;
-                        options.ResponseType = adminConfiguration.OidcResponseType;
+                options.Authority = adminConfiguration.IdentityServerBaseUrl;
+                options.RequireHttpsMetadata = adminConfiguration.RequireHttpsMetadata;
+                options.ClientId = adminConfiguration.ClientId;
+                options.ClientSecret = adminConfiguration.ClientSecret;
+                options.ResponseType = adminConfiguration.OidcResponseType;
 
-                        options.Scope.Clear();
-                        foreach (var scope in adminConfiguration.Scopes)
-                        {
-                            options.Scope.Add(scope);
-                        }
+                options.Scope.Clear();
+                foreach (var scope in adminConfiguration.Scopes)
+                {
+                    options.Scope.Add(scope);
+                }
 
-                        options.ClaimActions.MapJsonKey(adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole);
+                options.ClaimActions.MapJsonKey(adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole);
 
-                        options.SaveTokens = true;
+                options.SaveTokens = true;
 
-                        options.GetClaimsFromUserInfoEndpoint = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
 
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            NameClaimType = adminConfiguration.TokenValidationClaimName,
-                            RoleClaimType = adminConfiguration.TokenValidationClaimRole
-                        };
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = adminConfiguration.TokenValidationClaimName,
+                    RoleClaimType = adminConfiguration.TokenValidationClaimRole
+                };
 
-                        options.Events = new OpenIdConnectEvents
-                        {
-                            OnMessageReceived = context => OnMessageReceived(context, adminConfiguration),
-                            OnRedirectToIdentityProvider = context => OnRedirectToIdentityProvider(context, adminConfiguration)
-                        };
-                    });
+                options.Events = new OpenIdConnectEvents
+                {
+                    OnMessageReceived = context => OnMessageReceived(context, adminConfiguration),
+                    OnRedirectToIdentityProvider = context => OnRedirectToIdentityProvider(context, adminConfiguration)
+                };
+            });
 
             authenticationBuilderAction?.Invoke(authenticationBuilder);
         }

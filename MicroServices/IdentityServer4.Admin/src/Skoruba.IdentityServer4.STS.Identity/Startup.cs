@@ -51,6 +51,8 @@ namespace Skoruba.IdentityServer4.STS.Identity
             // If you want to change primary keys or use another db model for Asp.Net Core Identity:
             services.AddMvcWithLocalization<UserIdentity, string>(Configuration);
 
+            services.UseMassTransit();
+
             // Add authorization policies for MVC
             RegisterAuthorization(services);
 

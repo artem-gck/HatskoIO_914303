@@ -31,6 +31,8 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.PostgreSQL;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.SqlServer;
 using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
 using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
+using MassTransit;
+using Skoruba.IdentityServer4.STS.Identity.Messages;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {
@@ -87,6 +89,31 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
                 });
 
             return mvcBuilder;
+        }
+
+        public static void UseMassTransit(this IServiceCollection services)
+        {
+            var connectionString = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
+            var newUserTopic = "new-user-topic";
+
+            var azureServiceBus = Bus.Factory.CreateUsingAzureServiceBus(busFactoryConfig =>
+            {
+                busFactoryConfig.Host(connectionString);
+
+                busFactoryConfig.Message<NewUser>(configTopology =>
+                {
+                    configTopology.SetEntityName(newUserTopic);
+                });
+
+            });
+
+            services.AddMassTransit(config =>
+            {
+                config.AddBus(provider => azureServiceBus);
+            });
+
+            services.AddSingleton<IPublishEndpoint>(azureServiceBus);
+            services.AddSingleton<IBus>(azureServiceBus);
         }
 
         /// <summary>
