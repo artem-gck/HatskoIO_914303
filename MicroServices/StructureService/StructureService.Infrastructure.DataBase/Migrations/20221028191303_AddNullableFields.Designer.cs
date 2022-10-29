@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StructureService.Infrastructure.DataBase.Context;
 
@@ -11,9 +12,10 @@ using StructureService.Infrastructure.DataBase.Context;
 namespace StructureService.Infrastructure.DataBase.Migrations
 {
     [DbContext(typeof(StructureContext))]
-    partial class StructureContextModelSnapshot : ModelSnapshot
+    [Migration("20221028191303_AddNullableFields")]
+    partial class AddNullableFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

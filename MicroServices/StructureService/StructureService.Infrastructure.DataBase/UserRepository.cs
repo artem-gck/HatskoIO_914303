@@ -27,6 +27,18 @@ namespace StructureService.Infrastructure.DataBase
             return entityDb.Entity.Id;
         }
 
+        public async Task<Guid> AddAsync(Guid id)
+        {
+            var entityDb = _structureContext.Users.Add(new UserEntity()
+            {
+                Id = id
+            });
+
+            await _structureContext.SaveChangesAsync();
+
+            return entityDb.Entity.Id;
+        }
+
         public async Task DeleteAsync(Guid departmentId, Guid userId)
         {
             var departmentEntity = await GetDepartment(departmentId);

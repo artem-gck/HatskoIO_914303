@@ -17,6 +17,8 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="MassTransit" Version="8.0.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,7 +35,14 @@
     <ProjectReference Include="..\StructureService.Domain.Services\StructureService.Domain.Services.csproj" />
     <ProjectReference Include="..\StructureService.Domain\StructureService.Domain.csproj" />
     <ProjectReference Include="..\StructureService.Infrastructure.DataBase\StructureService.Infrastructure.DataBase.csproj" />
+    <ProjectReference Include="..\StructureService.Infrastructure.Messages\StructureService.Infrastructure.Messages.csproj" />
     <ProjectReference Include="..\StructureService.Infrastructure.Services\StructureService.Infrastructure.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

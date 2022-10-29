@@ -13,9 +13,16 @@ using StructureService.Infrastructure.DataBase.Context;
 using StructureService.Infrastructure.DataBase;
 using StructureService.Infrastructure.Services;
 using StructureServiceApi.Middlewares;
+using MassTransit;
+using StructureService.Infrastructure.Messages.Consumers;
+using Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
+
+var connectionStringAzure = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
+var newPurchaseTopic = "new-user-topic";
+var subscriptionName = "structure-service";
 
 // Add services to the container.
 
@@ -30,6 +37,26 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
+builder.Services.AddMassTransit(serviceCollectionConfigurator =>
+{
+    serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+
+    serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
+    {
+        configurator.Host(connectionStringAzure);
+
+        configurator.Message<NewUserMessage>(m =>
+        {
+            m.SetEntityName(newPurchaseTopic);
+        });
+
+        configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+        });
+    }));
+});
 
 builder.Services.AddHealthChecksUI()
                 .AddInMemoryStorage();
