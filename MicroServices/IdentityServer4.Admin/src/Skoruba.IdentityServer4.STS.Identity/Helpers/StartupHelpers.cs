@@ -32,7 +32,7 @@ using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.SqlServer;
 using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
 using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 using MassTransit;
-using Skoruba.IdentityServer4.STS.Identity.Messages;
+using Messages;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {
@@ -91,16 +91,16 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
             return mvcBuilder;
         }
 
-        public static void UseMassTransit(this IServiceCollection services)
+        public static void UseMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
-            var newUserTopic = "new-user-topic";
+            var connectionString = configuration.GetConnectionString("ServiceBus");
+            var newUserTopic = configuration["Topics:NewUser"];
 
             var azureServiceBus = Bus.Factory.CreateUsingAzureServiceBus(busFactoryConfig =>
             {
                 busFactoryConfig.Host(connectionString);
 
-                busFactoryConfig.Message<NewUser>(configTopology =>
+                busFactoryConfig.Message<NewUserMessage>(configTopology =>
                 {
                     configTopology.SetEntityName(newUserTopic);
                 });

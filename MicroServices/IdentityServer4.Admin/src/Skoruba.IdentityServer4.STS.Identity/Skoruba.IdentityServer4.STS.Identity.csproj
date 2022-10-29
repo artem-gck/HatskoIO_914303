@@ -53,6 +53,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="Messages">
+	    <HintPath>..\..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Update="Resources\Views\Account\RegisterConfirmation.ru.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
