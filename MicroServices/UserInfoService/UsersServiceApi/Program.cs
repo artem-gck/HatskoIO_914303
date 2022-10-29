@@ -1,4 +1,6 @@
 using HealthChecks.UI.Client;
+using MassTransit;
+using Messages;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -7,6 +9,7 @@ using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
 using UsersService.Services;
 using UsersService.Services.MapperProfiles;
+using UsersService.Services.Messages.Consumers;
 using UsersServiceApi.MapperProfiles;
 using UsersServiceApi.Middlewares;
 
@@ -15,6 +18,32 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
+
+var connectionStringAzure = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
+var newPurchaseTopic = "new-user-topic";
+var subscriptionName = "userinfo-service";
+
+// Add services to the container.
+
+builder.Services.AddMassTransit(serviceCollectionConfigurator =>
+{
+    serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+
+    serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
+    {
+        configurator.Host(connectionStringAzure);
+
+        configurator.Message<NewUserMessage>(m =>
+        {
+            m.SetEntityName(newPurchaseTopic);
+        });
+
+        configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+        });
+    }));
+});
 
 builder.Services.AddDbContext<UsersContext>(opt =>
     opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService.DataAccess")));

@@ -17,6 +17,8 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MassTransit" Version="8.0.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -31,8 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserService.Services.Messages\UsersService.Services.Messages.csproj" />
     <ProjectReference Include="..\UsersService.DataAccess\UsersService.DataAccess.csproj" />
     <ProjectReference Include="..\UsersService.Services\UsersService.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
