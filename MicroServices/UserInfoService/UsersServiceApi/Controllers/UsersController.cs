@@ -150,27 +150,27 @@ namespace UsersServiceApi.Controllers
         /// <response code="201">UserInfo was created</response>
         /// <response code="400">Invalid model state</response>
         /// <response code="500">Interal server error</response>
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(AddUserRequest userInfoViewModel)
-        {
-            _userLogger.LogDebug("Adding user info to service with name = {name}", userInfoViewModel.Name);
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Post(AddUserRequest userInfoViewModel)
+        //{
+        //    _userLogger.LogDebug("Adding user info to service with name = {name}", userInfoViewModel.Name);
 
-            if (!ModelState.IsValid)
-            {
-                _userLogger.LogWarning("Invalid model state, count of errors = {ErrorCount}", ModelState.ErrorCount);
+        //    if (!ModelState.IsValid)
+        //    {
+        //        _userLogger.LogWarning("Invalid model state, count of errors = {ErrorCount}", ModelState.ErrorCount);
 
-                return BadRequest(ModelState);
-            }
+        //        return BadRequest(ModelState);
+        //    }
 
-            var result = await _userService.AddUserAsync(_mapper.Map<UserDto>(userInfoViewModel));
+        //    var result = await _userService.AddUserAsync(_mapper.Map<UserDto>(userInfoViewModel));
 
-            _userLogger.LogDebug("Id of added user indo is {id}", result);
+        //    _userLogger.LogDebug("Id of added user indo is {id}", result);
 
-            return Created($"users/{result}", result);
-        }
+        //    return Created($"users/{result}", result);
+        //}
 
         /// <summary>
         /// Update the specified user info
