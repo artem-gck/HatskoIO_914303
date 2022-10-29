@@ -19,9 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
 
-var connectionStringAzure = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
-var newPurchaseTopic = "new-user-topic";
-var subscriptionName = "userinfo-service";
+var connectionStringAzure = builder.Configuration.GetConnectionString("ServiceBus");
+var newPurchaseTopic = builder.Configuration["Topics:NewUser"];
+var subscriptionName = builder.Configuration["SubscriptionName"];
 
 // Add services to the container.
 
