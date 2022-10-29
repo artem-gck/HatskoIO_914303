@@ -122,24 +122,24 @@ namespace StructureServiceApi.Controllers
         /// <response code="400">Invalid model state</response>
         /// <response code="409">Field is duplicated</response>
         /// <response code="500">Internal server error</response>
-        [HttpPost("api/departments/{departmentId}/users")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(Guid departmentId, AddUserRequest userViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("Invalid model state {@ModelState}", ModelState);
+        //[HttpPost("api/departments/{departmentId}/users")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status409Conflict)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Post(Guid departmentId, AddUserRequest userViewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        _logger.LogWarning("Invalid model state {@ModelState}", ModelState);
 
-                return BadRequest(ModelState);
-            }
+        //        return BadRequest(ModelState);
+        //    }
 
-            var result = await _userService.AddAsync(departmentId, _controllerMapper.Map<UserEntity>(userViewModel));
+        //    var result = await _userService.AddAsync(departmentId, _controllerMapper.Map<UserEntity>(userViewModel));
 
-            return Created($"api/departments/{departmentId}/users/{result}", result);
-        }
+        //    return Created($"api/departments/{departmentId}/users/{result}", result);
+        //}
 
         /// <summary>
         /// Puts the specified identifier.

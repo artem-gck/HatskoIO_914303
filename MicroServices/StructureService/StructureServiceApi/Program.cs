@@ -13,9 +13,16 @@ using StructureService.Infrastructure.DataBase.Context;
 using StructureService.Infrastructure.DataBase;
 using StructureService.Infrastructure.Services;
 using StructureServiceApi.Middlewares;
+using MassTransit;
+using StructureService.Infrastructure.Messages.Consumers;
+using Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
+
+var connectionStringAzure = builder.Configuration.GetConnectionString("ServiceBus");
+var newPurchaseTopic = builder.Configuration["Topics:NewUser"];
+var subscriptionName = builder.Configuration["SubscriptionName"];
 
 // Add services to the container.
 
@@ -31,6 +38,28 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
+builder.Services.AddMassTransit(serviceCollectionConfigurator =>
+{
+    serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+
+    serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
+    {
+        configurator.Host(connectionStringAzure);
+
+        configurator.Message<NewUserMessage>(m =>
+        {
+            m.SetEntityName(newPurchaseTopic);
+        });
+
+        configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+        });
+    }));
+});
+
+builder.Services.AddHealthChecksUI()
+                .AddInMemoryStorage();
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
 
