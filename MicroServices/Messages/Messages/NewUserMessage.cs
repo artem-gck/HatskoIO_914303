@@ -1,4 +1,4 @@
-﻿namespace SignatureService.Services.Messages.Messages
+﻿namespace Messages
 {
     public class NewUserMessage
     {

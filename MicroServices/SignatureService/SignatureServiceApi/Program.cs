@@ -1,9 +1,6 @@
 using HealthChecks.UI.Client;
 using MassTransit;
-<<<<<<< Updated upstream
-=======
 using Messages;
->>>>>>> Stashed changes
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using SignatureService.DataAccess.DataBase;
@@ -14,10 +11,6 @@ using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.Services.Interfaces;
 using SignatureService.Services.Messages.Consumers;
-<<<<<<< Updated upstream
-using SignatureService.Services.Messages.Messages;
-=======
->>>>>>> Stashed changes
 using SignatureService.Services.Realisations;
 using SignatureServiceApi.Middlewares;
 using System.Reflection;
@@ -27,9 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 var dBConnectionString = Environment.GetEnvironmentVariable("SqlServer") ?? builder.Configuration.GetConnectionString("SqlServer");
 var documentsConnectionString = builder.Configuration.GetConnectionString("DocumentService");
 
-var connectionString = "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI=";
-var newPurchaseTopic = "new-user-topic";
-var subscriptionName = "signature-service";
+var connectionString = builder.Configuration.GetConnectionString("ServiceBus");
+var newUserTopic = builder.Configuration["Topics:NewUser"];
+var subscriptionName = builder.Configuration["SubscriptionName"];
 
 // Add services to the container.
 
@@ -41,7 +34,7 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
         {
             configurator.Host(connectionString);
 
-            configurator.Message<NewUserMessage>(m => { m.SetEntityName(newPurchaseTopic); });
+            configurator.Message<NewUserMessage>(m => { m.SetEntityName(newUserTopic); });
 
             configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
             {
@@ -60,10 +53,6 @@ builder.Services.AddScoped<ISignatureRepository, SignatureRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISignService, SignService>();
 
-<<<<<<< Updated upstream
-builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
-builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString));
-=======
 var clientHandler = new HttpClientHandler
 {
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
@@ -71,7 +60,6 @@ var clientHandler = new HttpClientHandler
 
 builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
 builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString)).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
->>>>>>> Stashed changes
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
