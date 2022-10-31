@@ -20,7 +20,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
 
 var connectionStringAzure = builder.Configuration.GetConnectionString("ServiceBus");
-var newPurchaseTopic = builder.Configuration["Topics:NewUser"];
+var newUserTopic = builder.Configuration["Topics:NewUser"];
+var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
 
 // Add services to the container.
@@ -28,6 +29,7 @@ var subscriptionName = builder.Configuration["SubscriptionName"];
 builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 {
     serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+    serviceCollectionConfigurator.AddConsumer<UpdateUserConsumer>();
 
     serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
     {
@@ -35,7 +37,12 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 
         configurator.Message<NewUserMessage>(m =>
         {
-            m.SetEntityName(newPurchaseTopic);
+            m.SetEntityName(newUserTopic);
+        });
+
+        configurator.ReceiveEndpoint(updateUserQueue, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<UpdateUserConsumer>(registrationContext);
         });
 
         configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
