@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using MassTransit;
+using MassTransit.Transports;
+using Messages;
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
@@ -6,6 +9,8 @@ using StructureService.Infrastructure.Services;
 using StructureServiceApi.ViewModels.AddRequest;
 using StructureServiceApi.ViewModels.Responce;
 using StructureServiceApi.ViewModels.UpdateRequest;
+using System.Runtime.CompilerServices;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace StructureServiceApi.Controllers
 {
@@ -13,14 +18,20 @@ namespace StructureServiceApi.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IService<PositionEntity> _positionService;
         private readonly IMapper _controllerMapper;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
         private readonly ILogger<UsersController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(IUserService userService, IMapper controllerMapper, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, IService<PositionEntity> positionService, IMapper controllerMapper, ISendEndpointProvider sendEndpointProvider, ILogger<UsersController> logger, IConfiguration config)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _positionService = positionService ?? throw new ArgumentNullException(nameof(positionService));
             _controllerMapper = controllerMapper ?? throw new ArgumentNullException(nameof(controllerMapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
+            _configuration = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         /// <summary>
@@ -181,6 +192,17 @@ namespace StructureServiceApi.Controllers
             }
 
             await _userService.UpdateAsync(departmentId, userId, _controllerMapper.Map<UserEntity>(userViewModel));
+
+            var uri = _configuration.GetConnectionString("ServiceBus").Split(";")[0][9..] + _configuration["Queues:UpdateUser"];
+
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri(uri));
+
+            await sendEndpoint.Send(new UpdateUserMessage
+            {
+                Id = userViewModel.Id,
+                DepartmentId = departmentId,
+                PositionId = userViewModel.PositionId,
+            });
 
             return NoContent();
         }
