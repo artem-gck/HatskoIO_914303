@@ -141,9 +141,6 @@ services:
     nginx-proxy:
         image: jwilder/nginx-proxy
         container_name: nginx
-        # ports:
-        #     - '80:80'
-        #     - '443:443'
         volumes:
             - '/var/run/docker.sock:/tmp/docker.sock:ro'
             - './IdentityServer4.Admin/shared/nginx/vhost.d:/etc/nginx/vhost.d'
