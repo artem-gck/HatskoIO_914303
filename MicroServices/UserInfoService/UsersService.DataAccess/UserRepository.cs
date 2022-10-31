@@ -89,5 +89,18 @@ namespace UsersService.DataAccess
 
             await _usersContext.SaveChangesAsync();
         }
+
+        public async Task UpdatePositionAndDepartmentOfUserAsync(Guid id, UserEntity user)
+        {
+            var userInfoEntity = await _usersContext.Users.FirstOrDefaultAsync(us => us.Id == id);
+
+            if (userInfoEntity is null)
+                throw new UserInfoNotFoundException(id);
+
+            userInfoEntity.DepartmentId = user.DepartmentId;
+            userInfoEntity.PositionId = user.PositionId;
+
+            await _usersContext.SaveChangesAsync();
+        }
     }
 }
