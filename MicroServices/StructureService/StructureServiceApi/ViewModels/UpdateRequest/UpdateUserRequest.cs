@@ -10,7 +10,7 @@ namespace StructureServiceApi.ViewModels.UpdateRequest
         public int Salary { get; set; }
 
         [Required]
-        public string Position { get; set; }
+        public Guid PositionId { get; set; }
         public Guid CheifUserId { get; set; }
     }
 }

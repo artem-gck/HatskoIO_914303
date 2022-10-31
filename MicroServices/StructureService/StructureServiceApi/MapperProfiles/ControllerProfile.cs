@@ -23,9 +23,9 @@ namespace StructureServiceApi.MapperProfiles
             CreateMap<UserResponce, UserEntity>().ForMember(ent => ent.Department, memb => memb.MapFrom(dto => new DepartmentEntity { Name = dto.Department, CheifUserId = dto.CheifUserId }))
                                                  .ForMember(ent => ent.Position, memb => memb.MapFrom(dto => new PositionEntity() { Name = dto.Position }));
             CreateMap<UserEntity, UpdateUserRequest>().ForMember(dto => dto.CheifUserId, memb => memb.MapFrom(ent => ent.Department.CheifUserId))
-                                                      .ForMember(dto => dto.Position, memb => memb.MapFrom(ent => ent.Position.Name));
+                                                      .ForMember(dto => dto.PositionId, memb => memb.MapFrom(ent => ent.Position.Id));
             CreateMap<UpdateUserRequest, UserEntity>().ForMember(ent => ent.Department, memb => memb.MapFrom(dto => new DepartmentEntity { CheifUserId = dto.CheifUserId }))
-                                                      .ForMember(ent => ent.Position, memb => memb.MapFrom(dto => new PositionEntity() { Name = dto.Position }));
+                                                      .ForMember(ent => ent.Position, memb => memb.MapFrom(dto => new PositionEntity() { Id = dto.PositionId }));
             CreateMap<UserEntity, AddUserRequest>().ForMember(dto => dto.CheifUserId, memb => memb.MapFrom(ent => ent.Department.CheifUserId))
                                                    .ForMember(dto => dto.Position, memb => memb.MapFrom(ent => ent.Position.Name));
             CreateMap<AddUserRequest, UserEntity>().ForMember(ent => ent.Department, memb => memb.MapFrom(dto => new DepartmentEntity { CheifUserId = dto.CheifUserId }))

@@ -18,7 +18,7 @@ namespace StructureService.Infrastructure.DataBase
         public async Task<Guid> AddAsync(Guid departmentId, UserEntity entity)
         {
             entity.Department = await GetDepartment(departmentId);
-            entity.Position = await GetPosition(entity.Position.Name);
+            entity.Position = await GetPosition(entity.Position.Id);
 
             var entityDb = _structureContext.Users.Add(entity);
 
@@ -41,7 +41,7 @@ namespace StructureService.Infrastructure.DataBase
 
         public async Task DeleteAsync(Guid departmentId, Guid userId)
         {
-            var departmentEntity = await GetDepartment(departmentId);
+            var departmentEntity = await GetDepartmentWithUsers(departmentId);
 
             var entity = departmentEntity.Users.FirstOrDefault(us => us.Id == userId);
 
@@ -55,7 +55,7 @@ namespace StructureService.Infrastructure.DataBase
 
         public async Task<UserEntity> GetAsync(Guid departmentId, Guid userId)
         {
-            var departmentEntity = await GetDepartment(departmentId);
+            var departmentEntity = await GetDepartmentWithUsers(departmentId);
 
             var entity = departmentEntity.Users.FirstOrDefault(us => us.Id == userId);
 
@@ -67,7 +67,7 @@ namespace StructureService.Infrastructure.DataBase
 
         public async Task<IEnumerable<UserEntity>> GetByDepartmentId(Guid departmentId)
         {
-            var departmentEntity = await GetDepartment(departmentId);
+            var departmentEntity = await GetDepartmentWithUsers(departmentId);
 
             if (departmentEntity is null)
                 throw new UserNotFoundException(departmentId);
@@ -81,7 +81,7 @@ namespace StructureService.Infrastructure.DataBase
         {
             entity.Id = userId;
             entity.Department = await GetDepartment(departmentId);
-            entity.Position = await GetPosition(entity.Position.Name);
+            entity.Position = await GetPosition(entity.Position.Id);
 
             _structureContext.Users.Update(entity);
 
@@ -89,6 +89,16 @@ namespace StructureService.Infrastructure.DataBase
         }
 
         private async Task<DepartmentEntity> GetDepartment(Guid departmentId)
+        {
+            var entity = await _structureContext.Departments.FirstOrDefaultAsync(dep => dep.Id == departmentId);
+
+            if (entity is null)
+                throw new NotFoundException<DepartmentEntity>(departmentId);
+
+            return entity;
+        }
+
+        private async Task<DepartmentEntity> GetDepartmentWithUsers(Guid departmentId)
         {
             var entity = await _structureContext.Departments.Include(dep => dep.Users)
                                                                 .ThenInclude(us => us.Position)
@@ -100,12 +110,12 @@ namespace StructureService.Infrastructure.DataBase
             return entity;
         }
 
-        private async Task<PositionEntity> GetPosition(string name)
+        private async Task<PositionEntity> GetPosition(Guid id)
         {
-            var entity = await _structureContext.Positions.FirstOrDefaultAsync(pos => pos.Name == name);
+            var entity = await _structureContext.Positions.FirstOrDefaultAsync(pos => pos.Id == id);
 
             if (entity is null)
-                throw new NotFoundException<DepartmentEntity>(name);
+                throw new NotFoundException<PositionEntity>(id);
 
             return entity;
         }
