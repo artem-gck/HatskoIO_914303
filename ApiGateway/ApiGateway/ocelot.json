@@ -1,19 +1,33 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:8095"
+    "BaseUrl": "https://api-gateway"
   },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/writers",
+      "UpstreamPathTemplate": "/gateway/users",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/writers",
+      "DownstreamPathTemplate": "/api/users",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "user_info",
+          "Port": 443
         }
-      ]
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/users/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/users/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user_info",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ]
 }

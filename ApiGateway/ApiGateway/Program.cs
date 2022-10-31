@@ -1,4 +1,8 @@
 using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using Ocelot.RequestId;
+using System.Net;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseStatusCodePages();
+await app.UseOcelot();
+
+ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+
 app.UseHttpsRedirection();
+
+
 
 app.Run();
