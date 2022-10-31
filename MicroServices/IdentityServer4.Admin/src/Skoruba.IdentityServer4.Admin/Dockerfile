@@ -37,8 +37,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 COPY . .
-RUN dotnet restore "IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Skoruba.IdentityServer4.Admin.csproj"
-RUN dotnet publish "IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Skoruba.IdentityServer4.Admin.csproj" -c release -o /app --no-restore
+RUN dotnet restore "MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Skoruba.IdentityServer4.Admin.csproj"
+RUN dotnet publish "MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Skoruba.IdentityServer4.Admin.csproj" -c release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
