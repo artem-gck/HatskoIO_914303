@@ -60,7 +60,7 @@ namespace StructureService.Infrastructure.DataBase
 
         public async Task UpdateAsync(Guid id, T entity)
         {
-            entity.Id = id;
+            //entity.Id = us.Id;
             
             _entities.Update(entity);
 
