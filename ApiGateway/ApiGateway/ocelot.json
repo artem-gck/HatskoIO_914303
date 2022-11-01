@@ -127,7 +127,7 @@
     {
       "UpstreamPathTemplate": "/gateway/tasks",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "DownstreamPathTemplate": "/api/tasks",
+      "DownstreamPathTemplate": "/api/v2/tasks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -140,7 +140,7 @@
     {
       "UpstreamPathTemplate": "/gateway/tasks/{taskId}",
       "UpstreamHttpMethod": [ "Get", "Delete", "Put" ],
-      "DownstreamPathTemplate": "/api/tasks/{taskId}",
+      "DownstreamPathTemplate": "/api/v2/tasks/{taskId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -153,7 +153,7 @@
     {
       "UpstreamPathTemplate": "/gateway/users/{taskId}/tasks",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/users/{taskId}/tasks",
+      "DownstreamPathTemplate": "/api/v2/users/{taskId}/tasks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
