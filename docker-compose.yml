@@ -5,13 +5,11 @@ services:
         build: 
             context: .
             dockerfile: MicroServices/UserInfoService/Dockerfile
-        # ports:
-        #     - "8080:80"
-        #     - "8004:443"
         environment:
+            UserInfoConnection: "Server=user_info_sql;Database=master;User=SA;Password=yourStrong(!)Password"
+            ServiceBus: "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI="
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8004"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -24,13 +22,9 @@ services:
         build:
             context: .
             dockerfile: MicroServices/StructureService/Dockerfile
-        # ports:
-        #     - "8082:80"
-        #     - "8083:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8083"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -43,13 +37,9 @@ services:
         build:
             context: .
             dockerfile: MicroServices/TaskCrudService/Dockerfile
-        # ports:
-        #     - "8084:80"
-        #     - "8085:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8085"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -62,13 +52,9 @@ services:
         build:
             context: .
             dockerfile: MicroServices/DocumentCrudService/Dockerfile
-        # ports:
-        #     - "8086:80"
-        #     - "8087:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8087"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -81,13 +67,9 @@ services:
         build:
             context: .
             dockerfile: MicroServices/CompanyManagementService/Dockerfile
-        # ports:
-        #     - "8088:80"
-        #     - "8089:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8089"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -102,13 +84,9 @@ services:
         build:
             context: .
             dockerfile: MicroServices/NotificationService/Dockerfile
-        # ports:
-        #     - "8090:80"
-        #     - "8091:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8091"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -122,14 +100,10 @@ services:
         build:
             context: .
             dockerfile: MicroServices/SignatureService/Dockerfile
-        # ports:
-        #     - "8092:80"
-        #     - "8093:443"
         environment:
-            SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=Your_password123;TrustServerCertificate=True"
+            SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8093"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -149,7 +123,7 @@ services:
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_HTTPS_PORT: "8005"
-            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -294,7 +268,7 @@ services:
         container_name: signatures_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
-            SA_PASSWORD: "Your_password123"
+            SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
 
     identity_sql:
