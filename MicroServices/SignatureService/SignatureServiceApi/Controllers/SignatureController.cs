@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using SignatureService.Services.Interfaces;
 using SignatureServiceApi.ViewModels;
 
@@ -86,7 +87,7 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid documentId, int version, CheckPublicKeyRequest publicKey)
+        public async Task<IActionResult> Get(Guid documentId, int version, [FromBody] CheckPublicKeyRequest publicKey)
         {
             var result = await _signService.CheckDocumentByUserAsync(documentId, version, publicKey.Key);
 
