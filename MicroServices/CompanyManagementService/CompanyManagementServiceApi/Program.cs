@@ -11,16 +11,23 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
-var departmentsConnectionString = builder.Configuration.GetConnectionString("Departments");
-var usersStructureConnectionString = builder.Configuration.GetConnectionString("UsersStructure");
-var positionsConnectionString = builder.Configuration.GetConnectionString("Positions");
-var usersInfoConnectionString = builder.Configuration.GetConnectionString("UsersInfo");
+var redisConnectionString = Environment.GetEnvironmentVariable("CacheConnection") ?? builder.Configuration.GetConnectionString("CacheConnection");
+var departmentsConnectionString = Environment.GetEnvironmentVariable("DepartmentsConnection") ?? builder.Configuration.GetConnectionString("DepartmentsConnection");
+var usersStructureConnectionString = Environment.GetEnvironmentVariable("UsersStructureConnection") ?? builder.Configuration.GetConnectionString("UsersStructureConnection");
+var positionsConnectionString = Environment.GetEnvironmentVariable("PositionsConnection") ?? builder.Configuration.GetConnectionString("PositionsConnection");
+var usersInfoConnectionString = Environment.GetEnvironmentVariable("UsersInfoConnection") ?? builder.Configuration.GetConnectionString("UsersInfoConnection");
+
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
 
 // Add services to the container.
 
-builder.Services.AddHealthChecks();
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.Services.AddHealthChecks().AddRedis(redisConnectionString);
 
 builder.Services.AddAutoMapper(typeof(ServicesProfile), typeof(ControllerProfile));
 
@@ -34,10 +41,10 @@ builder.Services.AddScoped<IPositionsAccess, PositionsAccess>();
 builder.Services.AddScoped<IUserInfoAccess, UserInfoAccess>();
 builder.Services.AddScoped<IUserStructureAccess, UserStructureAccess>();
 
-builder.Services.AddHttpClient<IDepartmentAccess, DepartmentAccess>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); });
-builder.Services.AddHttpClient<IUserStructureAccess, UserStructureAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); });
-builder.Services.AddHttpClient<IPositionsAccess, PositionsAccess>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); });
-builder.Services.AddHttpClient<IUserInfoAccess, UserInfoAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); });
+builder.Services.AddHttpClient<IDepartmentAccess, DepartmentAccess>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+builder.Services.AddHttpClient<IUserStructureAccess, UserStructureAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+builder.Services.AddHttpClient<IPositionsAccess, PositionsAccess>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+builder.Services.AddHttpClient<IUserInfoAccess, UserInfoAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
 
 builder.Services.AddScoped<IStructureService, StructureService>();
 
@@ -70,7 +77,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.MapHealthChecksUI();
 
 app.UseHttpsRedirection();
 app.ConfigureCustomExceptionMiddleware();
