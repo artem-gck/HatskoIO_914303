@@ -7,7 +7,7 @@ services:
             dockerfile: MicroServices/UserInfoService/Dockerfile
         environment:
             UserInfoConnection: "Server=user_info_sql;Database=master;User=SA;Password=yourStrong(!)Password"
-            ServiceBus: "Endpoint=sb://document-flow.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+xItHOUEoMT6c9//vrNA93XfJQmOAZykczU7zkfeXKI="
+            ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -23,6 +23,8 @@ services:
             context: .
             dockerfile: MicroServices/StructureService/Dockerfile
         environment:
+            StructureConnection: "Server=structure_sql;Database=master;User=SA;Password=yourStrong(!)Password"
+            ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -54,6 +56,8 @@ services:
             context: .
             dockerfile: MicroServices/DocumentCrudService/Dockerfile
         environment:
+            DocumentsConnection: "mongodb://documents_mongo/documents"
+            IdentityPath: "https://localhost:44310"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -69,6 +73,11 @@ services:
             context: .
             dockerfile: MicroServices/CompanyManagementService/Dockerfile
         environment:
+            CacheConnection: "company_management_redis"
+            DepartmentsConnection: "https://structure/api/departments/"
+            UsersStructureConnection: "https://structure/api/departments/"
+            PositionsConnection: "https://structure/api/positions/"
+            UsersInfoConnection: "https://user_info/api/"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -86,6 +95,12 @@ services:
             context: .
             dockerfile: MicroServices/NotificationService/Dockerfile
         environment:
+            NotificationConnection: "Filename=Messages.db"
+            ManagementConnection: "https://company_management_api/api/management/users/"
+            TasksConnection: "https://tasks_api/api/tasks"
+            SenderEmail: "qwe@gmail.com"
+            SenderPassword: "qweqweqwe"
+            SenderHost: "smtp.gmail.com"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -102,7 +117,9 @@ services:
             context: .
             dockerfile: MicroServices/SignatureService/Dockerfile
         environment:
-            SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+            SignaturesConnection: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+            DocumentServiceConnection: "https://documents/api/documents/"
+            ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -224,6 +241,7 @@ services:
             dockerfile: MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.STS.Identity/Dockerfile
         container_name: identityserver_sts_identity
         environment:
+            - ServiceBus=Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk=
             - VIRTUAL_HOST=sts.skoruba.local
             - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
             - 'ConnectionStrings__PersistedGrantDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'

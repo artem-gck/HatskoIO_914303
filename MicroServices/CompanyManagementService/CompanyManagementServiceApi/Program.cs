@@ -22,11 +22,6 @@ var clientHandler = new HttpClientHandler
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
 };
 
-var clientHandler = new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
-};
-
 // Add services to the container.
 
 builder.Logging.ClearProviders();
