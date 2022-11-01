@@ -3,6 +3,7 @@
     "BaseUrl": "https://api-gateway"
   },
   "Routes": [
+    // user-info
     {
       "UpstreamPathTemplate": "/gateway/users",
       "UpstreamHttpMethod": [ "Get" ],
@@ -29,6 +30,7 @@
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
     },
+    // signatures
     {
       "UpstreamPathTemplate": "/gateway/signatures/{userId}/{documentId}/{version}",
       "UpstreamHttpMethod": [ "Post" ],
@@ -56,13 +58,66 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}/users",
+      "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}/keys",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/documents/{documentId}/{version}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "signatures",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // documents
+    {
+      "UpstreamPathTemplate": "/gateway/documents/{documentId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamPathTemplate": "/api/documents/{documentId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/documents/{documentId}/{version}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/documents",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+      "DownstreamPathTemplate": "/api/documents",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/document-names?page={page}&count={count}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/document-names?page={page}&count={count}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
           "Port": 443
         }
       ],
