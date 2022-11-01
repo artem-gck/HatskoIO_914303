@@ -10,7 +10,7 @@ namespace NotificationService.DataAccess.DataBase.Context
         public MessageContext(DbContextOptions<MessageContext> options)
             : base(options)
         {
-
+            Database.Migrate();
         }
     }
 }

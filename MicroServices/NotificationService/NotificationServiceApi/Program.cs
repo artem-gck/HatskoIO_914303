@@ -15,9 +15,14 @@ using Quartz;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var dbConnectionString = builder.Configuration.GetConnectionString("Sqlite");
-var managenmentConnectionString = builder.Configuration.GetConnectionString("ManagementService");
-var tasksConnectionString = builder.Configuration.GetConnectionString("TasksService");
+var dbConnectionString = Environment.GetEnvironmentVariable("NotificationConnection") ?? builder.Configuration.GetConnectionString("NotificationConnection");
+var managenmentConnectionString = Environment.GetEnvironmentVariable("ManagementConnection") ?? builder.Configuration.GetConnectionString("ManagementConnection");
+var tasksConnectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
+
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
 
 // Add services to the container.
 
@@ -33,8 +38,8 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddScoped<IMessageService, MessageService>();
 
-builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); });
-builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); });
+builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler); ;
+builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler); ;
 
 builder.Services.AddQuartz(q =>
 {
@@ -69,7 +74,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 builder.Services.AddHealthChecks().AddSqlite(dbConnectionString);
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 var app = builder.Build();
 
@@ -87,7 +91,7 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.MapHealthChecksUI();
+
 app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
 
