@@ -1,8 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 COPY . .
-RUN dotnet restore "StructureService/StructureServiceApi/StructureServiceApi.csproj"
-RUN dotnet publish "StructureService/StructureServiceApi/StructureServiceApi.csproj" -c release -o /app --no-restore
+
+RUN dotnet restore "MicroServices/StructureService/StructureServiceApi/StructureServiceApi.csproj"
+RUN dotnet publish "MicroServices/StructureService/StructureServiceApi/StructureServiceApi.csproj" -c release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
