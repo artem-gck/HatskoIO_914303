@@ -118,7 +118,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(AddPositionRequest positionViewModel)
+        public async Task<IActionResult> Post([FromBody] AddPositionRequest positionViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -158,7 +158,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, UpdatePositionRequest positionViewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdatePositionRequest positionViewModel)
         {
             if (!ModelState.IsValid)
             {

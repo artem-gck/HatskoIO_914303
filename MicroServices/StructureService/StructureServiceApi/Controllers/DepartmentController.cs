@@ -118,7 +118,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(AddDepartmentRequest departmentViewModel)
+        public async Task<IActionResult> Post([FromBody] AddDepartmentRequest departmentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -160,7 +160,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid id, UpdateDepartmentRequest departmentViewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdateDepartmentRequest departmentViewModel)
         {
             if (!ModelState.IsValid)
             {

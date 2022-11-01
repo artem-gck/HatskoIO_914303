@@ -182,7 +182,7 @@ namespace StructureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(Guid departmentId, Guid userId, UpdateUserRequest userViewModel)
+        public async Task<IActionResult> Put(Guid departmentId, Guid userId, [FromBody] UpdateUserRequest userViewModel)
         {
             if (!ModelState.IsValid)
             {
