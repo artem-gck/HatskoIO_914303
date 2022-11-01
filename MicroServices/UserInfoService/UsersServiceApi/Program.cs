@@ -17,9 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("UserInfoConnection");
+var connectionStringUserInfo = Environment.GetEnvironmentVariable("UserInfoConnection") ?? builder.Configuration.GetConnectionString("UserInfoConnection");
 
-var connectionStringAzure = builder.Configuration.GetConnectionString("ServiceBus");
+var connectionStringServiceBus = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
@@ -33,7 +33,7 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 
     serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
     {
-        configurator.Host(connectionStringAzure);
+        configurator.Host(connectionStringServiceBus);
 
         configurator.Message<NewUserMessage>(m =>
         {
@@ -53,7 +53,7 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 });
 
 builder.Services.AddDbContext<UsersContext>(opt =>
-    opt.UseSqlServer(connectionString, b => b.MigrationsAssembly("UsersService.DataAccess")));
+    opt.UseSqlServer(connectionStringUserInfo, b => b.MigrationsAssembly("UsersService.DataAccess")));
 
 builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile));
 
@@ -64,7 +64,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("UserInfoConnection"));
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -92,9 +91,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-
-app.MapHealthChecksUI();
-
 app.UseHttpsRedirection();
 
 app.UseStatusCodePages();

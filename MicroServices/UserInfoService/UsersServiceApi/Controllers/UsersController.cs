@@ -87,6 +87,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="200">User info was getting</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
+
         [HttpGet("~/api/departments/{id}/users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
