@@ -2,6 +2,7 @@
 using DocumentCrudService.Cqrs.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
 using DocumentCrudService.ViewModels;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IResult = DocumentCrudService.Cqrs.Results.IResult;
@@ -51,7 +52,7 @@ namespace DocumentCrudService.Controllers
             return Ok(listOfFileNameViewModel);
         }
 
-        private List<DocumentNameResponce> MapToDocumentViewModel(IList<IResult> input)
+        private List<DocumentNameResponce> MapToDocumentViewModel([FromBody] IList<IResult> input)
         {
             var listOfFileNameViewModel = new List<DocumentNameResponce>();
 
