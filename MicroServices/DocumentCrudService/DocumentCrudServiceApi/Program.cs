@@ -23,7 +23,8 @@ using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 
 var builder = WebApplication.CreateBuilder(args);
-var identityString = builder.Configuration.GetValue<string>("IdentityPath");
+var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
+var documentsConnection = Environment.GetEnvironmentVariable("DocumentsConnection") ?? builder.Configuration.GetConnectionString("DocumentsConnection");
 
 // Add services to the container.
 
@@ -39,7 +40,7 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-builder.Services.AddHealthChecks().AddMongoDb(builder.Configuration.GetConnectionString("MongoDb"));
+builder.Services.AddHealthChecks().AddMongoDb(documentsConnection);
 
 builder.Services.AddScoped<DocumentContext>();
 

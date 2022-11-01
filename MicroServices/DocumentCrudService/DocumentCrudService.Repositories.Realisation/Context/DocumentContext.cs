@@ -11,7 +11,7 @@ namespace DocumentCrudService.Repositories.Realisation.Context
 
         public DocumentContext(IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("MongoDb");
+            string connectionString = Environment.GetEnvironmentVariable("DocumentsConnection") ?? configuration.GetConnectionString("DocumentsConnection");
             var connection = new MongoUrlBuilder(connectionString);
             var client = new MongoClient(connectionString);
 
