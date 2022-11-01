@@ -18,9 +18,9 @@ using StructureService.Infrastructure.Messages.Consumers;
 using Messages;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
+var connectionString = Environment.GetEnvironmentVariable("StructureConnection") ?? builder.Configuration.GetConnectionString("StructureConnection");
 
-var connectionStringAzure = builder.Configuration.GetConnectionString("ServiceBus");
+var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
@@ -117,6 +117,5 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-app.MapHealthChecksUI();
 
 app.Run();
