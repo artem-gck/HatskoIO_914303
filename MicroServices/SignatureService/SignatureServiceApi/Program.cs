@@ -17,10 +17,10 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var dBConnectionString = Environment.GetEnvironmentVariable("SqlServer") ?? builder.Configuration.GetConnectionString("SqlServer");
-var documentsConnectionString = builder.Configuration.GetConnectionString("DocumentService");
+var dBConnectionString = Environment.GetEnvironmentVariable("SignaturesConnection") ?? builder.Configuration.GetConnectionString("SignaturesConnection");
+var documentsConnectionString = Environment.GetEnvironmentVariable("DocumentServiceConnection") ?? builder.Configuration.GetConnectionString("DocumentServiceConnection");
 
-var connectionString = builder.Configuration.GetConnectionString("ServiceBus");
+var connectionString = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
 
