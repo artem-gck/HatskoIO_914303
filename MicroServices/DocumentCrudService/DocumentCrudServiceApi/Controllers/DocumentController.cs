@@ -176,7 +176,7 @@ namespace DocumentCrudService.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(CreateDocumentRequest documentViewModel)
+        public async Task<IActionResult> Post([FromBody] CreateDocumentRequest documentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -245,7 +245,7 @@ namespace DocumentCrudService.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(UpdateDocumentRequest documentViewModel)
+        public async Task<IActionResult> Put([FromBody] UpdateDocumentRequest documentViewModel)
         {
             var file = GetByteArray(documentViewModel.File);
 
