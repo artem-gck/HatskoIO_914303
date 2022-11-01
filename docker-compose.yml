@@ -1,23 +1,23 @@
 version: "3.9"
 services:
-    user_info:
-        container_name: user_info_api
-        build: 
-            context: .
-            dockerfile: MicroServices/UserInfoService/Dockerfile
-        # ports:
-        #     - "8080:80"
-        #     - "8004:443"
-        environment:
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8004"
-            ASPNETCORE_ENVIRONMENT: "Development"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-        volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        depends_on:
-            - user_info_sql
+    # user_info:
+    #     container_name: user_info_api
+    #     build: 
+    #         context: .
+    #         dockerfile: MicroServices/UserInfoService/Dockerfile
+    #     # ports:
+    #     #     - "8080:80"
+    #     #     - "8004:443"
+    #     environment:
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_HTTPS_PORT: "8004"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - user_info_sql
 
     # structure:
     #     container_name: structure_api
@@ -38,43 +38,43 @@ services:
     #     depends_on: 
     #         - structure_sql
 
-    # tasks:
-    #     container_name: tasks_api
-    #     build:
-    #         context: .
-    #         dockerfile: MicroServices/TaskCrudService/Dockerfile
-    #     # ports:
-    #     #     - "8084:80"
-    #     #     - "8085:443"
-    #     environment:
-    #         ASPNETCORE_URLS: "https://+;http://+"
-    #         ASPNETCORE_HTTPS_PORT: "8085"
-    #         ASPNETCORE_ENVIRONMENT: "Development"
-    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-    #     volumes:
-    #         - C:\Users\agats\.aspnet\https:/https/
-    #     depends_on:
-    #         - tasks_sql
-
-    documents:
-        container_name: documents_api
+    tasks:
+        container_name: tasks_api
         build:
             context: .
-            dockerfile: MicroServices/DocumentCrudService/Dockerfile
+            dockerfile: MicroServices/TaskCrudService/Dockerfile
         # ports:
-        #     - "8086:80"
-        #     - "8087:443"
+        #     - "8084:80"
+        #     - "8085:443"
         environment:
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8087"
+            ASPNETCORE_HTTPS_PORT: "8085"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
-            - documents_mongo
+            - tasks_sql
+
+    # documents:
+    #     container_name: documents_api
+    #     build:
+    #         context: .
+    #         dockerfile: MicroServices/DocumentCrudService/Dockerfile
+    #     # ports:
+    #     #     - "8086:80"
+    #     #     - "8087:443"
+    #     environment:
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_HTTPS_PORT: "8087"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - documents_mongo
 
     # company_management:
     #     container_name: company_management_api
@@ -117,26 +117,26 @@ services:
     #         - company_management
     #         - tasks
 
-    signatures:
-        container_name: signatures_api
-        build:
-            context: .
-            dockerfile: MicroServices/SignatureService/Dockerfile
-        # ports:
-        #     - "8092:80"
-        #     - "8093:443"
-        environment:
-            SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=Your_password123;TrustServerCertificate=True"
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8093"
-            ASPNETCORE_ENVIRONMENT: "Development"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-        volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        depends_on:
-            - documents
-            - signatures_sql
+    # signatures:
+    #     container_name: signatures_api
+    #     build:
+    #         context: .
+    #         dockerfile: MicroServices/SignatureService/Dockerfile
+    #     # ports:
+    #     #     - "8092:80"
+    #     #     - "8093:443"
+    #     environment:
+    #         SqlServer: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=Your_password123;TrustServerCertificate=True"
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_HTTPS_PORT: "8093"
+    #         ASPNETCORE_ENVIRONMENT: "Development"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - documents
+    #         - signatures_sql
 
     api-gateway:
         container_name: api-gateway
@@ -155,7 +155,7 @@ services:
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
-            - user_info
+            - tasks
 
     # nginx-proxy:
     #     image: jwilder/nginx-proxy
@@ -267,12 +267,12 @@ services:
     #             aliases:
     #                 - sts.skoruba.local
 
-    user_info_sql:
-        container_name: user_info_sql
-        image: "mcr.microsoft.com/mssql/server"
-        environment:
-            SA_PASSWORD: "yourStrong(!)Password"
-            ACCEPT_EULA: "Y"
+    # user_info_sql:
+    #     container_name: user_info_sql
+    #     image: "mcr.microsoft.com/mssql/server"
+    #     environment:
+    #         SA_PASSWORD: "yourStrong(!)Password"
+    #         ACCEPT_EULA: "Y"
 
     # structure_sql:
     #     container_name: structure_sql
@@ -281,19 +281,19 @@ services:
     #         SA_PASSWORD: "yourStrong(!)Password"
     #         ACCEPT_EULA: "Y"
 
-    # tasks_sql:
-    #     container_name: tasks_sql
-    #     image: "mcr.microsoft.com/mssql/server"
-    #     environment:
-    #         SA_PASSWORD: "yourStrong(!)Password"
-    #         ACCEPT_EULA: "Y"
-
-    signatures_sql:
-        container_name: signatures_sql
+    tasks_sql:
+        container_name: tasks_sql
         image: "mcr.microsoft.com/mssql/server"
         environment:
-            SA_PASSWORD: "Your_password123"
+            SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
+
+    # signatures_sql:
+    #     container_name: signatures_sql
+    #     image: "mcr.microsoft.com/mssql/server"
+    #     environment:
+    #         SA_PASSWORD: "Your_password123"
+    #         ACCEPT_EULA: "Y"
 
     # identity_sql:
     #     container_name: identity_sql
@@ -306,9 +306,9 @@ services:
     #     networks:
     #         identityserverui: null
 
-    documents_mongo:
-        container_name: documents_mongo
-        image: "mongo"
+    # documents_mongo:
+    #     container_name: documents_mongo
+    #     image: "mongo"
     
     # company_management_redis:
     #     container_name: company_management_redis

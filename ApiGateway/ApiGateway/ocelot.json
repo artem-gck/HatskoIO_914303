@@ -122,6 +122,46 @@
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // tasks
+    {
+      "UpstreamPathTemplate": "/gateway/tasks",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamPathTemplate": "/api/tasks",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tasks",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/tasks/{taskId}",
+      "UpstreamHttpMethod": [ "Get", "Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/tasks/{taskId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tasks",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/users/{taskId}/tasks",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/users/{taskId}/tasks",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "tasks",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ]
 }
