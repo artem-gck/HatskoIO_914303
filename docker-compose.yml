@@ -38,6 +38,7 @@ services:
             context: .
             dockerfile: MicroServices/TaskCrudService/Dockerfile
         environment:
+            TasksConnection: "Server=tasks_sql;Database=master;User=SA;Password=yourStrong(!)Password"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Production"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
@@ -132,6 +133,9 @@ services:
             - user_info
             - structure
             - company_management
+            - tasks
+            - documents
+            - signatures
 
     nginx-proxy:
         image: jwilder/nginx-proxy

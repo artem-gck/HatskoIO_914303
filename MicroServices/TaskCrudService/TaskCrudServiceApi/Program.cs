@@ -18,7 +18,8 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TaskConnection");
+
+var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
 
 // Add services to the container.
 
