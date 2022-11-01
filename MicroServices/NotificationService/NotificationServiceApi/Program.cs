@@ -15,9 +15,14 @@ using Quartz;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var dbConnectionString = builder.Configuration.GetConnectionString("Sqlite");
-var managenmentConnectionString = builder.Configuration.GetConnectionString("ManagementService");
-var tasksConnectionString = builder.Configuration.GetConnectionString("TasksService");
+var dbConnectionString = Environment.GetEnvironmentVariable("NotificationConnection") ?? builder.Configuration.GetConnectionString("NotificationConnection");
+var managenmentConnectionString = Environment.GetEnvironmentVariable("ManagementConnection") ?? builder.Configuration.GetConnectionString("ManagementConnection");
+var tasksConnectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
+
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
 
 var clientHandler = new HttpClientHandler
 {

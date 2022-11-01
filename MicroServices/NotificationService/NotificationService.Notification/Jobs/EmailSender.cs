@@ -25,9 +25,9 @@ namespace NotificationService.Notification.Jobs
             _managementAccess = managementAccess ?? throw new ArgumentNullException(nameof(managementAccess));
             _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
 
-            _senderEmail = configuration["EmailSettings:Email"];
-            _senderPassword = configuration["EmailSettings:Password"];
-            _host = configuration["EmailSettings:Host"];
+            _senderEmail = Environment.GetEnvironmentVariable("SenderEmail") ?? configuration["EmailSettings:Email"];
+            _senderPassword = Environment.GetEnvironmentVariable("SenderPassword") ?? configuration["EmailSettings:Password"];
+            _host = Environment.GetEnvironmentVariable("SenderHost") ?? configuration["EmailSettings:Host"];
         }
 
         public async Task Execute(IJobExecutionContext context)
