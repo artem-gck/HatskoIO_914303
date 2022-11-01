@@ -93,7 +93,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 
         public static void UseMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("ServiceBus");
+            var connectionString = Environment.GetEnvironmentVariable("ServiceBus") ?? configuration.GetConnectionString("ServiceBus");
             var newUserTopic = configuration["Topics:NewUser"];
 
             var azureServiceBus = Bus.Factory.CreateUsingAzureServiceBus(busFactoryConfig =>
