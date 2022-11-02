@@ -59,6 +59,11 @@ builder.Services.AddScoped<IQueryHandler<GetHashOfDocumentQuery>, GetHashOfDocum
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,6 +77,7 @@ builder.Services.AddAuthentication(options =>
     options.Authority = identityString;
     options.RequireHttpsMetadata = false;
     options.Audience = "document_api";
+    options.BackchannelHttpHandler = clientHandler;
 });
 
 // adds an authorization policy to make sure the token is for scope 'api1'
@@ -105,7 +111,7 @@ builder.Services.AddSwaggerGen(options =>
             {
                 AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
                 TokenUrl = new Uri($"{identityString}/connect/token"),
-                Scopes = new Dictionary<string, string> { { "document_api", "document Api" } }
+                Scopes = new Dictionary<string, string> { { "document_api", "document api" } }
             }
         }
     });
@@ -124,9 +130,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-        //setup.SwaggerEndpoint($"https://localhost:7129/swagger/v1/swagger.json", "Version 1.0");
-        setup.OAuthClientId("document_api_swagger");
-        setup.OAuthAppName("Document API");
+        setup.SwaggerEndpoint($"https://documents.skoruba.local/swagger/v1/swagger.json", "Version 1.0");
+        setup.OAuthClientId("document_api");
+        setup.OAuthAppName("Document api");
         //setup.OAuthScopeSeparator(" ");
         setup.OAuthUsePkce();
     });
