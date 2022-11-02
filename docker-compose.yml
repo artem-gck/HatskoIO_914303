@@ -56,16 +56,19 @@ services:
             context: .
             dockerfile: MicroServices/DocumentCrudService/Dockerfile
         environment:
+            VIRTUAL_HOST: "documents.skoruba.local"
             DocumentsConnection: "mongodb://documents_mongo/documents"
-            IdentityPath: "https://localhost:44310"
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
+            IdentityPath: "https://sts.skoruba.local"
+            ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+            DockerConfiguration__UpdateCaCertificate: true
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
             - documents_mongo
+        networks:
+            identityserverui: null
 
     company_management:
         container_name: company_management_api
@@ -157,17 +160,20 @@ services:
     nginx-proxy:
         image: jwilder/nginx-proxy
         container_name: nginx
+        ports: 
+            - "80:80"
+            - "443:443"
         volumes:
             - '/var/run/docker.sock:/tmp/docker.sock:ro'
             - './MicroServices/IdentityServer4.Admin/shared/nginx/vhost.d:/etc/nginx/vhost.d'
             - './MicroServices/IdentityServer4.Admin/shared/nginx/certs:/etc/nginx/certs:ro'
         networks:
-            proxy: null
             identityserverui:
                 aliases:
                     - sts.skoruba.local
                     - admin.skoruba.local
                     - admin-api.skoruba.local
+                    - documents.skoruba.local
         restart: always
 
     skoruba.identityserver4.admin:
@@ -307,6 +313,9 @@ services:
     documents_mongo:
         container_name: documents_mongo
         image: "mongo"
+        networks:
+            identityserverui: null
+
     
     company_management_redis:
         container_name: company_management_redis
