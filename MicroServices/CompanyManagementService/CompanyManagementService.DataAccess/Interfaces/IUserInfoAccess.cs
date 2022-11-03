@@ -5,7 +5,9 @@ namespace CompanyManagementService.DataAccess.Interfaces
     public interface IUserInfoAccess
     {
         public Task<UserResponce> GetAsync(Guid id);
+        public Task<UserResponce> GetAsync(Guid id, string token);
         public Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id);
+        public Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id, string token);
         public Task<IEnumerable<UserResponce>> GetAsync();
         public Task DeleteAsync(Guid id);
         public Task<Guid> PostAsync(AddUserRequest addUserRequest);

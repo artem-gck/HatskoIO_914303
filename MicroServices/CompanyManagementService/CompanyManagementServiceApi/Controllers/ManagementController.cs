@@ -1,21 +1,29 @@
 ﻿using AutoMapper;
 using CompanyManagementService.Services.Interfaces;
 using CompanyManagementServiceApi.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 
 namespace CompanyManagementServiceApi.Controllers
 {
     [ApiController]
     [Route("api/management")]
+    [Authorize]
     public class ManagementController : Controller
     {
         private readonly IStructureService _structureService;
         private readonly IMapper _mapper;
+        private readonly ILogger<ManagementController> _logger;
 
-        public ManagementController(IStructureService structureService, IMapper mapper)
+        public ManagementController(IStructureService structureService, IMapper mapper, ILogger<ManagementController> logger)
         {
             _structureService = structureService ?? throw new ArgumentNullException(nameof(structureService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -41,7 +49,11 @@ namespace CompanyManagementServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
-            var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructureAsync(id));
+            var token = Request.Headers["Authorization"].ToString();
+
+            _logger.LogWarning("token is = {token}", token);
+
+            var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructureAsync(id, token));
 
             return Ok(cheifStructureResponce);
         }

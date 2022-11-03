@@ -23,6 +23,7 @@ namespace CompanyManagementServiceApi.Middlewares
             catch (Exception ex)
             {
                 _exceptionLogger.LogWarning("Exception in ExceptionHandlerMiddleware with text \"{message}\"", ex.Message);
+                _exceptionLogger.LogWarning("Exception in ExceptionHandlerMiddleware with text \"{StackTrace}\"", ex.StackTrace);
 
                 var response = httpContext.Response;
 
