@@ -6,6 +6,7 @@ using CompanyManagementService.DataAccess.StructureEntities.UpdateRequest;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace CompanyManagementService.DataAccess.Realisation
 {
@@ -33,7 +34,15 @@ namespace CompanyManagementService.DataAccess.Realisation
         }
 
         public async Task<PositionResponce> GetAsync(Guid id)
+            => await GetAsync(id, null);
+
+        public async Task<PositionResponce> GetAsync(Guid id, string token)
         {
+            if (token is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+            }
+
             var answer = await _httpClient.GetAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
@@ -46,8 +55,8 @@ namespace CompanyManagementService.DataAccess.Realisation
 
             throw answer.StatusCode switch
             {
-                HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(PositionsAccess))
+                HttpStatusCode.NotFound => new NotFoundException(id),
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(PositionsAccess))
             };
         }
 

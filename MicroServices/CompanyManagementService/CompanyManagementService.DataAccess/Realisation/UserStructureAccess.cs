@@ -5,6 +5,7 @@ using CompanyManagementService.DataAccess.StructureEntities.Responce;
 using CompanyManagementService.DataAccess.StructureEntities.UpdateRequest;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace CompanyManagementService.DataAccess.Realisation
@@ -33,7 +34,15 @@ namespace CompanyManagementService.DataAccess.Realisation
         }
 
         public async Task<UserResponce> GetAsync(Guid departmentId, Guid userId)
+         => await GetAsync(departmentId, userId, null);
+
+        public async Task<UserResponce> GetAsync(Guid departmentId, Guid userId, string token)
         {
+            if (token is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+            }
+
             var answer = await _httpClient.GetAsync($"{departmentId}/users/{userId}");
 
             if (answer.IsSuccessStatusCode)
@@ -52,7 +61,15 @@ namespace CompanyManagementService.DataAccess.Realisation
         }
 
         public async Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id)
+            => await GetByDepartmentIdAsync(id, null);
+
+        public async Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id, string token)
         {
+            if (token is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+            }
+
             var answer = await _httpClient.GetAsync($"{id}/users");
 
             if (answer.IsSuccessStatusCode)
