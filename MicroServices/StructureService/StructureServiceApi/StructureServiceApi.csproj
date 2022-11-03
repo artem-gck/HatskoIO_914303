@@ -17,8 +17,17 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+<<<<<<< Updated upstream
     <PackageReference Include="MassTransit" Version="8.0.7" />
     <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
+=======
+<<<<<<< Updated upstream
+=======
+    <PackageReference Include="MassTransit" Version="8.0.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

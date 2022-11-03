@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
@@ -10,6 +11,7 @@ namespace StructureServiceApi.Controllers
 {
     [Route("api/positions")]
     [Produces("application/json")]
+    [Authorize]
     public class PositionsController : Controller
     {
         private readonly IService<PositionEntity> _positionsService;
