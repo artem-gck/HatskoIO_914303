@@ -1,13 +1,8 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-<<<<<<< Updated upstream
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-=======
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
->>>>>>> Stashed changes
 using NLog.Web;
 using System.Reflection;
 using TaskCrudService.Adapters.DataSource;
@@ -18,43 +13,23 @@ using TaskCrudService.Middlewares;
 using TaskCrudService.Ports.Output;
 using TaskCrudService.Posts.DataSource;
 using TaskCrudServiceApi.MapperProfiles;
-<<<<<<< Updated upstream
 using TaskCrudServiceApi.SwaggerConfiguration;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using FluentValidation;
-
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TaskConnection");
-=======
-<<<<<<< Updated upstream
-
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("TaskConnection");
-=======
-using TaskCrudServiceApi.SwaggerConfiguration;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using TaskCrudServiceApi;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 // Add services to the container.
 
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
-<<<<<<< Updated upstream
-builder.Services.AddValidatorsFromAssembly(Assembly.Load("TaskCrudServiceApi"));
-
-=======
->>>>>>> Stashed changes
 builder.Services.AddHealthChecksUI()
                 .AddInMemoryStorage();
 builder.Services.AddHealthChecks()
@@ -68,7 +43,6 @@ builder.Services.AddDbContext<TaskContext>(opt =>
 builder.Services.AddScoped<IRepository<TaskEntity>, TasksRepository>();
 builder.Services.AddScoped<IService<TaskEntity>, TaskService>();
 
-<<<<<<< Updated upstream
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(opt =>
 {
@@ -85,10 +59,6 @@ builder.Services.AddVersionedApiExplorer(setup =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-=======
 var clientHandler = new HttpClientHandler
 {
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
@@ -125,7 +95,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-<<<<<<< Updated upstream
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
@@ -133,7 +102,6 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for managing tasks items"
     });
 
-=======
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -150,70 +118,39 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-<<<<<<< Updated upstream
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
-=======
->>>>>>> Stashed changes
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-<<<<<<< Updated upstream
     var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
-        {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                description.GroupName.ToUpperInvariant());
-        }
-    });
-}
-
-app.ConfigureCustomExceptionMiddleware();
-app.UseHttpsRedirection();
-app.UseAuthorization();
-=======
-    app.UseSwagger();
-<<<<<<< Updated upstream
-    app.UseSwaggerUI();
-=======
-    app.UseSwaggerUI(options =>
-    {
-        options.OAuthClientId("task_api");
-        options.OAuthAppName("Tasks api");
-        //setup.OAuthScopeSeparator(" ");
-        options.OAuthUsePkce();
+        //options.OAuthClientId("task_api");
+        //options.OAuthAppName("Tasks api");
+        ////setup.OAuthScopeSeparator(" ");
+        //options.OAuthUsePkce();
 
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
         {
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
         }
     });
->>>>>>> Stashed changes
 }
 
 app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
-
-<<<<<<< Updated upstream
-=======
-app.UseAuthentication();
->>>>>>> Stashed changes
 app.UseAuthorization();
 
->>>>>>> Stashed changes
 app.MapControllers();
 
 app.MapHealthChecks("/health", new HealthCheckOptions

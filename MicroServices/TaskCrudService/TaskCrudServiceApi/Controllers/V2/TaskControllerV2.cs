@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskCrudService.Adapters.Output;
 using TaskCrudService.Domain.Entities;
@@ -15,6 +16,7 @@ namespace TaskCrudServiceApi.Controllers.V1
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
     [ApiVersion("2.0")]
+    [Authorize]
     public class TaskControllerV2 : Controller
     {
         private readonly IService<TaskEntity> _taskService;
@@ -22,6 +24,7 @@ namespace TaskCrudServiceApi.Controllers.V1
         private readonly ILogger<TaskService> _logger;
         private readonly IValidator<CreateTaskRequest> _createValidator;
         private readonly IValidator<UpdateTaskRequest> _updateValidator;
+
         public TaskControllerV2(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
