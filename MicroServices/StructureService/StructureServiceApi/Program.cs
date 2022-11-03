@@ -13,19 +13,6 @@ using StructureService.Infrastructure.DataBase.Context;
 using StructureService.Infrastructure.DataBase;
 using StructureService.Infrastructure.Services;
 using StructureServiceApi.Middlewares;
-<<<<<<< Updated upstream
-using MassTransit;
-using StructureService.Infrastructure.Messages.Consumers;
-using Messages;
-
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("StructureConnection") ?? builder.Configuration.GetConnectionString("StructureConnection");
-=======
-<<<<<<< Updated upstream
-
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
-=======
 using MassTransit;
 using StructureService.Infrastructure.Messages.Consumers;
 using Messages;
@@ -33,18 +20,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StructureServiceApi;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("StructureConnection") ?? builder.Configuration.GetConnectionString("StructureConnection");
-var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
->>>>>>> Stashed changes
+var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
 
 var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
 
 // Add services to the container.
 
