@@ -95,13 +95,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "TaskCrudService API",
-        Description = "An ASP.NET Core Web API for managing tasks items"
-    });
-
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -134,10 +127,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        //options.OAuthClientId("task_api");
-        //options.OAuthAppName("Tasks api");
-        ////setup.OAuthScopeSeparator(" ");
-        //options.OAuthUsePkce();
+        options.OAuthClientId("task_api");
+        options.OAuthAppName("Tasks api");
+        //setup.OAuthScopeSeparator(" ");
+        options.OAuthUsePkce();
 
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
         {
