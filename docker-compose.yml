@@ -2,23 +2,31 @@ version: "3.9"
 services:
     user_info:
         container_name: user_info_api
+        ports: 
+            - "8080:443"
         build: 
             context: .
             dockerfile: MicroServices/UserInfoService/Dockerfile
         environment:
+            # VIRTUAL_HOST: "userinfo.skoruba.local"
             UserInfoConnection: "Server=user_info_sql;Database=master;User=SA;Password=yourStrong(!)Password"
             ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
+            IdentityPath: "https://sts.skoruba.local"
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
+            ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
             - user_info_sql
+        networks:
+            identityserverui: null
 
     structure:
         container_name: structure_api
+        # ports: 
+        #     - "8082:443"
         build:
             context: .
             dockerfile: MicroServices/StructureService/Dockerfile
@@ -26,39 +34,49 @@ services:
             StructureConnection: "Server=structure_sql;Database=master;User=SA;Password=yourStrong(!)Password"
             ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+            ASPNEestrel__Certificates__Default__Password: "mypass123"
+            ASPNETCORE_TCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_KKestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on: 
             - structure_sql
+        networks:
+            identityserverui: null
 
     tasks:
         container_name: tasks_api
+        # ports: 
+        #     - "8083:443"
         build:
             context: .
             dockerfile: MicroServices/TaskCrudService/Dockerfile
         environment:
             TasksConnection: "Server=tasks_sql;Database=master;User=SA;Password=yourStrong(!)Password"
+            IdentityPath: "https://sts.skoruba.local"
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
+            ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
             - C:\Users\agats\.aspnet\https:/https/
         depends_on:
             - tasks_sql
+        networks:
+            identityserverui: null
 
     documents:
         container_name: documents_api
+        # ports:
+        #     - "8081:443"
         build:
             context: .
             dockerfile: MicroServices/DocumentCrudService/Dockerfile
         environment:
-            VIRTUAL_HOST: "documents.skoruba.local"
+            # VIRTUAL_HOST: "documents.skoruba.local"
             DocumentsConnection: "mongodb://documents_mongo/documents"
             IdentityPath: "https://sts.skoruba.local"
+            ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
@@ -72,17 +90,20 @@ services:
 
     company_management:
         container_name: company_management_api
+        ports:
+            - "8084:443"
         build:
             context: .
             dockerfile: MicroServices/CompanyManagementService/Dockerfile
         environment:
+            IdentityPath: "https://sts.skoruba.local"
             CacheConnection: "company_management_redis"
             DepartmentsConnection: "https://structure/api/departments/"
             UsersStructureConnection: "https://structure/api/departments/"
             PositionsConnection: "https://structure/api/positions/"
             UsersInfoConnection: "https://user_info/api/"
             ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
+            ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
@@ -91,71 +112,73 @@ services:
             - company_management_redis
             - user_info
             - structure
+        networks:
+            identityserverui: null
 
-    notification:
-        container_name: notification_api
-        build:
-            context: .
-            dockerfile: MicroServices/NotificationService/Dockerfile
-        environment:
-            NotificationConnection: "Filename=Messages.db"
-            ManagementConnection: "https://company_management_api/api/management/users/"
-            TasksConnection: "https://tasks_api/api/tasks"
-            SenderEmail: "qwe@gmail.com"
-            SenderPassword: "qweqweqwe"
-            SenderHost: "smtp.gmail.com"
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-        volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        depends_on:
-            - company_management
-            - tasks
+    # notification:
+    #     container_name: notification_api
+    #     build:
+    #         context: .
+    #         dockerfile: MicroServices/NotificationService/Dockerfile
+    #     environment:
+    #         NotificationConnection: "Filename=Messages.db"
+    #         ManagementConnection: "https://company_management_api/api/management/users/"
+    #         TasksConnection: "https://tasks_api/api/tasks"
+    #         SenderEmail: "qwe@gmail.com"
+    #         SenderPassword: "qweqweqwe"
+    #         SenderHost: "smtp.gmail.com"
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_ENVIRONMENT: "Production"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - company_management
+    #         - tasks
 
-    signatures:
-        container_name: signatures_api
-        build:
-            context: .
-            dockerfile: MicroServices/SignatureService/Dockerfile
-        environment:
-            SignaturesConnection: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
-            DocumentServiceConnection: "https://documents/api/documents/"
-            ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_ENVIRONMENT: "Production"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-        volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        depends_on:
-            - documents
-            - signatures_sql
+    # signatures:
+    #     container_name: signatures_api
+    #     build:
+    #         context: .
+    #         dockerfile: MicroServices/SignatureService/Dockerfile
+    #     environment:
+    #         SignaturesConnection: "Data Source=signatures_sql;Initial Catalog=master;User=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+    #         DocumentServiceConnection: "https://documents/api/documents/"
+    #         ServiceBus: "Endpoint=sb://document-flow-sbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=/y+xqMffvpOinwI44rXPqdnPcG2uOyUMLmZa1FIuJpk="
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_ENVIRONMENT: "Production"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - documents
+    #         - signatures_sql
 
-    api-gateway:
-        container_name: api-gateway
-        build:
-            context: .
-            dockerfile: ApiGateway/Dockerfile
-        ports:
-            - "8004:80"
-            - "8005:443"
-        environment:
-            ASPNETCORE_URLS: "https://+;http://+"
-            ASPNETCORE_HTTPS_PORT: "8005"
-            ASPNETCORE_ENVIRONMENT: "Production"
-            ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
-            ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-        volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        depends_on:
-            - user_info
-            - structure
-            - company_management
-            - tasks
-            - documents
-            - signatures
+    # api-gateway:
+    #     container_name: api-gateway
+    #     build:
+    #         context: .
+    #         dockerfile: ApiGateway/Dockerfile
+    #     ports:
+    #         - "8004:80"
+    #         - "8005:443"
+    #     environment:
+    #         ASPNETCORE_URLS: "https://+;http://+"
+    #         ASPNETCORE_HTTPS_PORT: "8005"
+    #         ASPNETCORE_ENVIRONMENT: "Production"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Password: "mypass123"
+    #         ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    #     volumes:
+    #         - C:\Users\agats\.aspnet\https:/https/
+    #     depends_on:
+    #         - user_info
+    #         - structure
+    #         - company_management
+    #         - tasks
+    #         - documents
+    #         - signatures
 
     nginx-proxy:
         image: jwilder/nginx-proxy
@@ -173,7 +196,6 @@ services:
                     - sts.skoruba.local
                     - admin.skoruba.local
                     - admin-api.skoruba.local
-                    - documents.skoruba.local
         restart: always
 
     skoruba.identityserver4.admin:
@@ -277,6 +299,8 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
+        networks:
+            identityserverui: null
 
     structure_sql:
         container_name: structure_sql
@@ -284,6 +308,8 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
+        networks:
+            identityserverui: null
 
     tasks_sql:
         container_name: tasks_sql
@@ -291,13 +317,15 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
+        networks:
+            identityserverui: null
 
-    signatures_sql:
-        container_name: signatures_sql
-        image: "mcr.microsoft.com/mssql/server"
-        environment:
-            SA_PASSWORD: "yourStrong(!)Password"
-            ACCEPT_EULA: "Y"
+    # signatures_sql:
+    #     container_name: signatures_sql
+    #     image: "mcr.microsoft.com/mssql/server"
+    #     environment:
+    #         SA_PASSWORD: "yourStrong(!)Password"
+    #         ACCEPT_EULA: "Y"
 
     identity_sql:
         container_name: identity_sql
@@ -320,6 +348,8 @@ services:
     company_management_redis:
         container_name: company_management_redis
         image: "redis"
+        networks:
+            identityserverui: null
 
 volumes:
   dbdata:
