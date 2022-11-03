@@ -17,7 +17,6 @@ using Serilog.Events;
 using Serilog;
 using System.Reflection;
 using DocumentCrudServiceApi.Middlewares;
-<<<<<<< Updated upstream
 using DocumentCrudServiceApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
@@ -26,16 +25,6 @@ using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 var builder = WebApplication.CreateBuilder(args);
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
 var documentsConnection = Environment.GetEnvironmentVariable("DocumentsConnection") ?? builder.Configuration.GetConnectionString("DocumentsConnection");
-=======
-using Microsoft.IdentityModel.Tokens;
-using DocumentCrudServiceApi;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdentityModel;
-using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
-
-var builder = WebApplication.CreateBuilder(args);
-var identityString = builder.Configuration.GetValue<string>("IdentityPath");
->>>>>>> Stashed changes
 
 // Add services to the container.
 
@@ -51,12 +40,7 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-<<<<<<< Updated upstream
 builder.Services.AddHealthChecks().AddMongoDb(documentsConnection);
-=======
-builder.Services.AddHealthChecks().AddMongoDb(builder.Configuration.GetConnectionString("MongoDb"));
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
->>>>>>> Stashed changes
 
 builder.Services.AddScoped<DocumentContext>();
 
@@ -70,22 +54,16 @@ builder.Services.AddScoped<ICommandHandler<UpdateDocumentCommand>, UpdateDocumen
 builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsQuery>, GetAllNamesOfDocumentsQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<IsDocumentExitQuery>, IsDocumentExitQueryHandler>();
-<<<<<<< Updated upstream
 builder.Services.AddScoped<IQueryHandler<GetHashOfDocumentQuery>, GetHashOfDocumentQueryHandler>();
-=======
->>>>>>> Stashed changes
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 
-<<<<<<< Updated upstream
 var clientHandler = new HttpClientHandler
 {
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
 };
 
-=======
->>>>>>> Stashed changes
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -99,10 +77,7 @@ builder.Services.AddAuthentication(options =>
     options.Authority = identityString;
     options.RequireHttpsMetadata = false;
     options.Audience = "document_api";
-<<<<<<< Updated upstream
     options.BackchannelHttpHandler = clientHandler;
-=======
->>>>>>> Stashed changes
 });
 
 // adds an authorization policy to make sure the token is for scope 'api1'
@@ -136,11 +111,7 @@ builder.Services.AddSwaggerGen(options =>
             {
                 AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
                 TokenUrl = new Uri($"{identityString}/connect/token"),
-<<<<<<< Updated upstream
                 Scopes = new Dictionary<string, string> { { "document_api", "document api" } }
-=======
-                Scopes = new Dictionary<string, string> { { "document_api", "document Api" } }
->>>>>>> Stashed changes
             }
         }
     });
@@ -159,21 +130,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-<<<<<<< Updated upstream
-        setup.SwaggerEndpoint($"https://documents.skoruba.local/swagger/v1/swagger.json", "Version 1.0");
-        setup.OAuthClientId("document_api");
-        setup.OAuthAppName("Document api");
-=======
-<<<<<<< Updated upstream
-        setup.SwaggerEndpoint($"https://localhost:7129/swagger/v1/swagger.json", "Version 1.0");
-        setup.OAuthClientId("document_api_swagger");
-        setup.OAuthAppName("Document API");
-=======
         setup.SwaggerEndpoint($"https://localhost:8081/swagger/v1/swagger.json", "Version 1.0");
         setup.OAuthClientId("document_api");
         setup.OAuthAppName("Document api");
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         //setup.OAuthScopeSeparator(" ");
         setup.OAuthUsePkce();
     });
@@ -183,10 +142,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-<<<<<<< Updated upstream
-=======
-app.MapHealthChecksUI();
->>>>>>> Stashed changes
 
 app.UseHttpsRedirection();
 

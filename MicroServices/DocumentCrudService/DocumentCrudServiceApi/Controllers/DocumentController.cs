@@ -5,10 +5,7 @@ using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
 using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
-<<<<<<< Updated upstream
 using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
-=======
->>>>>>> Stashed changes
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
@@ -31,7 +28,6 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
-<<<<<<< Updated upstream
         /// Gets hash of specific document.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -65,8 +61,6 @@ namespace DocumentCrudService.Controllers
         }
 
         /// <summary>
-=======
->>>>>>> Stashed changes
         /// Gets the last version by specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -93,11 +87,7 @@ namespace DocumentCrudService.Controllers
             };
             var isExist = (DocumentExistDto)(await _queryDispatcher.Send(query))[0];
 
-<<<<<<< Updated upstream
             return isExist.IsExist ? RedirectToActionPermanent("GetLastVersion", new { id = id }) : NotFound();
-=======
-            return isExist.IsExist ? RedirectToActionPermanent("Get", new { id = id }) : NotFound();
->>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -186,11 +176,7 @@ namespace DocumentCrudService.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-<<<<<<< Updated upstream
-        public async Task<IActionResult> Post(CreateDocumentRequest documentViewModel)
-=======
         public async Task<IActionResult> Post([FromBody] CreateDocumentRequest documentViewModel)
->>>>>>> Stashed changes
         {
             if (!ModelState.IsValid)
             {
@@ -259,11 +245,7 @@ namespace DocumentCrudService.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-<<<<<<< Updated upstream
         public async Task<IActionResult> Put([FromBody] UpdateDocumentRequest documentViewModel)
-=======
-        public async Task<IActionResult> Put(UpdateDocumentRequest documentViewModel)
->>>>>>> Stashed changes
         {
             var file = GetByteArray(documentViewModel.File);
 
