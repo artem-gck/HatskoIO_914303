@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
@@ -9,6 +10,7 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 namespace StructureServiceApi.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IService<DepartmentEntity> _departmentsService;
