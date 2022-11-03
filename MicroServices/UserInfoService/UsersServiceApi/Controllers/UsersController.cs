@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsersService.Services;
 using UsersService.Services.Dto;
@@ -33,6 +34,7 @@ namespace UsersServiceApi.Controllers
         /// </remarks>
         /// <response code="200">List of user info was getting</response>
         /// <response code="500">Interal server error</response>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -60,6 +62,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="200">User info was getting</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,7 +90,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="200">User info was getting</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
-
+        [Authorize]
         [HttpGet("~/api/departments/{id}/users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -115,6 +118,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="204">UserInfo was deleted</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -151,6 +155,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="201">UserInfo was created</response>
         /// <response code="400">Invalid model state</response>
         /// <response code="500">Interal server error</response>
+<<<<<<< Updated upstream
         //[HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -198,6 +203,7 @@ namespace UsersServiceApi.Controllers
         /// <response code="400">Invalid model state</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

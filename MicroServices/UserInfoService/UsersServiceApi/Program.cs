@@ -1,6 +1,7 @@
 using HealthChecks.UI.Client;
 using MassTransit;
 using Messages;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -10,6 +11,7 @@ using UsersService.DataAccess.Entities.Context;
 using UsersService.Services;
 using UsersService.Services.MapperProfiles;
 using UsersService.Services.Messages.Consumers;
+using UsersServiceApi;
 using UsersServiceApi.MapperProfiles;
 using UsersServiceApi.Middlewares;
 
@@ -23,6 +25,8 @@ var connectionStringServiceBus = Environment.GetEnvironmentVariable("ServiceBus"
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
+var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
+
 
 // Add services to the container.
 
@@ -60,10 +64,43 @@ builder.Services.AddAutoMapper(typeof(ServiceProfile), typeof(ControllerProfile)
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepositoty, UserRepository>();
 
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = identityString;
+    options.RequireHttpsMetadata = false;
+    options.Audience = "userinfo_api";
+    options.BackchannelHttpHandler = clientHandler;
+});
+
+// adds an authorization policy to make sure the token is for scope 'api1'
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserInfoScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "userinfo_api");
+    });
+});
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("UserInfoConnection"));
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -72,6 +109,22 @@ builder.Services.AddSwaggerGen(options =>
         Title = "UsersService API",
         Description = "An ASP.NET Core Web API for managing UsersService items"
     });
+
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
+                TokenUrl = new Uri($"{identityString}/connect/token"),
+                Scopes = new Dictionary<string, string> { { "userinfo_api", "userinfo api" } }
+            }
+        }
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -84,14 +137,25 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setup =>
+    {
+        setup.SwaggerEndpoint($"https://userinfo.skoruba.local/swagger/v1/swagger.json", "Version 1.0");
+        setup.OAuthClientId("userinfo_api");
+        setup.OAuthAppName("UserInfo api");
+        //setup.OAuthScopeSeparator(" ");
+        setup.OAuthUsePkce();
+    });
 }
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseStatusCodePages();
 app.ConfigureCustomExceptionMiddleware();
