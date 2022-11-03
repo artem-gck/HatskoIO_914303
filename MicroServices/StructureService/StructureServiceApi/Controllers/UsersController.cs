@@ -1,17 +1,8 @@
 ﻿using AutoMapper;
-<<<<<<< Updated upstream
-using MassTransit;
-using MassTransit.Transports;
-using Messages;
-=======
-<<<<<<< Updated upstream
-=======
 using MassTransit;
 using MassTransit.Transports;
 using Messages;
 using Microsoft.AspNetCore.Authorization;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 using Microsoft.AspNetCore.Mvc;
 using StructureService.Application.Services;
 using StructureService.Domain.Entities;
@@ -19,15 +10,8 @@ using StructureService.Infrastructure.Services;
 using StructureServiceApi.ViewModels.AddRequest;
 using StructureServiceApi.ViewModels.Responce;
 using StructureServiceApi.ViewModels.UpdateRequest;
-<<<<<<< Updated upstream
 using System.Runtime.CompilerServices;
 using static Org.BouncyCastle.Math.EC.ECCurve;
-=======
-<<<<<<< Updated upstream
-=======
-using System.Runtime.CompilerServices;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 namespace StructureServiceApi.Controllers
 {
