@@ -16,10 +16,14 @@ using TaskCrudServiceApi.MapperProfiles;
 using TaskCrudServiceApi.SwaggerConfiguration;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using FluentValidation;
+using Microsoft.OpenApi.Models;
+using TaskCrudServiceApi;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
+var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
 
 // Add services to the container.
 
@@ -27,7 +31,6 @@ builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("TaskCrudServiceApi"));
-
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
 
@@ -55,9 +58,58 @@ builder.Services.AddVersionedApiExplorer(setup =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
+var clientHandler = new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+};
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = identityString;
+    options.RequireHttpsMetadata = false;
+    options.Audience = "task_api";
+    options.BackchannelHttpHandler = clientHandler;
+});
+
+// adds an authorization policy to make sure the token is for scope 'api1'
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("TasksScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "task_api");
+    });
+});
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
+                TokenUrl = new Uri($"{identityString}/connect/token"),
+                Scopes = new Dictionary<string, string> { { "task_api", "task api" } }
+            }
+        }
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
@@ -74,17 +126,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
+        options.OAuthClientId("task_api");
+        options.OAuthAppName("Tasks api");
+        //setup.OAuthScopeSeparator(" ");
+        options.OAuthUsePkce();
+
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
         {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
-                description.GroupName.ToUpperInvariant());
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
         }
     });
 }
 
 app.ConfigureCustomExceptionMiddleware();
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.MapHealthChecks("/health", new HealthCheckOptions

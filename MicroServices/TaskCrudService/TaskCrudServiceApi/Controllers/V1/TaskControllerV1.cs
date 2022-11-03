@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskCrudService.Adapters.Output;
 using TaskCrudService.Domain.Entities;
@@ -15,6 +16,7 @@ namespace TaskCrudServiceApi.Controllers.V1
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class TaskControllerV1 : Controller
     {
         private readonly IService<TaskEntity> _taskService;
