@@ -155,7 +155,6 @@ namespace UsersServiceApi.Controllers
         /// <response code="201">UserInfo was created</response>
         /// <response code="400">Invalid model state</response>
         /// <response code="500">Interal server error</response>
-<<<<<<< Updated upstream
         //[HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
