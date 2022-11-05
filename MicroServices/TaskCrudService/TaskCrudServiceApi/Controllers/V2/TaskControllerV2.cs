@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
+using MassTransit.Transports;
+using Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TaskCrudService.Adapters.Output;
 using TaskCrudService.Domain.Entities;
 using TaskCrudService.Ports.Output;
@@ -24,14 +28,18 @@ namespace TaskCrudServiceApi.Controllers.V1
         private readonly ILogger<TaskService> _logger;
         private readonly IValidator<CreateTaskRequest> _createValidator;
         private readonly IValidator<UpdateTaskRequest> _updateValidator;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IConfiguration _configuration;
 
-        public TaskControllerV2(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator)
+        public TaskControllerV2(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, IValidator<CreateTaskRequest> createValidator, IValidator<UpdateTaskRequest> updateValidator, ISendEndpointProvider sendEndpointProvider, IConfiguration config)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
             _updateValidator = updateValidator ?? throw new ArgumentNullException(nameof(updateValidator));
+            _sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
+            _configuration = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         /// <summary>
@@ -80,6 +88,18 @@ namespace TaskCrudServiceApi.Controllers.V1
             }
 
             var result = await _taskService.AddAsync(_mapper.Map<TaskEntity>(taskViewModel));
+
+            var uri = _configuration.GetConnectionString("ServiceBus").Split(";")[0][9..] + _configuration["Queues:NewTask"];
+
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri(uri));
+
+            await sendEndpoint.Send(new NewTaskMessage
+            {
+                Id = result,
+                OwnerUserId = taskViewModel.OwnerUserId,
+                DeadLine = taskViewModel.DeadLine,
+                Header = taskViewModel.Header,
+            });
 
             return Created($"tasks/{result}", result);
         }

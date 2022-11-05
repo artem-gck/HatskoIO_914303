@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NotificationService.DataAccess.DataBase\NotificationService.DataAccess.DataBase.csproj" />
-    <ProjectReference Include="..\NotificationService.DataAccess.Http\NotificationService.DataAccess.Http.csproj" />
   </ItemGroup>
 
   <ItemGroup>

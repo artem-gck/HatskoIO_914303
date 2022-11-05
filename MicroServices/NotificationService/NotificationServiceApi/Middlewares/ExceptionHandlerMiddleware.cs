@@ -1,5 +1,4 @@
 ﻿using NotificationService.DataAccess.DataBase.Exceptions;
-using NotificationService.DataAccess.Http.Exceptions;
 using System.Net;
 
 namespace NotificationServiceApi.Middlewares
@@ -26,7 +25,6 @@ namespace NotificationServiceApi.Middlewares
                 response.StatusCode = ex switch
                 {
                     NotFoundMessageException    => (int)HttpStatusCode.NotFound,
-                    NotFoundException           => (int)HttpStatusCode.NotFound,
                     Exception                   => (int)HttpStatusCode.InternalServerError,
                 };
 

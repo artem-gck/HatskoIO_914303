@@ -139,7 +139,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"https://userinfo.skoruba.local/swagger/v1/swagger.json", "Version 1.0");
+        setup.SwaggerEndpoint($"/swagger/v1/swagger.json", "Version 1.0");
         setup.OAuthClientId("userinfo_api");
         setup.OAuthAppName("UserInfo api");
         //setup.OAuthScopeSeparator(" ");

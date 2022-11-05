@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StructureServiceApi;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("StructureConnection");
+var connectionString = Environment.GetEnvironmentVariable("StructureConnection") ?? builder.Configuration.GetConnectionString("StructureConnection");
 
 var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
@@ -156,7 +156,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"https://documents.skoruba.local/swagger/v1/swagger.json", "Version 1.0");
+        setup.SwaggerEndpoint($"/swagger/v1/swagger.json", "Version 1.0");
         setup.OAuthClientId("structure_api");
         setup.OAuthAppName("Structure api");
         //setup.OAuthScopeSeparator(" ");

@@ -19,7 +19,7 @@ namespace TaskCrudService.Adapters.DataSource
 
         public async Task<Guid> AddAsync(TaskEntity entity)
         {
-            _logger.Debug("qwe");
+            _logger.Error("qwe");
 
             entity.Type = await GetType(entity.Type.Name);
 

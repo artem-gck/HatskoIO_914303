@@ -1,6 +1,6 @@
 ﻿using NotificationService.DataAccess.DataBase.Entity;
 
-namespace NotificationService.DataAccess.DataBase
+namespace NotificationService.DataAccess.DataBase.Interfaces
 {
     public interface IMessageRepository
     {

@@ -26,6 +26,7 @@ namespace UsersService.Services.Messages.Consumers
             await _userRepositoty.AddUserAsync(new UserEntity
             {
                 Id = newUser.Id,
+                Email = newUser.Email
             });
         }
     }

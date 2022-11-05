@@ -625,8 +625,9 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
 
             var result = await _userManager.CreateAsync(user, model.Password);
             var userId = await _userManager.GetUserIdAsync(user);
+            var email = user.Email;
 
-            await _publishEndpoint.Publish(new NewUserMessage { Id = Guid.Parse(userId) });
+            await _publishEndpoint.Publish(new NewUserMessage { Id = Guid.Parse(userId), Email = email });
 
             if (result.Succeeded)
             {

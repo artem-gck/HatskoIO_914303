@@ -16,7 +16,15 @@ namespace SignatureService.DataAccess.Http.Realisation
         }
 
         public async Task<HashResponce> GetHashAsync(Guid documentId, int version)
+            => await GetHashAsync(documentId, version, null);
+
+        public async Task<HashResponce> GetHashAsync(Guid documentId, int version, string token)
         {
+            if (token is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+            }
+
             var answer = await _httpClient.GetAsync($"{documentId}/{version}/hash");
 
             if (answer.IsSuccessStatusCode)
@@ -30,7 +38,7 @@ namespace SignatureService.DataAccess.Http.Realisation
             throw answer.StatusCode switch
             {
                 HttpStatusCode.NotFound => new DocumentNotFoundException(documentId),
-                _                       => new Exception()
+                _ => new Exception()
             };
         }
     }

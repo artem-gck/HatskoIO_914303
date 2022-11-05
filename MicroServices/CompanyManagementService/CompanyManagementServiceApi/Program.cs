@@ -116,7 +116,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(setup =>
     {
-        setup.SwaggerEndpoint($"https://localhost:8084/swagger/v1/swagger.json", "Version 1.0");
+        setup.SwaggerEndpoint($"/swagger/v1/swagger.json", "Version 1.0");
         setup.OAuthClientId("management_api");
         setup.OAuthAppName("Document api");
         //setup.OAuthScopeSeparator(" ");

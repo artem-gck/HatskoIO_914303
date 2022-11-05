@@ -1,23 +1,32 @@
 ﻿using HealthChecks.UI.Client;
+using MassTransit;
+using Messages;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using NotificationService.DataAccess.DataBase;
 using NotificationService.DataAccess.DataBase.Context;
-using NotificationService.DataAccess.Http.Interfaces;
-using NotificationService.DataAccess.Http.Realisations;
+using NotificationService.DataAccess.DataBase.Interfaces;
+using NotificationService.DataAccess.DataBase.Realisation;
+using NotificationService.Messages;
 using NotificationService.Notification.Jobs;
 using NotificationService.Services;
 using NotificationService.Services.MapperProfiles;
+using NotificationServiceApi;
 using NotificationServiceApi.MapperProfiles;
 using NotificationServiceApi.Middlewares;
 using Quartz;
 using System.Reflection;
+using MessageContext = NotificationService.DataAccess.DataBase.Context.MessageContext;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = Environment.GetEnvironmentVariable("NotificationConnection") ?? builder.Configuration.GetConnectionString("NotificationConnection");
-var managenmentConnectionString = Environment.GetEnvironmentVariable("ManagementConnection") ?? builder.Configuration.GetConnectionString("ManagementConnection");
-var tasksConnectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? builder.Configuration.GetConnectionString("TasksConnection");
+var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
+var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
+
+var newUserTopic = builder.Configuration["Topics:NewUser"];
+var newTaskQueue = builder.Configuration["Queues:NewTask"];
+var subscriptionName = builder.Configuration["SubscriptionName"];
 
 var clientHandler = new HttpClientHandler
 {
@@ -31,15 +40,37 @@ builder.Services.AddDbContext<MessageContext>(opt =>
 
 builder.Services.AddAutoMapper(typeof(ControllerProfile), typeof(ServiceProfile));
 
-builder.Services.AddScoped<IManagementAccess, ManagementAccess>();
-builder.Services.AddScoped<ITaskAccess, TaskAccess>();
-
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 builder.Services.AddScoped<IMessageService, MessageService>();
 
-builder.Services.AddHttpClient<IManagementAccess, ManagementAccess>(httpClient => { httpClient.BaseAddress = new Uri(managenmentConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler); ;
-builder.Services.AddHttpClient<ITaskAccess, TaskAccess>(httpClient => { httpClient.BaseAddress = new Uri(tasksConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler); ;
+builder.Services.AddMassTransit(serviceCollectionConfigurator =>
+{
+    serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
+    serviceCollectionConfigurator.AddConsumer<NewTaskConsumer>();
+
+    serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
+    {
+        configurator.Host(connectionStringAzure);
+
+        configurator.Message<NewUserMessage>(m =>
+        {
+            m.SetEntityName(newUserTopic);
+        });
+
+        configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+        });
+
+        configurator.ReceiveEndpoint(newTaskQueue, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<NewTaskConsumer>(registrationContext);
+        });
+    }));
+});
 
 builder.Services.AddQuartz(q =>
 {
@@ -58,6 +89,32 @@ builder.Services.AddQuartz(q =>
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = identityString;
+    options.RequireHttpsMetadata = false;
+    options.Audience = "notification_api";
+    options.BackchannelHttpHandler = clientHandler;
+});
+
+// adds an authorization policy to make sure the token is for scope 'api1'
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("NotificationScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "notification_api");
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -70,6 +127,22 @@ builder.Services.AddSwaggerGen(options =>
         Description = "An ASP.NET Core Web API for notification of user",
     });
 
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri($"{identityString}/connect/authorize"),
+                TokenUrl = new Uri($"{identityString}/connect/token"),
+                Scopes = new Dictionary<string, string> { { "notification_api", "notification api" } }
+            }
+        }
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
@@ -81,10 +154,19 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(setup =>
+    {
+        setup.SwaggerEndpoint($"/swagger/v1/swagger.json", "Version 1.0");
+        setup.OAuthClientId("notification_api");
+        setup.OAuthAppName("Notification api");
+        //setup.OAuthScopeSeparator(" ");
+        setup.OAuthUsePkce();
+    });
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health", new HealthCheckOptions

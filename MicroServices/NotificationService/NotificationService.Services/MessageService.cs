@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using NotificationService.DataAccess.DataBase;
+using NotificationService.DataAccess.DataBase.Interfaces;
 using NotificationService.Services.Dto;
 
 namespace NotificationService.Services

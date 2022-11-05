@@ -1,11 +1,10 @@
 ﻿using Quartz;
 using System.Net.Mail;
 using System.Net;
-using NotificationService.DataAccess.Http.Interfaces;
 using Microsoft.Extensions.Configuration;
-using NotificationService.DataAccess.DataBase;
 using NotificationService.DataAccess.DataBase.Entity;
 using System.Text;
+using NotificationService.DataAccess.DataBase.Interfaces;
 
 namespace NotificationService.Notification.Jobs
 {
@@ -15,13 +14,13 @@ namespace NotificationService.Notification.Jobs
         private readonly string _senderPassword;
         private readonly string _host;
 
-        private readonly ITaskAccess _taskAccess;
-        private readonly IManagementAccess _managementAccess;
+        private readonly ITaskRepository _taskRepositoty;
+        private readonly IUserRepository _managementAccess;
         private readonly IMessageRepository _messageRepository;
 
-        public EmailSender(ITaskAccess taskAccess, IManagementAccess managementAccess, IMessageRepository messageRepository, IConfiguration configuration)
+        public EmailSender(ITaskRepository taskAccess, IUserRepository managementAccess, IMessageRepository messageRepository, IConfiguration configuration)
         {
-            _taskAccess = taskAccess ?? throw new ArgumentNullException(nameof(taskAccess));
+            _taskRepositoty = taskAccess ?? throw new ArgumentNullException(nameof(taskAccess));
             _managementAccess = managementAccess ?? throw new ArgumentNullException(nameof(managementAccess));
             _messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
 
@@ -32,13 +31,11 @@ namespace NotificationService.Notification.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var tasks = (await _taskAccess.GetTasksAsync())
-                            .Where(task => (task.DeadLine - DateTime.Now) <= TimeSpan.FromDays(1))
-                            .GroupBy(task => task.OwnerUserId);
+            var tasks = await _taskRepositoty.GetAsync();
 
             foreach (var task in tasks)
             {
-                var user = await _managementAccess.GetUserInfoAsync(task.Key);
+                var user = await _managementAccess.GetAsync(task.Key);
 
                 using var message = new MailMessage(_senderEmail, user.Email);
 

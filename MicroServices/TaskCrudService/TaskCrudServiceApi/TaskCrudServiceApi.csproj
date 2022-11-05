@@ -20,6 +20,8 @@
 
     <PackageReference Include="FluentValidation" Version="11.2.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="MassTransit" Version="8.0.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
@@ -39,6 +41,12 @@
     <ProjectReference Include="..\TaskCrudService.Domain\TaskCrudService.Domain.csproj" />
     <ProjectReference Include="..\TaskCrudService.Ports.Output\TaskCrudService.Ports.Output.csproj" />
     <ProjectReference Include="..\TaskCrudService.Posts.DataSource\TaskCrudService.Posts.DataSource.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

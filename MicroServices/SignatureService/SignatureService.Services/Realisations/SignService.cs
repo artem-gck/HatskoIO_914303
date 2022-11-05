@@ -22,9 +22,12 @@ namespace SignatureService.Services.Realisations
         }
 
         public async Task AddAsync(Guid userId, Guid documentId, int version)
+            => await AddAsync(userId, documentId, version, null);
+
+        public async Task AddAsync(Guid userId, Guid documentId, int version, string token)
         {
             var user = await _userRepository.GetAsync(userId);
-            var hash = await _documentAccess.GetHashAsync(documentId, version);
+            var hash = await _documentAccess.GetHashAsync(documentId, version, token);
 
             using var rsa = RSA.Create();
             rsa.ImportRSAPublicKey(user.PublicKey, out int bytesRead);
@@ -47,6 +50,9 @@ namespace SignatureService.Services.Realisations
         }
 
         public async Task<bool> CheckDocumentByUserAsync(Guid documentId, int version, byte[] publicKey)
+            => await CheckDocumentByUserAsync(documentId, version, publicKey, null);
+
+        public async Task<bool> CheckDocumentByUserAsync(Guid documentId, int version, byte[] publicKey, string token)
         {
             using var rsa = RSA.Create();
             rsa.ImportRSAPublicKey(publicKey, out int bytesRead);
@@ -55,7 +61,7 @@ namespace SignatureService.Services.Realisations
             rsaDeformatter.SetHashAlgorithm(nameof(SHA256));
 
             var signedHashes = await _signatureRepository.GetDocumentHashes(documentId, version);
-            var hash = await _documentAccess.GetHashAsync(documentId, version);
+            var hash = await _documentAccess.GetHashAsync(documentId, version, token);
 
             foreach (var signedHash in signedHashes)
                 if (rsaDeformatter.VerifySignature(hash.Hash, signedHash))

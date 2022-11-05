@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserService.Services.Messages\UsersService.Services.Messages.csproj" />
     <ProjectReference Include="..\UsersService.DataAccess\UsersService.DataAccess.csproj" />
     <ProjectReference Include="..\UsersService.Services\UsersService.Services.csproj" />
   </ItemGroup>

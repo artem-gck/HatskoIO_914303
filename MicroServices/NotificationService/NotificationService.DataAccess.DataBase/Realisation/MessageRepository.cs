@@ -2,8 +2,9 @@
 using NotificationService.DataAccess.DataBase.Context;
 using NotificationService.DataAccess.DataBase.Entity;
 using NotificationService.DataAccess.DataBase.Exceptions;
+using NotificationService.DataAccess.DataBase.Interfaces;
 
-namespace NotificationService.DataAccess.DataBase
+namespace NotificationService.DataAccess.DataBase.Realisation
 {
     public class MessageRepository : IMessageRepository
     {

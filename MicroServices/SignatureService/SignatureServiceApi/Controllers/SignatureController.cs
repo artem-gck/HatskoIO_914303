@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignatureService.Services.Interfaces;
 using SignatureServiceApi.ViewModels;
@@ -7,6 +8,7 @@ namespace SignatureServiceApi.Controllers
 {
     [ApiController]
     [Route("api/signatures")]
+    [Authorize]
     public class SignatureController : Controller
     {
         private readonly ISignService _signService;
@@ -36,7 +38,9 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(Guid userId, Guid documentId, int version)
         {
-            await _signService.AddAsync(userId, documentId, version);
+            var token = Request.Headers["Authorization"].ToString();
+
+            await _signService.AddAsync(userId, documentId, version, token);
 
             return Created($"/api/documents/{documentId}/{version}", new { DocumentId = documentId, Version = version });
         }
@@ -89,7 +93,9 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid documentId, int version, [FromBody] CheckPublicKeyRequest publicKey)
         {
-            var result = await _signService.CheckDocumentByUserAsync(documentId, version, publicKey.Key);
+            var token = Request.Headers["Authorization"].ToString();
+
+            var result = await _signService.CheckDocumentByUserAsync(documentId, version, publicKey.Key, token);
 
             return result ? Ok() : NotFound();
         }

@@ -51,8 +51,6 @@ namespace CompanyManagementServiceApi.Controllers
         {
             var token = Request.Headers["Authorization"].ToString();
 
-            _logger.LogWarning("token is = {token}", token);
-
             var cheifStructureResponce = _mapper.Map<CheifStructureResponce>(await _structureService.GetCheifStructureAsync(id, token));
 
             return Ok(cheifStructureResponce);
@@ -81,7 +79,9 @@ namespace CompanyManagementServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var userResponce = _mapper.Map<UserResponce>(await _structureService.GetUserAsync(id));
+            var token = Request.Headers["Authorization"].ToString();
+
+            var userResponce = _mapper.Map<UserResponce>(await _structureService.GetUserAsync(id, token));
 
             return Ok(userResponce);
         }
