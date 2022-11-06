@@ -11,5 +11,6 @@ namespace UsersService.DataAccess
         public Task UpdateUserAsync(Guid id, UserEntity user);
         public Task UpdatePositionAndDepartmentOfUserAsync(Guid id, UserEntity user);
         public Task<IEnumerable<UserEntity>> GetUsersByDepartmentId(Guid departmentId);
+        public Task UpdateEmailOfUserAsync(Guid id, UserEntity user);
     }
 }

@@ -32,5 +32,17 @@ namespace NotificationService.DataAccess.DataBase.Realisation
 
             return entity;
         }
+
+        public async Task UpdateEmailAsync(Guid id, UserEntity entity)
+        {
+            var entityDb = await _messageContext.Users.FindAsync(id);
+
+            if (entityDb is null)
+                throw new NotFoundMessageException(id);
+
+            entityDb.Email = entity.Email;
+
+            await _messageContext.SaveChangesAsync();
+        }
     }
 }

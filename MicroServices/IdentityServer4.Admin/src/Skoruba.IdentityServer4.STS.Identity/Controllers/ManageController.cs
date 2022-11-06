@@ -3,12 +3,16 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using MassTransit;
+using MassTransit.Testing;
+using Messages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Skoruba.IdentityServer4.STS.Identity.Helpers;
@@ -28,6 +32,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
         private readonly ILogger<ManageController<TUser, TKey>> _logger;
         private readonly IGenericControllerLocalizer<ManageController<TUser, TKey>> _localizer;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -35,7 +40,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        public ManageController(UserManager<TUser> userManager, SignInManager<TUser> signInManager, IEmailSender emailSender, ILogger<ManageController<TUser, TKey>> logger, IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer, UrlEncoder urlEncoder)
+        public ManageController(UserManager<TUser> userManager, SignInManager<TUser> signInManager, IEmailSender emailSender, ILogger<ManageController<TUser, TKey>> logger, IGenericControllerLocalizer<ManageController<TUser, TKey>> localizer, UrlEncoder urlEncoder, IPublishEndpoint publishEndpoint)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +48,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             _logger = logger;
             _localizer = localizer;
             _urlEncoder = urlEncoder;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet]
@@ -70,6 +76,8 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             }
 
             var user = await _userManager.GetUserAsync(User);
+            var id = await _userManager.GetUserIdAsync(user);
+
             if (user == null)
             {
                 return NotFound(_localizer["UserNotFound", _userManager.GetUserId(User)]);
@@ -96,6 +104,12 @@ namespace Skoruba.IdentityServer4.STS.Identity.Controllers
             }
             
             await UpdateUserClaimsAsync(model, user);
+
+            await _publishEndpoint.Publish(new UpdateEmailUserMessage
+            {
+                Id = Guid.Parse(id),
+                Email = user.Email
+            });
 
             StatusMessage = _localizer["ProfileUpdated"];
 

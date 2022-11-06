@@ -28,6 +28,8 @@ var connectionString = Environment.GetEnvironmentVariable("TasksConnection") ?? 
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
 var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newTaskQueue = builder.Configuration["Queues:NewTask"];
+var updateTaskQueue = builder.Configuration["Queues:UpdateTask"];
+var deleteTaskQueue = builder.Configuration["Queues:DeleteTask"];
 
 // Add services to the container.
 
@@ -56,6 +58,16 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
         {
             m.SetEntityName(newTaskQueue);
         });
+
+        configurator.Message<UpdateTaskMessage>(m =>
+        {
+            m.SetEntityName(updateTaskQueue);
+        });
+
+        configurator.Message<DeleteTaskMessage>(m =>
+        {
+            m.SetEntityName(deleteTaskQueue);
+        });
     }));
 });
 
@@ -80,21 +92,21 @@ var clientHandler = new HttpClientHandler
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
 };
 
-    builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-    {
-        options.Authority = identityString;
-        options.RequireHttpsMetadata = false;
-        options.Audience = "task_api";
-        options.BackchannelHttpHandler = clientHandler;
-    });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.Authority = identityString;
+    options.RequireHttpsMetadata = false;
+    options.Audience = "task_api";
+    options.BackchannelHttpHandler = clientHandler;
+});
 
 // adds an authorization policy to make sure the token is for scope 'api1'
 builder.Services.AddAuthorization(options =>

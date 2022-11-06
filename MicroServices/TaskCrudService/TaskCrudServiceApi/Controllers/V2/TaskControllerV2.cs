@@ -154,6 +154,18 @@ namespace TaskCrudServiceApi.Controllers.V1
 
             await _taskService.UpdateAsync(id, _mapper.Map<TaskEntity>(taskViewModel));
 
+            var uri = _configuration.GetConnectionString("ServiceBus").Split(";")[0][9..] + _configuration["Queues:UpdateTask"];
+
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri(uri));
+
+            await sendEndpoint.Send(new UpdateTaskMessage
+            {
+                Id = id,
+                OwnerUserId = taskViewModel.OwnerUserId,
+                DeadLine = taskViewModel.DeadLine,
+                Header = taskViewModel.Header,
+            });
+
             return NoContent();
         }
     }

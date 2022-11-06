@@ -25,7 +25,10 @@ var connectionStringAzure = Environment.GetEnvironmentVariable("ServiceBus") ?? 
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
 
 var newUserTopic = builder.Configuration["Topics:NewUser"];
+var updateEmailUserTopic = builder.Configuration["Topics:UpdateEmailUser"];
 var newTaskQueue = builder.Configuration["Queues:NewTask"];
+var updateTaskQueue = builder.Configuration["Queues:UpdateTask"];
+var deleteTaskQueue = builder.Configuration["Queues:DeleteTask"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
 
 var clientHandler = new HttpClientHandler
@@ -50,6 +53,9 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 {
     serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
     serviceCollectionConfigurator.AddConsumer<NewTaskConsumer>();
+    serviceCollectionConfigurator.AddConsumer<UpdateTaskConsumer>();
+    serviceCollectionConfigurator.AddConsumer<DeleteTaskConsumer>();
+    serviceCollectionConfigurator.AddConsumer<UpdateEmailUserConsumer>();
 
     serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
     {
@@ -60,14 +66,34 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
             m.SetEntityName(newUserTopic);
         });
 
+        configurator.Message<UpdateEmailUserMessage>(m =>
+        {
+            m.SetEntityName(updateEmailUserTopic);
+        });
+
         configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
         {
             endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
         });
 
+        configurator.SubscriptionEndpoint<UpdateEmailUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<UpdateEmailUserConsumer>(registrationContext);
+        });
+
         configurator.ReceiveEndpoint(newTaskQueue, endpointConfigurator =>
         {
             endpointConfigurator.ConfigureConsumer<NewTaskConsumer>(registrationContext);
+        });
+
+        configurator.ReceiveEndpoint(updateTaskQueue, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<UpdateTaskConsumer>(registrationContext);
+        });
+
+        configurator.ReceiveEndpoint(deleteTaskQueue, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<DeleteTaskConsumer>(registrationContext);
         });
     }));
 });

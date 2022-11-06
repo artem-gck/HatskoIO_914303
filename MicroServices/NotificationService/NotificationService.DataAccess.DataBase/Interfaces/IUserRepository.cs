@@ -6,5 +6,6 @@ namespace NotificationService.DataAccess.DataBase.Interfaces
     {
         public Task<UserEntity> GetAsync(Guid id);
         public Task<Guid> AddAsync(UserEntity entity);
+        public Task UpdateEmailAsync(Guid id, UserEntity entity);
     }
 }

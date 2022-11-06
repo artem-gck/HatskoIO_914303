@@ -23,6 +23,7 @@ var connectionStringUserInfo = Environment.GetEnvironmentVariable("UserInfoConne
 
 var connectionStringServiceBus = Environment.GetEnvironmentVariable("ServiceBus") ?? builder.Configuration.GetConnectionString("ServiceBus");
 var newUserTopic = builder.Configuration["Topics:NewUser"];
+var updateEmailUserTopic = builder.Configuration["Topics:UpdateEmailUser"];
 var updateUserQueue = builder.Configuration["Queues:UpdateUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
@@ -34,6 +35,7 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 {
     serviceCollectionConfigurator.AddConsumer<NewUserConsumer>();
     serviceCollectionConfigurator.AddConsumer<UpdateUserConsumer>();
+    serviceCollectionConfigurator.AddConsumer<UpdateEmailUserConsumer>();
 
     serviceCollectionConfigurator.AddBus(registrationContext => Bus.Factory.CreateUsingAzureServiceBus(configurator =>
     {
@@ -44,6 +46,11 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
             m.SetEntityName(newUserTopic);
         });
 
+        configurator.Message<UpdateEmailUserMessage>(m =>
+        {
+            m.SetEntityName(updateEmailUserTopic);
+        });
+
         configurator.ReceiveEndpoint(updateUserQueue, endpointConfigurator =>
         {
             endpointConfigurator.ConfigureConsumer<UpdateUserConsumer>(registrationContext);
@@ -52,6 +59,11 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
         configurator.SubscriptionEndpoint<NewUserMessage>(subscriptionName, endpointConfigurator =>
         {
             endpointConfigurator.ConfigureConsumer<NewUserConsumer>(registrationContext);
+        });
+
+        configurator.SubscriptionEndpoint<UpdateEmailUserMessage>(subscriptionName, endpointConfigurator =>
+        {
+            endpointConfigurator.ConfigureConsumer<UpdateEmailUserConsumer>(registrationContext);
         });
     }));
 });

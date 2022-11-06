@@ -95,6 +95,7 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
         {
             var connectionString = Environment.GetEnvironmentVariable("ServiceBus") ?? configuration.GetConnectionString("ServiceBus");
             var newUserTopic = configuration["Topics:NewUser"];
+            var updateEmailUserTopic = configuration["Topics:UpdateEmailUser"];
 
             var azureServiceBus = Bus.Factory.CreateUsingAzureServiceBus(busFactoryConfig =>
             {
@@ -105,15 +106,16 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
                     configTopology.SetEntityName(newUserTopic);
                 });
 
+                busFactoryConfig.Message<UpdateEmailUserMessage>(configTopology =>
+                {
+                    configTopology.SetEntityName(updateEmailUserTopic);
+                });
             });
 
             services.AddMassTransit(config =>
             {
                 config.AddBus(provider => azureServiceBus);
             });
-
-            services.AddSingleton<IPublishEndpoint>(azureServiceBus);
-            services.AddSingleton<IBus>(azureServiceBus);
         }
 
         /// <summary>

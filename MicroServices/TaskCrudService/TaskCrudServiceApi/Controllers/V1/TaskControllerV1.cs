@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
+using MassTransit.Transports;
+using Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TaskCrudService.Adapters.Output;
 using TaskCrudService.Domain.Entities;
 using TaskCrudService.Ports.Output;
@@ -22,11 +26,16 @@ namespace TaskCrudServiceApi.Controllers.V1
         private readonly IService<TaskEntity> _taskService;
         private readonly IMapper _mapper;
         private readonly ILogger<TaskService> _logger;
-        public TaskControllerV1(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger)
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IConfiguration _configuration;
+
+        public TaskControllerV1(IService<TaskEntity> taskService, IMapper mapper, ILogger<TaskService> logger, ISendEndpointProvider sendEndpointProvider, IConfiguration config)
         {
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
+            _configuration = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         /// <summary>
@@ -126,6 +135,15 @@ namespace TaskCrudServiceApi.Controllers.V1
         public async Task<IActionResult> Delete(Guid id)
         {
             await _taskService.DeleteAsync(id);
+
+            var uri = _configuration.GetConnectionString("ServiceBus").Split(";")[0][9..] + _configuration["Queues:DeleteTask"];
+
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri(uri));
+
+            await sendEndpoint.Send(new DeleteTaskMessage
+            {
+                Id = id,
+            });
 
             return NoContent();
         }
