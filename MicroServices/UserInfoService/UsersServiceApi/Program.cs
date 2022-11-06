@@ -10,10 +10,10 @@ using UsersService.DataAccess;
 using UsersService.DataAccess.Entities.Context;
 using UsersService.Services;
 using UsersService.Services.MapperProfiles;
-using UsersService.Services.Messages.Consumers;
 using UsersServiceApi;
 using UsersServiceApi.MapperProfiles;
 using UsersServiceApi.Middlewares;
+using UsersService.Services.Messages.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
