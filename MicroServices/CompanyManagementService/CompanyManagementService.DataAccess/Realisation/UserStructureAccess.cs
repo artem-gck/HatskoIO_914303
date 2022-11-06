@@ -38,7 +38,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<UserResponce> GetAsync(Guid departmentId, Guid userId, string token)
         {
-            if (token is not null)
+            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }
@@ -65,7 +65,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id, string token)
         {
-            if (token is not null)
+            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }

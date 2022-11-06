@@ -38,7 +38,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<PositionResponce> GetAsync(Guid id, string token)
         {
-            if (token is not null)
+            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }

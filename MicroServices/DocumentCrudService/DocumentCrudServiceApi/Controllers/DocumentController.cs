@@ -11,11 +11,15 @@ using DocumentCrudService.ViewModels;
 using DocumentCrudServiceApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Nodes;
+using System;
 
 namespace DocumentCrudService.Controllers
 {
     [Route("api/documents")]
     [Produces("application/json")]
+    //[Authorize]
     public class DocumentController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
@@ -42,7 +46,6 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpGet("{id}/{version}/hash")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,7 +77,6 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status301MovedPermanently)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -104,7 +106,6 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpGet("{id}/last-version")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -136,7 +137,6 @@ namespace DocumentCrudService.Controllers
         /// <response code="200">Send file</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpGet("{id}/{version}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -172,11 +172,10 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="201">File created</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] CreateDocumentRequest documentViewModel)
+        public async Task<IActionResult> Post([FromForm] CreateDocumentRequest documentViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -210,7 +209,6 @@ namespace DocumentCrudService.Controllers
         /// <response code="204">File deleted</response>
         /// <response code="404">File not found</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -241,11 +239,10 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="204">File updated</response>
         /// <response code="500">Internal server error</response>
-        [Authorize]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put([FromBody] UpdateDocumentRequest documentViewModel)
+        public async Task<IActionResult> Put([FromForm] UpdateDocumentRequest documentViewModel)
         {
             var file = GetByteArray(documentViewModel.File);
 

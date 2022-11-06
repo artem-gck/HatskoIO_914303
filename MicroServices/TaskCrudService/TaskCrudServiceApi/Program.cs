@@ -155,7 +155,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.ConfigureCustomExceptionMiddleware();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

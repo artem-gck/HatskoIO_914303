@@ -102,16 +102,16 @@ namespace StructureServiceApi.Controllers
         /// <response code="204">Model deleted</response>
         /// <response code="404">Model not found</response>
         /// <response code="500">Internal server error</response>
-        [HttpDelete("api/departments/{departmentId}/users/{userId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(Guid departmentId, Guid userId)
-        {
-            await _userService.DeleteAsync(departmentId, userId);
+        //[HttpDelete("api/departments/{departmentId}/users/{userId}")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Delete(Guid departmentId, Guid userId)
+        //{
+        //    await _userService.DeleteAsync(departmentId, userId);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         /// <summary>
         /// Posts the specified department unit view model.

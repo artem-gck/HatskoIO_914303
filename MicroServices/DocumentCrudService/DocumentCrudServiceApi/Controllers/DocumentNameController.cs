@@ -11,6 +11,7 @@ namespace DocumentCrudService.Controllers
 {
     [Route("api/document-names")]
     [Produces("application/json")]
+    //[Authorize]
     public class DocumentNameController : Controller
     {
         private readonly IQueryDispatcher _queryDispatcher;
@@ -34,7 +35,6 @@ namespace DocumentCrudService.Controllers
         /// </remarks>
         /// <response code="200">Send file</response>
         /// <response code="500">Internal server error</response>
-        //[Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

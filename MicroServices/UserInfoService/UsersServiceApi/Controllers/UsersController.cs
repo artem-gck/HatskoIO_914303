@@ -116,18 +116,18 @@ namespace UsersServiceApi.Controllers
         /// <response code="204">UserInfo was deleted</response>
         /// <response code="404">No userInfo with this id</response>
         /// <response code="500">Interal server error</response>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            _userLogger.LogDebug("Deleting user info from service with id = {id}", id);
+        //[HttpDelete("{id}")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+        //    _userLogger.LogDebug("Deleting user info from service with id = {id}", id);
 
-            await _userService.DeleteUserAsync(id);
+        //    await _userService.DeleteUserAsync(id);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         /// <summary>
         /// Add the specified user info

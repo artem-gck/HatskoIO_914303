@@ -3,6 +3,41 @@
     "BaseUrl": "https://api-gateway"
   },
   "Routes": [
+    // company management
+    {
+      "UpstreamPathTemplate": "/gateway/cheifs/{userId}/structure",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/management/cheifs/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "company_management",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/users/{userId}/info",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/management/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "company_management",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
+    },
     // user-info
     {
       "UpstreamPathTemplate": "/gateway/users",
@@ -15,11 +50,15 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/users/{id}",
-      "UpstreamHttpMethod": [ "Get", "Delete", "Put" ],
+      "UpstreamHttpMethod": [ "Get", "Put" ],
       "DownstreamPathTemplate": "/api/users/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -28,7 +67,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     // signatures
     {
@@ -42,7 +85,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/signatures/{documentId}/{version}",
@@ -55,7 +102,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}/keys",
@@ -68,22 +119,13 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     // documents
-    {
-      "UpstreamPathTemplate": "/gateway/documents/{documentId}",
-      "UpstreamHttpMethod": [ "Get", "Delete" ],
-      "DownstreamPathTemplate": "/api/documents/{documentId}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "documents",
-          "Port": 443
-        }
-      ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
     {
       "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}",
       "UpstreamHttpMethod": [ "Get" ],
@@ -95,7 +137,28 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/documents/{documentId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/documents/{documentId}/last-version",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/documents",
@@ -108,7 +171,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/document-names?page={page}&count={count}",
@@ -121,7 +188,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     // tasks
     {
@@ -135,7 +206,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/tasks/{taskId}",
@@ -148,12 +223,16 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
-      "UpstreamPathTemplate": "/gateway/users/{taskId}/tasks",
+      "UpstreamPathTemplate": "/gateway/users/{userId}/tasks",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/v2/users/{taskId}/tasks",
+      "DownstreamPathTemplate": "/api/v2/users/{userId}/tasks",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -161,7 +240,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     // structure
     {
@@ -175,7 +258,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}",
@@ -188,7 +275,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}/users",
@@ -201,11 +292,15 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}/users/{userId}",
-      "UpstreamHttpMethod": [ "Get", "Delete", "Put" ],
+      "UpstreamHttpMethod": [ "Get", "Put" ],
       "DownstreamPathTemplate": "/api/departments/{departmentId}/users/{userId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -214,7 +309,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/positions",
@@ -227,7 +326,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/positions/{positionId}",
@@ -240,34 +343,46 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
-    // company management
+    // notifications
     {
-      "UpstreamPathTemplate": "/gateway/cheifs/{userId}/structure",
+      "UpstreamPathTemplate": "/gateway/messages",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/management/cheifs/{userId}",
+      "DownstreamPathTemplate": "/api/messages",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "company_management",
+          "Host": "notification",
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
     },
     {
-      "UpstreamPathTemplate": "/gateway/users/{userId}/info",
+      "UpstreamPathTemplate": "/gateway/messages/{messageId}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/management/users/{userId}",
+      "DownstreamPathTemplate": "/api/messages/{messageId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "company_management",
+          "Host": "notification",
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
+    }
   ]
 }

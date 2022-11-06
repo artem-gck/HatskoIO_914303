@@ -39,7 +39,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<UserResponce> GetAsync(Guid id, string token)
         {
-            if (token is not null)
+            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }
@@ -66,9 +66,9 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<IEnumerable<UserResponce>> GetByDepartmentIdAsync(Guid id, string token)
         {
-            if (token is not null)
+            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }
 
             var answer = await _httpClient.GetAsync($"departments/{id}/users");

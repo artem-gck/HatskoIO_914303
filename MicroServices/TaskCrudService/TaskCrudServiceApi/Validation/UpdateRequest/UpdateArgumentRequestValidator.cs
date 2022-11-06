@@ -7,8 +7,6 @@ namespace TaskCrudServiceApi.Validation.UpdateRequest
     {
         public UpdateArgumentRequestValidator()
         {
-            RuleFor(arg => arg.Id).NotNull()
-                                  .NotEmpty();
             RuleFor(arg => arg.ArgumentType).NotNull()
                                             .NotEmpty();
             RuleFor(arg => arg.Value).NotNull()
