@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignatureService.Services",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignatureService.DataAccess.Http", "SignatureService.DataAccess.Http\SignatureService.DataAccess.Http.csproj", "{B21FF471-DCAB-4AC4-88E1-0145D4DC3305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignatureService.Services.Messages", "SignatureService.Services.Messages\SignatureService.Services.Messages.csproj", "{2A9E86B5-7177-4403-9DAE-4620B87E696E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignatureService.Services.Messages", "SignatureService.Services.Messages\SignatureService.Services.Messages.csproj", "{2A9E86B5-7177-4403-9DAE-4620B87E696E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignatureService.Test", "SignatureService.Test\SignatureService.Test.csproj", "{62A0715C-60D4-4A05-BF3E-CDDE5A04B1D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2A9E86B5-7177-4403-9DAE-4620B87E696E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9E86B5-7177-4403-9DAE-4620B87E696E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9E86B5-7177-4403-9DAE-4620B87E696E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62A0715C-60D4-4A05-BF3E-CDDE5A04B1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A0715C-60D4-4A05-BF3E-CDDE5A04B1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62A0715C-60D4-4A05-BF3E-CDDE5A04B1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A0715C-60D4-4A05-BF3E-CDDE5A04B1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
