@@ -1,20 +1,23 @@
 ﻿using Dapper;
 using SignatureService.DataAccess.DataBase.Entities;
+using SignatureService.DataAccess.DataBase.Exceptiions;
 using SignatureService.DataAccess.DataBase.Interfaces;
 
 namespace SignatureService.DataAccess.DataBase.Realisations
 {
     public class UserRepository : IUserRepository
     {
-        private readonly SqlServerConnectionProvider _provider;
+        private readonly IConnectionProvider _provider;
 
-        public UserRepository(SqlServerConnectionProvider provider)
+        public UserRepository(IConnectionProvider provider)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
         public async Task<Guid> AddAsync(UserEntity user)
         {
+            _ = user ?? throw new ArgumentNullException(nameof(user));
+
             var sql = $"INSERT INTO users (Id, PublicKey, PrivateKey) " +
                       $"VALUES ('{user.Id}', @Public, @Private)";
 
@@ -32,6 +35,9 @@ namespace SignatureService.DataAccess.DataBase.Realisations
 
             using var connection = _provider.GetDbConnection();
             var user = await connection.QueryFirstOrDefaultAsync<UserEntity>(sql);
+
+            if (user is null)
+                throw new NotFoundException(id);
 
             return user;
         }
