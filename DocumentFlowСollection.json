@@ -1,0 +1,3438 @@
+{
+	"info": {
+		"_postman_id": "f0383a2f-65b5-4721-b652-8fb49c3756f4",
+		"name": "DocumentFlow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18547707"
+	},
+	"item": [
+		{
+			"name": "Structure",
+			"item": [
+				{
+					"name": "Add position",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"director\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/positions",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get position",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/positions/a7cb6067-71a4-4729-5e88-08dabf12103a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"positions",
+								"a7cb6067-71a4-4729-5e88-08dabf12103a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get positions",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/positions",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete position",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/positions/a7cb6067-71a4-4729-5e88-08dabf12103a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"positions",
+								"a7cb6067-71a4-4729-5e88-08dabf12103a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update position",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a7cb6067-71a4-4729-5e88-08dabf12103a\",\r\n    \"name\": \"manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/positions/a7cb6067-71a4-4729-5e88-08dabf12103a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"positions",
+								"a7cb6067-71a4-4729-5e88-08dabf12103a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add department",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"tech\",\r\n    \"cheifUserId\": \"c38ae537-c760-4ab4-9f57-16a19dc09898\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get departments",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get department",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/2cd9ea0e-f834-4d49-e1dc-08dabf125273",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"2cd9ea0e-f834-4d49-e1dc-08dabf125273"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete department",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/2cd9ea0e-f834-4d49-e1dc-08dabf125273",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"2cd9ea0e-f834-4d49-e1dc-08dabf125273"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update department",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"2cd9ea0e-f834-4d49-e1dc-08dabf125273\",\r\n    \"name\": \"technich\",\r\n    \"cheifUserId\": \"c52080cb-9e44-4682-9478-1cfcc6e1aa20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/2cd9ea0e-f834-4d49-e1dc-08dabf125273",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"2cd9ea0e-f834-4d49-e1dc-08dabf125273"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"8f557714-ed20-4983-98fd-2cca516dc698\",\r\n    \"salary\": 1000,\r\n    \"positionId\": \"47095151-1d13-49fd-46ca-08dabf67f2b3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/6f476bba-78d3-4a48-7d8b-08dabf6813f9/users/8f557714-ed20-4983-98fd-2cca516dc698",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"6f476bba-78d3-4a48-7d8b-08dabf6813f9",
+								"users",
+								"8f557714-ed20-4983-98fd-2cca516dc698"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/a4afe071-8f17-4f91-989c-08dabf1c358b/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"a4afe071-8f17-4f91-989c-08dabf1c358b",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/departments/8d351fc9-7e58-44e3-f09e-08dabf14e266/users/7adb01c9-82e0-45e4-9706-98b0266f8933",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"departments",
+								"8d351fc9-7e58-44e3-f09e-08dabf14e266",
+								"users",
+								"7adb01c9-82e0-45e4-9706-98b0266f8933"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserInfo",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/users/7adb01c9-82e0-45e4-9706-98b0266f8933",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"users",
+								"7adb01c9-82e0-45e4-9706-98b0266f8933"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"7adb01c9-82e0-45e4-9706-98b0266f8933\",\r\n    \"name\": \"Artem\",\r\n    \"surname\": \"Hatsko\",\r\n    \"patronymic\": \"Aliaksandrovich\",\r\n    \"email\": \"qwe@outlook.com\",\r\n    \"departmentId\": null,\r\n    \"positionId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/users/7adb01c9-82e0-45e4-9706-98b0266f8933",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"users",
+								"7adb01c9-82e0-45e4-9706-98b0266f8933"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "Get documents names",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/document-names?page=1&count=10",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"document-names"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "count",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get document last version",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/documents/c5cd6965-98a6-4ff5-8b9d-bd490537192b",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"documents",
+								"c5cd6965-98a6-4ff5-8b9d-bd490537192b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get document by version",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/documents/41c61a9d-1353-4b9c-925a-875de22b2beb/0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"documents",
+								"41c61a9d-1353-4b9c-925a-875de22b2beb",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add document",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "createrId",
+									"value": "c38ae537-c760-4ab4-9f57-16a19dc09898",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/Innowise/UsersService/.env"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/documents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update document",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "8b84f63c-419b-44cb-ab85-114269e4f8e4",
+									"type": "text"
+								},
+								{
+									"key": "createrId",
+									"value": "96428a1f-39c9-4a53-9b20-6b7dab7051e6",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/Innowise/UsersService/.gitignore"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/documents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Signatures",
+			"item": [
+				{
+					"name": "Add signature",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/signatures/c38ae537-c760-4ab4-9f57-16a19dc09898/41c61a9d-1353-4b9c-925a-875de22b2beb/0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"signatures",
+								"c38ae537-c760-4ab4-9f57-16a19dc09898",
+								"41c61a9d-1353-4b9c-925a-875de22b2beb",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/documents/41c61a9d-1353-4b9c-925a-875de22b2beb/0/keys",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"documents",
+								"41c61a9d-1353-4b9c-925a-875de22b2beb",
+								"0",
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check signature",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": \"MIIBCgKCAQEA4awc3xkOlzRtttcYESKtFjZYeGXHSYYfvk7T0cPpaDT1G1wbm0jXTlsHg0fNRojuHUdLU1tFN+WHoUM8RF+pgQrp+nL4MHrqF77p72R/s3FtfqSyZKBdAsFYgH4jvPHEGRp0mv52/0N9Lhkxno+r7z7lO80wfR027TJbLXphaK5wbIYUl9IRATFjFoP8FT+F+DhLCUde6NBp0M/iznIoDvOu878iXXLNiGFI5cwhPP7PDve+OD6BsVZqLgmZWdtGrX7DadPZEk+gq5+q7oJAqtOu40Z0BidnhAMtivwFh251x2YIClG3opzaOKe4mDrwTFsvNKcmsob7yHtMOQ0aNQIDAQAB\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/signatures/c5cd6965-98a6-4ff5-8b9d-bd490537192b/0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"signatures",
+								"c5cd6965-98a6-4ff5-8b9d-bd490537192b",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get massages",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/messages",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get message",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/messages/fc58957e-2076-4817-a7e9-a5c2811aac17",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"messages",
+								"fc58957e-2076-4817-a7e9-a5c2811aac17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get tasks",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/tasks",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/tasks/03483097-921b-4aa7-af89-f560ac62b5f4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"tasks",
+								"03483097-921b-4aa7-af89-f560ac62b5f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete task",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/tasks/03483097-921b-4aa7-af89-f560ac62b5f4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"tasks",
+								"03483097-921b-4aa7-af89-f560ac62b5f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add task",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"STRING\",\r\n    \"header\": \"STRING\",\r\n    \"ownerUserId\": \"3FA85F64-5717-4562-B3FC-2C963F66AFA6\",\r\n    \"deadLine\": \"2022-10-02T20:07:01.294Z\",\r\n    \"arguments\": [\r\n        {\r\n            \"argumentType\": \"STRING\",\r\n            \"value\": \"STRING\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/tasks",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update task",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"03483097-921b-4aa7-af89-f560ac62b5f4\",\r\n    \"type\": \"STRING\",\r\n    \"header\": \"STRING\",\r\n    \"ownerUserId\": \"3FA85F64-5717-4562-B3FC-2C963F66AFA6\",\r\n    \"deadLine\": \"2022-10-02T20:07:01.294Z\",\r\n    \"arguments\": [\r\n        {\r\n            \"argumentType\": \"STRING\",\r\n            \"value\": \"STRING\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8005/gateway/tasks/03483097-921b-4aa7-af89-f560ac62b5f4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"tasks",
+								"03483097-921b-4aa7-af89-f560ac62b5f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get task by user",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/users/03483097-921b-4aa7-af89-f560ac62b5f4/tasks",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"users",
+								"03483097-921b-4aa7-af89-f560ac62b5f4",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Management",
+			"item": [
+				{
+					"name": "Get structure by cheif",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api management_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/cheifs/8f557714-ed20-4983-98fd-2cca516dc698/structure",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"cheifs",
+								"8f557714-ed20-4983-98fd-2cca516dc698",
+								"structure"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "scope",
+									"value": "gateway structure_api userinfo_api document_api signature_api notification_api task_api management_api",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "gateway",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "https://sts.skoruba.local/connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://sts.skoruba.local/connect/authorize",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code_with_pkce",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Token",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8005/gateway/users/8f557714-ed20-4983-98fd-2cca516dc698/info",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8005",
+							"path": [
+								"gateway",
+								"users",
+								"8f557714-ed20-4983-98fd-2cca516dc698",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
