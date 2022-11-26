@@ -61,7 +61,8 @@ var clientHandler = new HttpClientHandler
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
 };
 
-builder.Services.AddSingleton(new SqlServerConnectionProvider(dBConnectionString));
+builder.Services.AddSingleton(dBConnectionString);
+builder.Services.AddSingleton<IConnectionProvider, SqlServerConnectionProvider>();
 builder.Services.AddHttpClient<IDocumentAccess, DocumentAccess>(HttpClient => HttpClient.BaseAddress = new Uri(documentsConnectionString)).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
 
 builder.Services.AddAuthentication(options =>
@@ -122,11 +123,10 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
-var serviceProvider = builder.Services.BuildServiceProvider();
-
-await CreateDbHelper.CreateDb(serviceProvider);
-
 var app = builder.Build();
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+await CreateDbHelper.CreateDb(serviceProvider);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -156,3 +156,5 @@ app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -1,7 +1,6 @@
 ﻿using SignatureService.DataAccess.DataBase.Entities;
 using SignatureService.DataAccess.DataBase.Interfaces;
 using SignatureService.DataAccess.Http.Interfaces;
-using SignatureService.DataAccess.Http.Responce;
 using SignatureService.Services.Dto;
 using SignatureService.Services.Interfaces;
 using System.Security.Cryptography;
@@ -26,6 +25,9 @@ namespace SignatureService.Services.Realisations
 
         public async Task AddAsync(Guid userId, Guid documentId, int version, string token)
         {
+            if (version < -1)
+                throw new ArgumentOutOfRangeException(nameof(version));
+
             var user = await _userRepository.GetAsync(userId);
             var hash = await _documentAccess.GetHashAsync(documentId, version, token);
 
@@ -54,6 +56,11 @@ namespace SignatureService.Services.Realisations
 
         public async Task<bool> CheckDocumentByUserAsync(Guid documentId, int version, byte[] publicKey, string token)
         {
+            _ = publicKey ?? throw new ArgumentNullException(nameof(publicKey));
+
+            if (version < -1)
+                throw new ArgumentOutOfRangeException(nameof(version));
+
             using var rsa = RSA.Create();
             rsa.ImportRSAPublicKey(publicKey, out int bytesRead);
 
@@ -72,6 +79,9 @@ namespace SignatureService.Services.Realisations
 
         public async Task<IEnumerable<UserPublicKey>> GetUsersByDocumentIdAsync(Guid documentId, int version)
         {
+            if (version < -1)
+                throw new ArgumentOutOfRangeException(nameof(version));
+
             var signatures = await _signatureRepository.GetByDocumentIdAsync(documentId, version);
 
             return signatures.Select(sig => new UserPublicKey

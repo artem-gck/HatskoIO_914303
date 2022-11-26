@@ -1,17 +1,16 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace SignatureService.DataAccess.DataBase
 {
-    public class SqlServerConnectionProvider
+    public class SqlServerConnectionProvider : IConnectionProvider
     {
         private readonly string _connectionString;
 
         public SqlServerConnectionProvider(string connectionString)
             => _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
 
-        public IDbConnection GetDbConnection()
+        public virtual IDbConnection GetDbConnection()
             => new SqlConnection(_connectionString);
     }
 }

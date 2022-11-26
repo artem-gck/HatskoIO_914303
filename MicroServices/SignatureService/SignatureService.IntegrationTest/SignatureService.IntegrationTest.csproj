@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+    <PackageReference Include="WebMotions.Fake.Authentication.JwtBearer" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SignatureService.DataAccess.DataBase\SignatureService.DataAccess.DataBase.csproj" />
+    <ProjectReference Include="..\SignatureService.DataAccess.Http\SignatureService.DataAccess.Http.csproj" />
+    <ProjectReference Include="..\SignatureService.Services.Messages\SignatureService.Services.Messages.csproj" />
+    <ProjectReference Include="..\SignatureService.Services\SignatureService.Services.csproj" />
+    <ProjectReference Include="..\SignatureServiceApi\SignatureServiceApi.csproj" />
+  </ItemGroup>
+
+</Project>

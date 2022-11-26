@@ -7,5 +7,11 @@
         {
 
         }
+
+        public NotFoundException(Guid id)
+            : base($"Not found user with id = {id}")
+        {
+
+        }
     }
 }

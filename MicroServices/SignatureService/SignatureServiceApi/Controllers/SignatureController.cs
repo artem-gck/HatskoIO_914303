@@ -38,6 +38,9 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(Guid userId, Guid documentId, int version)
         {
+            if (version < -1)
+                return BadRequest("Version can't be less then -1");
+
             var token = Request.Headers["Authorization"].ToString();
 
             await _signService.AddAsync(userId, documentId, version, token);
@@ -66,6 +69,9 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid documentId, int version)
         {
+            if (version < -1)
+                return BadRequest("Version can't be less then -1");
+
             var users = await _signService.GetUsersByDocumentIdAsync(documentId, version);
 
             return Ok(users);
@@ -74,9 +80,9 @@ namespace SignatureServiceApi.Controllers
         /// <summary>
         /// Check user that signature document.
         /// </summary>
-        /// <param name="userId">User id</param>
         /// <param name="documentId">Document id</param>
         /// <param name="version">Version</param>
+        /// <param name="publicKey">Puublic key</param>
         /// <returns>Status code</returns>
         /// <remarks>
         /// Sample request:
@@ -91,8 +97,16 @@ namespace SignatureServiceApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid documentId, int version, [FromBody] CheckPublicKeyRequest publicKey)
+        public async Task<IActionResult> Post([FromBody] CheckPublicKeyRequest publicKey, Guid documentId, int version)
         {
+            if (version < -1)
+                return BadRequest("Version can't be less then -1");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var token = Request.Headers["Authorization"].ToString();
 
             var result = await _signService.CheckDocumentByUserAsync(documentId, version, publicKey.Key, token);
