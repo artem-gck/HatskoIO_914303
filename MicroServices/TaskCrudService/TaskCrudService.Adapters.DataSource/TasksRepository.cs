@@ -22,6 +22,7 @@ namespace TaskCrudService.Adapters.DataSource
             _logger.Error("qwe");
 
             entity.Type = await GetType(entity.Type.Name);
+            entity.CreatedAt = DateTime.Now;
 
             for (var i = 0; i < entity.Arguments.Count; i++)
                 entity.Arguments[i].ArgumentType = await GetArgumentType(entity.Arguments[i].ArgumentType.Name);

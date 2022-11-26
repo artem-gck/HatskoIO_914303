@@ -21,6 +21,7 @@ using DocumentCrudServiceApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByUserId;
 
 var builder = WebApplication.CreateBuilder(args);
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
@@ -52,6 +53,7 @@ builder.Services.AddScoped<ICommandHandler<DeleteDocumentCommand>, DeleteDocumen
 builder.Services.AddScoped<ICommandHandler<UpdateDocumentCommand>, UpdateDocumentCommandHandler>();
 
 builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsQuery>, GetAllNamesOfDocumentsQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsByUserIdQuery>, GetAllNamesOfDocumentsByUserIdQueryHanler>();
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<IsDocumentExitQuery>, IsDocumentExitQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetHashOfDocumentQuery>, GetHashOfDocumentQueryHandler>();
@@ -147,8 +149,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.ConfigureCustomExceptionMiddleware();
 
 app.MapControllers();
-app.ConfigureCustomExceptionMiddleware();
+
 
 app.Run();

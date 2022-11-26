@@ -5,6 +5,7 @@
         public Guid Id { get; set; }
         public int Version { get; set; }
         public string FileName { get; set; }
+        public Guid CreatorId { get; set; }
         public DateTime UploadDate { get; set; }
     }
 }

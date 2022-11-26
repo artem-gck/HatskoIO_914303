@@ -33,6 +33,7 @@ using Skoruba.IdentityServer4.Shared.Configuration.Authentication;
 using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 using MassTransit;
 using Messages;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {
@@ -244,6 +245,19 @@ namespace Skoruba.IdentityServer4.STS.Identity.Helpers
                 default:
                     throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
             }
+        }
+
+        public static IServiceCollection AddGlobalCors(this IServiceCollection services)
+        {
+            return services.AddCors(options =>
+            {
+                options.AddPolicy("AllowCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
         }
 
         /// <summary>

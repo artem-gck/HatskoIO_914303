@@ -194,6 +194,23 @@
         "AllowedScopes": [ "gateway" ]
       }
     },
+    {
+      "UpstreamPathTemplate": "/gateway/document-names/users/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/document-names",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway" ]
+      }
+    },
     // tasks
     {
       "UpstreamPathTemplate": "/gateway/tasks",
@@ -230,7 +247,7 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/users/{userId}/tasks",
+      "UpstreamPathTemplate": "/gateway/tasks/users/{userId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/v2/users/{userId}/tasks",
       "DownstreamScheme": "https",

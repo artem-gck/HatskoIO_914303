@@ -6,6 +6,7 @@ namespace DocumentCrudService.ViewModels
     {
         public string Name { get; set; }
         public int Version { get; set; }
+        public Guid CreatorId { get; set; }
         public Guid Id { get; set; }
         public DateTime UploadDate { get; set; }
     }

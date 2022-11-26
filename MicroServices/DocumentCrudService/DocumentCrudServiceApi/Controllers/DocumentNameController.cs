@@ -1,6 +1,7 @@
 ﻿using DocumentCrudService.Cqrs.Dto;
 using DocumentCrudService.Cqrs.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByUserId;
 using DocumentCrudService.ViewModels;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,22 @@ namespace DocumentCrudService.Controllers
             return Ok(listOfFileNameViewModel);
         }
 
+        [HttpGet("~/api/users/{userId}/document-names")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(Guid userId)
+        {
+            var query = new GetAllNamesOfDocumentsByUserIdQuery()
+            {
+                CreatorId = userId,
+            };
+
+            var listOfFileName = await _queryDispatcher.Send(query);
+            var listOfFileNameViewModel = MapToDocumentViewModel(listOfFileName);
+
+            return Ok(listOfFileNameViewModel);
+        }
+
         private List<DocumentNameResponce> MapToDocumentViewModel([FromBody] IList<IResult> input)
         {
             var listOfFileNameViewModel = new List<DocumentNameResponce>();
@@ -64,6 +81,7 @@ namespace DocumentCrudService.Controllers
                 {
                     Name = fileNameDto.Name,
                     Version = fileNameDto.Version,
+                    CreatorId = fileNameDto.CreatorId,
                     Id = fileNameDto.Id,
                     UploadDate = fileNameDto.UploadDate,
                 };

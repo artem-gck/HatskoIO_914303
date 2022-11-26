@@ -7,6 +7,7 @@
         public string Header { get; set; }
         public Guid OwnerUserId { get; set; }
         public DateTime DeadLine { get; set; }
+        public DateTime CreatedAt { get; set; }
         public List<ArgumentResponce>? Arguments { get; set; }
     }
 }

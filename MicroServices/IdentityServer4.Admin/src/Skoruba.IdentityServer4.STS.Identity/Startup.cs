@@ -13,6 +13,9 @@ using Skoruba.IdentityServer4.STS.Identity.Configuration.Interfaces;
 using Skoruba.IdentityServer4.STS.Identity.Helpers;
 using System;
 using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
+using IdentityServer4.Services;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Skoruba.IdentityServer4.STS.Identity
 {
@@ -33,6 +36,19 @@ namespace Skoruba.IdentityServer4.STS.Identity
             services.AddSingleton(rootConfiguration);
             // Register DbContexts for IdentityServer and Identity
             RegisterDbContexts(services);
+
+            //services.AddSingleton<ICorsPolicyService, DemoCorsPolicy>();
+
+            services.AddSingleton<ICorsPolicyService>((container) =>
+            {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowAll = true
+                };
+            });
+
+            services.AddGlobalCors();
 
             // Save data protection keys to db, using a common application name shared between Admin and STS
             services.AddDataProtection<IdentityServerDataProtectionDbContext>(Configuration);
@@ -79,10 +95,13 @@ namespace Skoruba.IdentityServer4.STS.Identity
 
             // Add custom security headers
             app.UseSecurityHeaders(Configuration);
-
+            
             app.UseMvcLocalizationServices();
 
             app.UseRouting();
+
+            app.UseCors("AllowCors");
+
             app.UseAuthorization();
             app.UseEndpoints(endpoint =>
             {
@@ -133,5 +152,13 @@ namespace Skoruba.IdentityServer4.STS.Identity
             Configuration.GetSection(ConfigurationConsts.RegisterConfigurationKey).Bind(rootConfiguration.RegisterConfiguration);
             return rootConfiguration;
         }
+    }
+}
+
+public class DemoCorsPolicy : ICorsPolicyService
+{
+    public Task<bool> IsOriginAllowedAsync(string origin)
+    {
+        return Task.FromResult(true);
     }
 }
