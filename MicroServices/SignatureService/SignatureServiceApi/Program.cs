@@ -27,7 +27,7 @@ var connectionString = Environment.GetEnvironmentVariable("ServiceBus") ?? build
 var newUserTopic = builder.Configuration["Topics:NewUser"];
 var subscriptionName = builder.Configuration["SubscriptionName"];
 
-// Add services to the container.
+// Add services to the container. 
 
 builder.Services.AddMassTransit(serviceCollectionConfigurator =>
 {
