@@ -10,6 +10,7 @@ using System.Text.Json;
 
 namespace SignatureService.Test.DataAccess.Document
 {
+    [TestFixture]
     public class GetHashAsync
     {
         private Guid _documentId;
@@ -49,8 +50,11 @@ namespace SignatureService.Test.DataAccess.Document
 
             var result = await access.GetHashAsync(_documentId, _version);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(_hash, result.Hash);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Hash, Is.EqualTo(_hash));
+            });
         }
 
         [Test]
@@ -71,6 +75,7 @@ namespace SignatureService.Test.DataAccess.Document
             Assert.ThrowsAsync<DocumentNotFoundException>(() => access.GetHashAsync(_documentId, _version));
         }
 
+        [Test]
         [TestCase(HttpStatusCode.Forbidden)]
         [TestCase(HttpStatusCode.BadGateway)]
         [TestCase(HttpStatusCode.InternalServerError)]

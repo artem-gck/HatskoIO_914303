@@ -9,6 +9,7 @@ using System.Data;
 
 namespace SignatureService.Test.Repositories.Signature
 {
+    [TestFixture]
     public class GetDocumentHashes
     {
         private List<SignatureEntity> _signatures;
@@ -35,7 +36,7 @@ namespace SignatureService.Test.Repositories.Signature
 
             var result = await repository.GetDocumentHashes(It.IsAny<Guid>(), It.IsAny<int>());
 
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
@@ -55,10 +56,8 @@ namespace SignatureService.Test.Repositories.Signature
             Assert.ThrowsAsync<NotFoundException>(() => repository.GetDocumentHashes(It.IsAny<Guid>(), It.IsAny<int>()));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-50)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task GetDocumentHashes_VersionLessMinusOne_ArgumentNullException(int version)
         {
             var connectionProviderMock = new Mock<SqlServerConnectionProvider>(string.Empty);

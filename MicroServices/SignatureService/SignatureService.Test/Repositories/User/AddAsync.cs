@@ -8,6 +8,7 @@ using Dapper;
 
 namespace SignatureService.Test.Repositories.User
 {
+    [TestFixture]
     public class AddAsync
     {
         private UserEntity _user;
@@ -41,7 +42,7 @@ namespace SignatureService.Test.Repositories.User
 
             connectionProviderMock.Verify(c => c.GetDbConnection(), Times.Once);
 
-            Assert.AreEqual(_id, result);
+            Assert.That(result, Is.EqualTo(_id));
         }
 
         [Test]

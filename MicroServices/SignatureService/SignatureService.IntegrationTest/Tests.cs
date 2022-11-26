@@ -7,7 +7,6 @@ using SignatureService.DataAccess.DataBase;
 using SignatureService.DataAccess.Http.Interfaces;
 using SignatureService.DataAccess.Http.Realisation;
 using SignatureService.IntegrationTest.Helpers;
-using SignatureService.IntegrationTest.IntegrationTests;
 using SignatureServiceApi.ViewModels;
 using System.Net;
 using System.Net.Http.Json;

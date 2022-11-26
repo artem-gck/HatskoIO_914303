@@ -9,6 +9,7 @@ using SignatureService.DataAccess.DataBase.Exceptiions;
 
 namespace SignatureService.Test.Repositories.User
 {
+    [TestFixture]
     public class GetAsync
     {
         private UserEntity _user;
@@ -40,8 +41,11 @@ namespace SignatureService.Test.Repositories.User
 
             var result = await repository.GetAsync(_id);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(_id, result.Id);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(_id));
+            }); 
         }
 
         [Test]

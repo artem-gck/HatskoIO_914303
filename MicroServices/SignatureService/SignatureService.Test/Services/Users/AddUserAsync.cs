@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 
 namespace SignatureService.Test.Services.Users
 {
+    [TestFixture]
     public class AddUserAsync
     {
         private Guid _userId;
@@ -29,7 +30,7 @@ namespace SignatureService.Test.Services.Users
 
             userRepositoryMock.Verify(p => p.AddAsync(It.IsAny<UserEntity>()), Times.Once);
 
-            Assert.AreEqual(result, _userId);
+            Assert.That(_userId, Is.EqualTo(result));
         }
     }
 }

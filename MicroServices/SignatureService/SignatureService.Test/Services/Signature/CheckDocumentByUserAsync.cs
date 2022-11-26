@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 
 namespace SignatureService.Test.Services.Signature
 {
+    [TestFixture]
     public class CheckDocumentByUserAsync
     {
         private Guid _documentId;
@@ -70,7 +71,7 @@ namespace SignatureService.Test.Services.Signature
             docAccessMock.Verify(p => p.GetHashAsync(_documentId, 0, null), Times.Once);
             signRepositoryMock.Verify(p => p.GetDocumentHashes(_documentId, 0), Times.Once);
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -94,7 +95,7 @@ namespace SignatureService.Test.Services.Signature
             signRepositoryMock.Verify(p => p.GetDocumentHashes(_documentId, 0), Times.Once);
 
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -114,10 +115,8 @@ namespace SignatureService.Test.Services.Signature
             Assert.ThrowsAsync<ArgumentNullException>(() => signService.CheckDocumentByUserAsync(_documentId, 0, null));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-5)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task CheckDocumentByUserAsync_versionLessMinusOne_ArgumentOutOfRangeException(int version)
         {
             var docAccessMock = new Mock<IDocumentAccess>();

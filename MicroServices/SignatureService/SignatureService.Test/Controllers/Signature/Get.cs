@@ -6,6 +6,7 @@ using SignatureServiceApi.Controllers;
 
 namespace SignatureService.Test.Controllers.Signature
 {
+    [TestFixture]
     public class Get
     {
         [Test]
@@ -22,13 +23,11 @@ namespace SignatureService.Test.Controllers.Signature
             var result = await controller.Get(It.IsAny<Guid>(), It.IsAny<int>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(OkObjectResult), result);
+            Assert.That(result, Is.InstanceOf(typeof(OkObjectResult)));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-50)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task Get_ReturnsABadRequest_WithVersionLessMinusOne(int version)
         {
             // Arrange
@@ -40,7 +39,7 @@ namespace SignatureService.Test.Controllers.Signature
             var result = await controller.Get(It.IsAny<Guid>(), version);
 
             // Assert
-            Assert.IsInstanceOf(typeof(BadRequestObjectResult), result);
+            Assert.That(result, Is.InstanceOf(typeof(BadRequestObjectResult)));
         }
     }
 }

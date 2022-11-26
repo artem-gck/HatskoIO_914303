@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 
 namespace SignatureService.Test.Services.Signature
 {
+    [TestFixture]
     public class AddAsync
     {
         private UserEntity _userEntity;
@@ -53,10 +54,8 @@ namespace SignatureService.Test.Services.Signature
             userRepositoryMock.Verify(p => p.GetAsync(It.IsAny<Guid>()), Times.Once);
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-5)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task GetUsersByDocumentIdAsync_versionLessMinusOne_ArgumentOutOfRangeException(int version)
         {
             var docAccessMock = new Mock<IDocumentAccess>();

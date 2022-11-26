@@ -10,6 +10,7 @@ using SignatureService.DataAccess.DataBase.Exceptiions;
 
 namespace SignatureService.Test.Repositories.Signature
 {
+    [TestFixture]
     public class GetByDocumentIdAsync
     {
         private List<SignatureEntity> _signatures;
@@ -36,8 +37,11 @@ namespace SignatureService.Test.Repositories.Signature
 
             var result = await repository.GetByDocumentIdAsync(It.IsAny<Guid>(), It.IsAny<int>());
 
-            Assert.NotNull(result);
-            Assert.AreEqual(result.Count(), _signatures.Count);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(_signatures, Has.Count.EqualTo(result.Count()));
+            });
         }
 
         [Test]
@@ -57,10 +61,8 @@ namespace SignatureService.Test.Repositories.Signature
             Assert.ThrowsAsync<NotFoundException>(() => repository.GetByDocumentIdAsync(It.IsAny<Guid>(), It.IsAny<int>()));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-50)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task GetByDocumentIdAsync_VersionLessMinusOne_ArgumentOutOfRangeException(int version)
         {
             var connectionProviderMock = new Mock<SqlServerConnectionProvider>(string.Empty);

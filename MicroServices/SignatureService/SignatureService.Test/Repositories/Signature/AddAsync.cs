@@ -10,6 +10,7 @@ using System.Data.Common;
 
 namespace SignatureService.Test.Repositories.Signature
 {
+    [TestFixture]
     public class AddAsync
     {
         private SignatureEntity _signature;

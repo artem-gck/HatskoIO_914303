@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 
 namespace SignatureService.Test.Services.Signature
 {
+    [TestFixture]
     public class GetUsersByDocumentIdAsync
     {
         private Guid _documentId;
@@ -49,7 +50,7 @@ namespace SignatureService.Test.Services.Signature
 
             signRepositoryMock.Verify(p => p.GetByDocumentIdAsync(It.IsAny<Guid>(), 0), Times.Once);
 
-            Assert.AreEqual(result.Count(), 5);
+            Assert.That(5, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -68,13 +69,11 @@ namespace SignatureService.Test.Services.Signature
 
             signRepositoryMock.Verify(p => p.GetByDocumentIdAsync(It.IsAny<Guid>(), It.IsAny<int>()), Times.Once);
 
-            Assert.AreEqual(result.Count(), 0);
+            Assert.That(0, Is.EqualTo(result.Count()));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-5)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task GetUsersByDocumentIdAsync_versionLessMinusOne_ArgumentOutOfRangeException(int version)
         {
             var docAccessMock = new Mock<IDocumentAccess>();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace SignatureService.Test.Controllers.Signature
 {
+    [TestFixture]
     public class Post
     {
         private Mock<HttpContext> _httpContext;
@@ -40,13 +41,11 @@ namespace SignatureService.Test.Controllers.Signature
             var result = await controller.Post(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<int>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(CreatedResult), result);
+            Assert.That(result, Is.InstanceOf(typeof(CreatedResult)));
         }
 
+        [Test]
         [TestCase(-2)]
-        [TestCase(-50)]
-        [TestCase(-100)]
-        [TestCase(int.MinValue)]
         public async Task Post_ReturnsABadRequest_WithVersionLessMinusOne(int version)
         {
             // Arrange
@@ -59,7 +58,7 @@ namespace SignatureService.Test.Controllers.Signature
             var result = await controller.Post(It.IsAny<Guid>(), It.IsAny<Guid>(), version);
 
             // Assert
-            Assert.IsInstanceOf(typeof(BadRequestObjectResult), result);
+            Assert.That(result, Is.InstanceOf(typeof(BadRequestObjectResult)));
         }
     }
 }
