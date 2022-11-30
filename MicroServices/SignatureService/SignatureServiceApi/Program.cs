@@ -17,6 +17,8 @@ using SignatureServiceApi;
 using SignatureServiceApi.Middlewares;
 using System.Reflection;
 
+Thread.Sleep(2000);
+
 var builder = WebApplication.CreateBuilder(args);
 
 var dBConnectionString = Environment.GetEnvironmentVariable("SignaturesConnection") ?? builder.Configuration.GetConnectionString("SignaturesConnection");
@@ -149,8 +151,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();

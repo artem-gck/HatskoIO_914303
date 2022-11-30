@@ -12,7 +12,7 @@ namespace CompanyManagementServiceApi.Controllers
 {
     [ApiController]
     [Route("api/management")]
-    [Authorize]
+    //[Authorize]
     public class ManagementController : Controller
     {
         private readonly IStructureService _structureService;

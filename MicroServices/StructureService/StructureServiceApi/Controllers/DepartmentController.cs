@@ -10,7 +10,7 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 namespace StructureServiceApi.Controllers
 {
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     public class DepartmentController : Controller
     {
         private readonly IService<DepartmentEntity> _departmentsService;

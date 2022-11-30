@@ -16,6 +16,7 @@ using Skoruba.IdentityServer4.Shared.Configuration.Helpers;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Skoruba.IdentityServer4.STS.Identity
 {
@@ -37,16 +38,6 @@ namespace Skoruba.IdentityServer4.STS.Identity
             // Register DbContexts for IdentityServer and Identity
             RegisterDbContexts(services);
 
-            //services.AddSingleton<ICorsPolicyService, DemoCorsPolicy>();
-
-            services.AddSingleton<ICorsPolicyService>((container) =>
-            {
-                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
-                return new DefaultCorsPolicyService(logger)
-                {
-                    AllowAll = true
-                };
-            });
 
             services.AddGlobalCors();
 
@@ -73,6 +64,25 @@ namespace Skoruba.IdentityServer4.STS.Identity
             RegisterAuthorization(services);
 
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminIdentityDbContext, IdentityServerDataProtectionDbContext>(Configuration);
+
+            var corsDiscriptors = services.Where(d => d.ServiceType == typeof(ICorsPolicyService)).ToList();
+
+            foreach (var serv in corsDiscriptors)
+            {
+                if (serv != null)
+                    services.Remove(serv);
+            }
+
+            //services.AddSingleton<ICorsPolicyService>((container) =>
+            //{
+            //    var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+            //    return new DefaultCorsPolicyService(logger)
+            //    {
+            //        AllowAll = true
+            //    };
+            //});
+
+            services.AddSingleton<ICorsPolicyService, RepositoryCorsPolicyService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -155,10 +165,19 @@ namespace Skoruba.IdentityServer4.STS.Identity
     }
 }
 
-public class DemoCorsPolicy : ICorsPolicyService
+public class RepositoryCorsPolicyService : ICorsPolicyService
 {
+    private readonly ILogger<RepositoryCorsPolicyService> _logger;
+
+    public RepositoryCorsPolicyService(ILogger<RepositoryCorsPolicyService> logger)
+    {
+        _logger = logger;
+    }
+
     public Task<bool> IsOriginAllowedAsync(string origin)
     {
+        _logger.LogCritical(origin);
+
         return Task.FromResult(true);
     }
 }

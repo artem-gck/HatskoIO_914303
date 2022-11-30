@@ -19,7 +19,7 @@ namespace DocumentCrudService.Controllers
 {
     [Route("api/documents")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     public class DocumentController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;

@@ -45,6 +45,16 @@ namespace Skoruba.IdentityServer4.Admin.Api
             // Add DbContexts
             RegisterDbContexts(services);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
             services.AddDataProtection<IdentityServerDataProtectionDbContext>(Configuration);
 
             // Add email senders which is currently setup for SendGrid and SMTP
@@ -130,7 +140,7 @@ namespace Skoruba.IdentityServer4.Admin.Api
 
             app.UseRouting();
             UseAuthentication(app);
-            app.UseCors();
+            app.UseCors("AllowCors");
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

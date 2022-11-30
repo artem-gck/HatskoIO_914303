@@ -11,7 +11,7 @@ namespace StructureServiceApi.Controllers
 {
     [Route("api/positions")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     public class PositionsController : Controller
     {
         private readonly IService<PositionEntity> _positionsService;

@@ -44,6 +44,16 @@ namespace Skoruba.IdentityServer4.Admin
             // Monitor changes in Admin UI views
             services.AddAdminUIRazorRuntimeCompilation(HostingEnvironment);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
             // Add email senders which is currently setup for SendGrid and SMTP
             services.AddEmailSenders(Configuration);
         }
@@ -51,7 +61,7 @@ namespace Skoruba.IdentityServer4.Admin
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRouting();
-
+            app.UseCors("AllowCors");
             app.UseIdentityServer4AdminUI();
 
             app.UseEndpoints(endpoint =>

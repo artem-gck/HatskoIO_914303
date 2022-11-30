@@ -40,12 +40,21 @@ namespace TaskCrudService.Adapters.Output
             return taskDto;
         }
 
-        public async Task<IEnumerable<TaskEntity>> GetByNameAync(Guid id)
+        public async Task<IEnumerable<TaskEntity>> GetByNameAync(Guid id, string status)
         {
-            var listOfTasks = await _taskRepository.GetByNameId(id);
+            if (status is null)
+            {
+                var listOfTasks = await _taskRepository.GetByNameId(id);
+                return listOfTasks;
+            }
 
-            return listOfTasks;
+            var listOfTasksByStatus = await _taskRepository.GetByNameId(id, status);
+
+            return listOfTasksByStatus;
         }
+
+        public async Task<IEnumerable<TaskEntity>> GetByPerformerId(Guid id, string status)
+            => await _taskRepository.GetByPerformerId(id, status);
 
         public async Task UpdateAsync(Guid id, TaskEntity entity)
         {

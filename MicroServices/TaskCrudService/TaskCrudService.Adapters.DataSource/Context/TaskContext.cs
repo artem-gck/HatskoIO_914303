@@ -20,13 +20,15 @@ namespace TaskCrudService.Adapters.DataSource.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TypeEntity>()
-                        .HasIndex(us => us.Name)
-                        .IsUnique();
+            //modelBuilder.Entity<TypeEntity>()
+            //            .HasIndex(us => us.Name)
+            //            .IsUnique();
 
-            modelBuilder.Entity<ArgumentTypeEntity>()
-                        .HasIndex(us => us.Name)
-                        .IsUnique();
+            //modelBuilder.Entity<ArgumentTypeEntity>()
+            //            .HasIndex(us => us.Name)
+            //            .IsUnique();
         }
+
+        
     }
 }

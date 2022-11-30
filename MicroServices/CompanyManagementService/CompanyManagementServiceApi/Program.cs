@@ -132,8 +132,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 app.UseHttpsRedirection();
 app.ConfigureCustomExceptionMiddleware();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 

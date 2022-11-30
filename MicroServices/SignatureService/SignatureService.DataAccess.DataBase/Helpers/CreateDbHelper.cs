@@ -42,11 +42,11 @@ namespace SignatureService.DataAccess.DataBase.Helpers
 
         public static async Task CreateDb(ServiceProvider services)
         {
-            var connetctionProvider = services.GetRequiredService<IConnectionProvider>();
+            var connetctionProvider = services.GetService<IConnectionProvider>();
 
             var connection = connetctionProvider.GetDbConnection();
 
-            if (connection is SqlServerConnectionProvider)
+            if (connetctionProvider is SqlServerConnectionProvider)
             {
                 await connection.ExecuteAsync(CreateScriptSqlServer);
                 return;

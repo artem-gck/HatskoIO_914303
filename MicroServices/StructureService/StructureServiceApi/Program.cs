@@ -67,8 +67,6 @@ builder.Services.AddMassTransit(serviceCollectionConfigurator =>
     }));
 });
 
-builder.Services.AddHealthChecksUI()
-                .AddInMemoryStorage();
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString);
 
@@ -166,8 +164,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.ConfigureCustomExceptionMiddleware();
 app.MapControllers();

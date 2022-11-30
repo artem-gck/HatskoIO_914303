@@ -20,7 +20,7 @@ namespace TaskCrudServiceApi.Controllers.V1
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    [Authorize]
+    //[Authorize]
     public class TaskControllerV1 : Controller
     {
         private readonly IService<TaskEntity> _taskService;
@@ -106,9 +106,35 @@ namespace TaskCrudServiceApi.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByUserId(Guid id)
+        public async Task<IActionResult> GetByUserId(Guid id, string? status)
         {
-            var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id));
+            var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByNameAync(id, status));
+
+            return Ok(listTaskViewModel);
+        }
+
+        /// <summary>
+        /// Gets by the user id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>TaskViewModel</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /tasks/users/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">Model ok</response>
+        /// <response code="404">Model not found</response>
+        /// <response code="500">Internal server error</response>
+        [ApiVersionNeutral]
+        [HttpGet("~/api/v{version:apiVersion}/performer/{id}/tasks")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetByPerformerId(Guid id, string? status)
+        {
+            var listTaskViewModel = _mapper.Map<IEnumerable<TaskResponce>>(await _taskService.GetByPerformerId(id, status));
 
             return Ok(listTaskViewModel);
         }

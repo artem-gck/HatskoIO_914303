@@ -21,6 +21,7 @@ using TaskCrudServiceApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MassTransit;
 using Messages;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -171,8 +172,8 @@ app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 

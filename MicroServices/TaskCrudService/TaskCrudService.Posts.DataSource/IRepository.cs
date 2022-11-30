@@ -5,7 +5,9 @@ namespace TaskCrudService.Posts.DataSource
     public interface IRepository<T> where T : BaseEntity
     {
         public Task<T> GetAsync(Guid id);
+        public Task<IEnumerable<T>> GetByNameId(Guid id, string status);
         public Task<IEnumerable<T>> GetByNameId(Guid id);
+        public Task<IEnumerable<T>> GetByPerformerId(Guid id, string status);
         public Task<IEnumerable<T>> GetAsync();
         public Task<Guid> AddAsync(T entity);
         public Task DeleteAsync(Guid id);

@@ -9,7 +9,7 @@ namespace UsersServiceApi.Controllers
 {
     [Route("api/users")]
     [Produces("application/json")]
-    [Authorize]
+    //[Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;

@@ -54,7 +54,7 @@
 
 	<ItemGroup>
 	  <Reference Include="Messages">
-	    <HintPath>..\..\..\Messages\Messages\bin\Debug\net6.0\Messages.dll</HintPath>
+	    <HintPath>..\Messages.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
