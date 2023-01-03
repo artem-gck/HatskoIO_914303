@@ -8,7 +8,7 @@ A software tool for document management in the commercial environment of an ente
 * [Docker](https://www.docker.com/)
 * [.Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
-### Running
+### Running back-end
 Create a self-signed certificate by [dotnet command](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide)
 Create ServiceBus resource and save connection string.
 In the root of project open the .env file and replace the values:
@@ -24,6 +24,11 @@ After finished, enter the command
 
 `docker-compose up`
 
+### Running admin client
+
+Run `cd .\MicroServices\IdentityServer4.Admin\src\Skoruba.IdentityServer4.Admin\` and after that `dotnet restore`
+For running client run `dotnet run`
+Check [localhost](https://localhost:44303)
 
 ## Structure of project
 ![image](https://user-images.githubusercontent.com/72604580/210357229-a987c1a6-208e-405b-9cb2-4c2883d1c832.jpg)
