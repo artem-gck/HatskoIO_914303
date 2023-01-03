@@ -27,7 +27,9 @@ After finished, enter the command
 ### Running admin client
 
 Run `cd .\MicroServices\IdentityServer4.Admin\src\Skoruba.IdentityServer4.Admin\` and after that `dotnet restore`
+
 For running client run `dotnet run`
+
 Check [localhost](https://localhost:44303)
 
 ## Structure of project
