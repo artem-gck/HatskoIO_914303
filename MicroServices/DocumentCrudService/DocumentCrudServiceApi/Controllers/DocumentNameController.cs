@@ -2,6 +2,7 @@
 using DocumentCrudService.Cqrs.Queries;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocuments;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByUserId;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetByDocumentId;
 using DocumentCrudService.ViewModels;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ namespace DocumentCrudService.Controllers
 {
     [Route("api/document-names")]
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class DocumentNameController : Controller
     {
         private readonly IQueryDispatcher _queryDispatcher;
@@ -56,17 +57,34 @@ namespace DocumentCrudService.Controllers
         [HttpGet("~/api/users/{userId}/document-names")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid userId)
+        public async Task<IActionResult> Get(Guid userId, int? count)
         {
             var query = new GetAllNamesOfDocumentsByUserIdQuery()
             {
                 CreatorId = userId,
+                Count = count
             };
 
             var listOfFileName = await _queryDispatcher.Send(query);
             var listOfFileNameViewModel = MapToDocumentViewModel(listOfFileName);
 
             return Ok(listOfFileNameViewModel);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var query = new GetByDocumentIdQuery()
+            {
+                Id = id
+            };
+
+            var listOfFileName = await _queryDispatcher.Send(query);
+            var listOfFileNameViewModel = MapToDocumentViewModel(listOfFileName);
+
+            return Ok(listOfFileNameViewModel.FirstOrDefault());
         }
 
         private List<DocumentNameResponce> MapToDocumentViewModel([FromBody] IList<IResult> input)

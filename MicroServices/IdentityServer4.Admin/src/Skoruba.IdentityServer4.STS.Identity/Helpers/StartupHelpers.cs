@@ -34,6 +34,7 @@ using Skoruba.IdentityServer4.Shared.Configuration.Configuration.Identity;
 using MassTransit;
 using Messages;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Serilog.Core;
 
 namespace Skoruba.IdentityServer4.STS.Identity.Helpers
 {

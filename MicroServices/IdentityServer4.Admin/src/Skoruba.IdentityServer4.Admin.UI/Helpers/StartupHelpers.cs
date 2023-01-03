@@ -380,7 +380,7 @@ namespace Skoruba.IdentityServer4.Admin.UI.Helpers
                 })
             .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
             {
-                options.BackchannelHttpHandler = clientHandler;
+                //options.BackchannelHttpHandler = clientHandler;
 
                 options.Authority = adminConfiguration.IdentityServerBaseUrl;
                 options.RequireHttpsMetadata = adminConfiguration.RequireHttpsMetadata;

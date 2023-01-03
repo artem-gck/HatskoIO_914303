@@ -73,16 +73,16 @@ namespace Skoruba.IdentityServer4.STS.Identity
                     services.Remove(serv);
             }
 
-            //services.AddSingleton<ICorsPolicyService>((container) =>
-            //{
-            //    var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
-            //    return new DefaultCorsPolicyService(logger)
-            //    {
-            //        AllowAll = true
-            //    };
-            //});
+            services.AddSingleton<ICorsPolicyService>((container) =>
+            {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowAll = true
+                };
+            });
 
-            services.AddSingleton<ICorsPolicyService, RepositoryCorsPolicyService>();
+            //services.AddSingleton<ICorsPolicyService, RepositoryCorsPolicyService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -125,6 +125,7 @@ namespace Skoruba.IdentityServer4.STS.Identity
 
         public virtual void RegisterDbContexts(IServiceCollection services)
         {
+            
             services.RegisterDbContexts<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerDataProtectionDbContext>(Configuration);
         }
 

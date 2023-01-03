@@ -20,7 +20,7 @@ namespace TaskCrudServiceApi.Controllers.V1
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    //[Authorize]
+    [Authorize]
     public class TaskControllerV1 : Controller
     {
         private readonly IService<TaskEntity> _taskService;

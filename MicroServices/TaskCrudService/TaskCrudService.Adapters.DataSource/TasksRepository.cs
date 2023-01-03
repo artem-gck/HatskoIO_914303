@@ -21,9 +21,6 @@ namespace TaskCrudService.Adapters.DataSource
         {
             entity.TypeId = await GetType(entity.Type.Name);
 
-            for (var i = 0; i < entity.Arguments.Count; i++)
-                entity.Arguments[i].ArgumentTypeId = await GetArgumentType(entity.Arguments[i].ArgumentType.Name);
-
             var taskEntity = new TaskEntity()
             {
                 TypeId = entity.TypeId,
@@ -35,19 +32,36 @@ namespace TaskCrudService.Adapters.DataSource
             };
 
             var taskEntity1 = _taskContext.Tasks.Add(taskEntity);
-            await _taskContext.SaveChangesAsync();
 
-            for (var i = 0; i < entity.Arguments.Count; i++)
-                await GetArgument(entity.Arguments[i], taskEntity1.Entity.Id);
+            for (var i = 0; i < entity.Performers.Count; i++)
+            {
+                entity.Performers[i].Task = taskEntity1.Entity;
+                entity.Performers[i].TaskId = taskEntity1.Entity.Id;
+                entity.Performers[i].IsCompleted = false;
+            }
+
+            for (var i = 0; i < entity.Documents.Count; i++)
+            {
+                entity.Documents[i].Task = taskEntity1.Entity;
+                entity.Documents[i].TaskId = taskEntity1.Entity.Id;
+            }
+
+            _taskContext.Performers.AddRange(entity.Performers);
+            _taskContext.Documents.AddRange(entity.Documents);
+
+            await _taskContext.SaveChangesAsync();
 
             _logger.Debug("Add entity to db {id}", taskEntity1.Entity.Id);
 
-            return taskEntity1.Entity.Id;
+            return taskEntity1.Entity.Id.Value;
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var taskEntity = await _taskContext.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+            var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
+                                                     .Include(t => t.Performers)
+                                                     .Include(t => t.Documents)
+                                                     .FirstOrDefaultAsync(t => t.Id == id);
 
             if (taskEntity is null)
                 throw new NotFoundException<TaskEntity>(id);
@@ -61,8 +75,9 @@ namespace TaskCrudService.Adapters.DataSource
         public async Task<IEnumerable<TaskEntity>> GetAsync()
         {
             var listOfTaskEntity = await _taskContext.Tasks.Include(t => t.Type)
-                                                           .Include(t => t.Arguments)
-                                                               .ThenInclude(ar => ar.ArgumentType)
+                                                           .Include(t => t.Performers)
+                                                           .Include(t => t.Documents)
+                                                           .OrderByDescending(t => t.CreatedAt)
                                                            .ToListAsync();
 
             var listOfId = string.Join(", ", listOfTaskEntity.Select(en => en.Id.ToString()));
@@ -75,8 +90,9 @@ namespace TaskCrudService.Adapters.DataSource
         public async Task<TaskEntity> GetAsync(Guid id)
         {
             var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
-                                                     .Include(t => t.Arguments)
-                                                         .ThenInclude(ar => ar.ArgumentType)
+                                                     .Include(t => t.Performers)
+                                                     .Include(t => t.Documents)
+                                                     .OrderByDescending(t => t.CreatedAt)
                                                      .FirstOrDefaultAsync(t => t.Id == id);
 
             if (taskEntity is null)
@@ -89,68 +105,95 @@ namespace TaskCrudService.Adapters.DataSource
 
         public async Task<IEnumerable<TaskEntity>> GetByNameId(Guid id, string status)
         {
-            var listOfTaskByUser = await _taskContext.Tasks
-                                                     .Include(t => t.Type)
-                                                     .Include(t => t.Arguments)
-                                                         .ThenInclude(ar => ar.ArgumentType)
-                                                     .Where(t => t.OwnerUserId == id && t.Status == status)
-                                                     .ToListAsync();
+            var listOfTaskByUser = await _taskContext.Tasks.Include(t => t.Type)
+                                                           .Include(t => t.Performers)
+                                                           .Include(t => t.Documents)
+                                                           .Where(t => t.OwnerUserId == id && t.Status == status)
+                                                           .OrderByDescending(t => t.CreatedAt)
+                                                           .ToListAsync();
 
             return listOfTaskByUser;
         }
 
         public async Task<IEnumerable<TaskEntity>> GetByNameId(Guid id)
         {
-            var listOfTaskByUser = await _taskContext.Tasks
-                                                     .Include(t => t.Type)
-                                                     .Include(t => t.Arguments)
-                                                         .ThenInclude(ar => ar.ArgumentType)
-                                                     .Where(t => t.OwnerUserId == id)
-                                                     .ToListAsync();
+            var listOfTaskByUser = await _taskContext.Tasks.Include(t => t.Type)
+                                                           .Include(t => t.Performers)
+                                                           .Include(t => t.Documents)
+                                                           .Where(t => t.OwnerUserId == id)
+                                                           .OrderByDescending(t => t.CreatedAt)
+                                                           .ToListAsync();
 
             return listOfTaskByUser;
         }
 
         public async Task<IEnumerable<TaskEntity>> GetByPerformerId(Guid id, string status)
         {
-            var listOfTaskByUser = await _taskContext.Tasks
-                                                     .Include(t => t.Type)
-                                                     .Include(t => t.Arguments)
-                                                         .ThenInclude(ar => ar.ArgumentType)
-                                                     .Where(t => t.Arguments.Count(arg => arg.Value == id.ToString()) > 0 && t.Status == status)
-                                                     .ToListAsync();
+            var listOfTaskByUser = await _taskContext.Tasks.Include(t => t.Type)
+                                                           .Include(t => t.Performers)
+                                                           .Include(t => t.Documents)
+                                                           .Where(t => t.Performers.Count(perf => perf.UserId == id) > 0 && t.Status == status)
+                                                           .OrderByDescending(t => t.CreatedAt)
+                                                           .ToListAsync();
 
-            return listOfTaskByUser;
+            List<TaskEntity> tasks = new List<TaskEntity>();
+
+            foreach (var task in listOfTaskByUser)
+            {
+                var isT = true;
+
+                if (task.Type.Name != "parallel")
+                    foreach (var perf in task.Performers)
+                    {
+                        if (perf.UserId == id || !isT)
+                            break;
+
+                        isT = perf.IsCompleted.Value;
+                    }
+
+                if (isT)
+                    tasks.Add(task);
+            }
+
+            return tasks;
         }
 
         public async Task UpdateAsync(Guid id, TaskEntity entity)
         {
-            var createdDate = entity.CreatedAt;
+            var taskEntity = await _taskContext.Tasks.Include(t => t.Type)
+                                                     .Include(t => t.Performers)
+                                                     .Include(t => t.Documents)
+                                                     .FirstOrDefaultAsync(t => t.Id == id);
 
-            entity.Id = id;
+            _taskContext.Documents.RemoveRange(taskEntity.Documents);
 
-            _taskContext.Tasks.Remove(entity);
-
-            entity.TypeId = await GetType(entity.Type.Name);
-
-            for (var i = 0; i < entity.Arguments.Count; i++)
-                entity.Arguments[i].ArgumentTypeId = await GetArgumentType(entity.Arguments[i].ArgumentType.Name);
-
-            var taskEntity = new TaskEntity()
+            for (var i = 0; i < entity.Documents.Count; i++)
             {
-                TypeId = entity.TypeId,
-                Header = entity.Header,
-                OwnerUserId = entity.OwnerUserId,
-                DeadLine = entity.DeadLine,
-                Status = "For work",
-                CreatedAt = createdDate
-            };
+                entity.Documents[i].Id = Guid.NewGuid();
+                entity.Documents[i].Task = taskEntity;
+            }
 
-            var taskEntity1 = _taskContext.Tasks.Add(taskEntity);
+            _taskContext.Documents.AddRange(entity.Documents);
+
+            _taskContext.Performers.RemoveRange(taskEntity.Performers);
+
+            for (var i = 0; i < entity.Performers.Count; i++)
+            {
+                entity.Performers[i].Id = Guid.NewGuid();
+                entity.Performers[i].Task = taskEntity;
+            }
+
+            _taskContext.Performers.AddRange(entity.Performers);
+
+            taskEntity.Type = entity.Type;
+            taskEntity.Header = entity.Header;
+            taskEntity.Status = entity.Status;
+            taskEntity.DeadLine = entity.DeadLine;
+
+            if (entity.Performers.All(p => p.IsCompleted.Value))
+                taskEntity.Status = "Completed";
+
             await _taskContext.SaveChangesAsync();
-
-            for (var i = 0; i < entity.Arguments.Count; i++)
-                await GetArgument(entity.Arguments[i], taskEntity1.Entity.Id);
 
             _logger.Debug("Update entity in db {id}", id);
         }
@@ -165,35 +208,7 @@ namespace TaskCrudService.Adapters.DataSource
             var entity = _taskContext.Types.Add(typeEntity);
             await _taskContext.SaveChangesAsync();
 
-            return entity.Entity.Id;
-        }
-
-        private async Task<Guid> GetArgumentType(string name)
-        {
-            var argumentTypeEntity = new ArgumentTypeEntity()
-            {
-                Name = name
-            };
-
-            var entity = _taskContext.ArgumentTypes.Add(argumentTypeEntity);
-            await _taskContext.SaveChangesAsync();
-
-            return entity.Entity.Id;
-        }
-
-        private async Task<Guid> GetArgument(ArgumentEntity entity, Guid taskId)
-        {
-            var argumentEntity = new ArgumentEntity()
-            {
-                Value = entity.Value,
-                ArgumentTypeId = entity.ArgumentTypeId,
-                TaskId = taskId
-            };
-
-            var argumentEntity1 = _taskContext.Arguments.Add(argumentEntity);
-            await _taskContext.SaveChangesAsync();
-
-            return argumentEntity1.Entity.Id;
+            return entity.Entity.Id.Value;
         }
     }
 }

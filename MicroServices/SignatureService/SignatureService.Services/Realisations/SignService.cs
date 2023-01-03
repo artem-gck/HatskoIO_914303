@@ -87,6 +87,7 @@ namespace SignatureService.Services.Realisations
             return signatures.Select(sig => new UserPublicKey
             {
                 Id = sig.Id,    
+                UserId = sig.User.Id,
                 PublicKey = sig.User.PublicKey
             });      
         }

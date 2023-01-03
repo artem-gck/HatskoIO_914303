@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Ocelot.RequestId;
-using Ocelot.Values;
 using System.Net;
-using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
@@ -45,7 +41,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.Authority = identityString;
     options.RequireHttpsMetadata = false;
-    options.Audience = "gateway";
+    options.Audience = "gateway_api";
     options.BackchannelHttpHandler = clientHandler;
 });
 
@@ -55,7 +51,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("GatewayScope", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireClaim("scope", "gateway");
+        policy.RequireClaim("scope", "gateway_api");
     });
 });
 

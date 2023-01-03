@@ -20,7 +20,7 @@ namespace TaskCrudServiceApi.Controllers.V1
     [Route("api/v{version:apiVersion}/tasks")]
     [Produces("application/json")]
     [ApiVersion("2.0")]
-    //[Authorize]
+    [Authorize]
     public class TaskControllerV2 : Controller
     {
         private readonly IService<TaskEntity> _taskService;
@@ -52,16 +52,20 @@ namespace TaskCrudServiceApi.Controllers.V1
         ///
         ///     POST /tasks
         ///     {
-        ///       "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///       "type": "string",
         ///       "header": "string",
         ///       "ownerUserId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///       "deadLine": "2022-10-02T20:07:01.294Z",
-        ///       "arguments": [
-        ///         {
-        ///            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        ///            "argumentType": "string",
-        ///            "value": "string"
+        ///       "performers": [
+        ///          {
+        ///             "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///             "typeOfTask": "signature",
+        ///             "description": "qwe"
+        ///          }
+        ///        ],
+        ///        "documents": [
+        ///          {
+        ///             "documentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         ///          }
         ///        ]
         ///      }

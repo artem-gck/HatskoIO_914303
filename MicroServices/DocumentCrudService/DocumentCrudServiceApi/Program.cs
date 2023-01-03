@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
 using DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByUserId;
+using DocumentCrudService.Cqrs.Realisation.Queries.GetByDocumentId;
 
 var builder = WebApplication.CreateBuilder(args);
 var identityString = Environment.GetEnvironmentVariable("IdentityPath") ?? builder.Configuration["IdentityPath"];
@@ -57,9 +58,20 @@ builder.Services.AddScoped<IQueryHandler<GetAllNamesOfDocumentsByUserIdQuery>, G
 builder.Services.AddScoped<IQueryHandler<GetDocumentByIdQuery>, GetDocumentByIdQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<IsDocumentExitQuery>, IsDocumentExitQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetHashOfDocumentQuery>, GetHashOfDocumentQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetByDocumentIdQuery>, GetByDocumentIdQueryHandler>();
 
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCors", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .WithExposedHeaders("Content-Disposition")
+               .AllowAnyMethod();
+    });
+});
 
 var clientHandler = new HttpClientHandler
 {
@@ -147,8 +159,11 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseCors("AllowCors");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.ConfigureCustomExceptionMiddleware();
 
 app.MapControllers();

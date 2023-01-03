@@ -166,8 +166,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseStatusCodePages();
 app.ConfigureCustomExceptionMiddleware();

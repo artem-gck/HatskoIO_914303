@@ -7,6 +7,7 @@ namespace CompanyManagementService.DataAccess.Interfaces
     public interface IDepartmentAccess
     {
         public Task<DepartmentResponce> GetAsync(Guid id);
+        public Task<DepartmentResponce> GetAsync(Guid id, string token);
         public Task<IEnumerable<DepartmentResponce>> GetAsync();
         public Task DeleteAsync(Guid id);
         public Task<Guid> PostAsync(AddDepartmentRequest addDepartmentRequest);

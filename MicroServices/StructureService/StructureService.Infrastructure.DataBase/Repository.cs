@@ -48,6 +48,15 @@ namespace StructureService.Infrastructure.DataBase
             return listOfEntities;
         }
 
+        public async Task<IEnumerable<T>> GetAllAsync(int page, int count)
+        {
+            var listOfEntities = await _entities.Skip(page * count)
+                                                .Take(count)
+                                                .ToListAsync();
+
+            return listOfEntities;
+        }
+
         public async Task<T> GetAsync(Guid id)
         {
             var entity = await _entities.FindAsync(id);

@@ -13,7 +13,8 @@ namespace TaskCrudServiceApi.Validation.CreateRequest
                                         .NotEmpty();
             RuleFor(task => task.OwnerUserId).NotNull()
                                              .NotEmpty();
-            RuleForEach(task => task.Arguments).SetValidator(new CreateArgumentRequestValidator());
+            RuleForEach(task => task.Documents).SetValidator(new CreateDocumentRequestValidator());
+            RuleForEach(task => task.Performers).SetValidator(new CreatePerformerRequestValidator());
         }
     }
 }

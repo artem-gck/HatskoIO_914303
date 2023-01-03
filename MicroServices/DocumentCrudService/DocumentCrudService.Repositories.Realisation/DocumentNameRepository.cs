@@ -56,12 +56,12 @@ namespace DocumentCrudService.Repositories.Realisation
             }).Skip((numberOfPage - 1) * countOnPage).Take(countOnPage);
         }
 
-        public async Task<IEnumerable<DocumentNameEntity>> GetByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<DocumentNameEntity>> GetByUserIdAsync(Guid userId, int? count)
         {
             var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.CreaterId", userId.ToString());
             var sort = Builders<GridFSFileInfo>.Sort.Descending(x => x.UploadDateTime);
 
-            var options = new GridFSFindOptions { Sort = sort };
+            var options = new GridFSFindOptions { Sort = sort, Limit = count };
 
             var cursor = await _documentContext.GridFS.FindAsync(filter, options);
             var listOfFileInfo = new List<DocumentNameEntity>();
@@ -92,6 +92,36 @@ namespace DocumentCrudService.Repositories.Realisation
                 CreatorId = g.OrderByDescending(x => x.Version).First().CreatorId,
                 UploadDate = g.OrderByDescending(x => x.Version).First().UploadDate,
             });
+        }
+
+        public async Task<DocumentNameEntity> GetByDocumentIdAsync(Guid id)
+        {
+            var filter = Builders<GridFSFileInfo>.Filter.Eq("metadata.Id", id.ToString());
+            var sort = Builders<GridFSFileInfo>.Sort.Descending(x => x.UploadDateTime);
+
+            var options = new GridFSFindOptions { Sort = sort };
+
+            var cursor = await _documentContext.GridFS.FindAsync(filter, options);
+            var fileInfo = new DocumentNameEntity();
+
+            var firstOfCursor = cursor.FirstOrDefault();
+
+            firstOfCursor.Metadata.TryGetValue("Id", out BsonValue idValue);
+            firstOfCursor.Metadata.TryGetValue("Version", out BsonValue version1);
+            firstOfCursor.Metadata.TryGetValue("CreaterId", out BsonValue creatorId);
+
+            var info = new DocumentNameEntity()
+            {
+                Id = new Guid(idValue.AsString),
+                Version = (int)version1,
+                CreatorId = new Guid(creatorId.AsString),
+                FileName = firstOfCursor.Filename,
+                UploadDate = firstOfCursor.UploadDateTime
+            };
+
+            fileInfo = info;
+
+            return fileInfo;
         }
     }
 }

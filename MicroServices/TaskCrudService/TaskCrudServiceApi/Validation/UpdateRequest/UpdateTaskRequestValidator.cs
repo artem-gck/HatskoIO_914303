@@ -15,7 +15,8 @@ namespace TaskCrudServiceApi.Validation.UpdateRequest
                                         .NotEmpty();
             RuleFor(task => task.OwnerUserId).NotNull()
                                              .NotEmpty();
-            RuleForEach(task => task.Arguments).SetValidator(new UpdateArgumentRequestValidator());
+            RuleForEach(task => task.Documents).SetValidator(new UpdateDocumentRequestValidator());
+            RuleForEach(task => task.Performers).SetValidator(new UpdatePerformerRequestValidator());
         }
     }
 }

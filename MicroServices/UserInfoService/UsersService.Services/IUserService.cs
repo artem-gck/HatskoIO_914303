@@ -6,6 +6,7 @@ namespace UsersService.Services
     public interface IUserService
     {
         public Task<IEnumerable<UserDto>> GetUsersAsync();
+        public Task<IEnumerable<UserDto>> GetUsersAsync(int page, int count);
         public Task<UserDto> GetUserAsync(Guid id);
         public Task DeleteUserAsync(Guid id);
         public Task<Guid> AddUserAsync(UserDto userDto);

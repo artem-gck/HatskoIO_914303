@@ -3,6 +3,7 @@ using CompanyManagementService.DataAccess.Interfaces;
 using CompanyManagementService.DataAccess.StructureEntities.AddRequest;
 using CompanyManagementService.DataAccess.StructureEntities.Responce;
 using CompanyManagementService.DataAccess.StructureEntities.UpdateRequest;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
@@ -13,9 +14,18 @@ namespace CompanyManagementService.DataAccess.Realisation
     {
         private HttpClient _httpClient;
 
-        public DepartmentAccess(HttpClient httpClient)
+        public DepartmentAccess(HttpClient httpClient, IConfiguration configuration)
         {
+            var departmentsConnectionString = Environment.GetEnvironmentVariable("DepartmentsConnection") ?? configuration.GetConnectionString("DepartmentsConnection");
+
+            var clientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            };
+
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _httpClient.BaseAddress = new Uri(departmentsConnectionString);
+            
         }
 
         public async Task DeleteAsync(Guid id)
@@ -33,7 +43,15 @@ namespace CompanyManagementService.DataAccess.Realisation
         }
 
         public async Task<DepartmentResponce> GetAsync(Guid id)
+            => await GetAsync(id, null);
+
+        public async Task<DepartmentResponce> GetAsync(Guid id, string token)
         {
+            if (!string.IsNullOrWhiteSpace(token) && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+            }
+
             var answer = await _httpClient.GetAsync($"{id}");
 
             if (answer.IsSuccessStatusCode)
@@ -44,10 +62,13 @@ namespace CompanyManagementService.DataAccess.Realisation
                 return department;
             }
 
+            if (answer.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
             throw answer.StatusCode switch
             {
-                HttpStatusCode.NotFound             => new NotFoundException(id),
-                HttpStatusCode.InternalServerError  => new InternalServerException(nameof(DepartmentAccess))
+                HttpStatusCode.NotFound => new NotFoundException(id),
+                HttpStatusCode.InternalServerError => new InternalServerException(nameof(DepartmentAccess))
             };
         }
 

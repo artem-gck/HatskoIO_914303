@@ -5,5 +5,6 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByU
     public class GetAllNamesOfDocumentsByUserIdQuery : IQuery
     {
         public Guid CreatorId { get; set; }
+        public int? Count { get; set; }
     }
 }

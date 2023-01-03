@@ -9,7 +9,7 @@ namespace UsersServiceApi.Controllers
 {
     [Route("api/users")]
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -38,15 +38,32 @@ namespace UsersServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<UserResponce>>> Get()
+        public async Task<ActionResult<IEnumerable<UserResponce>>> Get(int? page, int? count)
         {
-            var listOfUserInfo = (await _userService.GetUsersAsync()).Select(us => _mapper.Map<UserResponce>(us));
-            var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
+            if (!page.HasValue && !count.HasValue)
+            {
+                var listOfUserInfo = (await _userService.GetUsersAsync()).Select(us => _mapper.Map<UserResponce>(us));
+                var listOfId = string.Join(", ", listOfUserInfo.Select(us => us.Id.ToString()));
 
-            _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
+                _userLogger.LogDebug("Taken list of id of user info: {listOfId}", listOfId);
 
-            return Ok(listOfUserInfo);
+                return Ok(listOfUserInfo);
+            }
+
+            var listOfUserInfo1 = (await _userService.GetUsersAsync(page.Value, count.Value)).Select(us => _mapper.Map<UserResponce>(us));
+
+            return Ok(listOfUserInfo1);
         }
+
+        //[HttpGet]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<ActionResult<IEnumerable<UserResponce>>> Get(int page, int count)
+        //{
+        //    var listOfUserInfo = (await _userService.GetUsersAsync(page, count)).Select(us => _mapper.Map<UserResponce>(us));
+
+        //    return Ok(listOfUserInfo);
+        //}
 
         /// <summary>
         /// Get user info by id

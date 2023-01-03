@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotificationService.Services;
 using NotificationServiceApi.ViewModels;
@@ -7,6 +8,7 @@ namespace NotificationServiceApi.Controllers
 {
     [Route("api/messages")]
     [ApiController]
+    [Authorize]
     public class MessagesController : Controller
     {
         private readonly IMessageService _messageService;
@@ -35,7 +37,7 @@ namespace NotificationServiceApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<MessageResponce>> Get(int page = 1, int count = 10)
+        public async Task<IEnumerable<MessageResponce>> Get(int page = 0, int count = 10)
             => _mapper.Map<IEnumerable<MessageResponce>>(await _messageService.GetAsync(page, count));
 
         /// <summary>

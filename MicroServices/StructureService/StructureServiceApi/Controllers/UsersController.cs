@@ -16,7 +16,7 @@ using static Org.BouncyCastle.Math.EC.ECCurve;
 namespace StructureServiceApi.Controllers
 {
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;

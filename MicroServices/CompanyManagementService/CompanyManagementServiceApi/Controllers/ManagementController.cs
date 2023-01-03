@@ -3,16 +3,12 @@ using CompanyManagementService.Services.Interfaces;
 using CompanyManagementServiceApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
 
 namespace CompanyManagementServiceApi.Controllers
 {
     [ApiController]
     [Route("api/management")]
-    //[Authorize]
+    [Authorize]
     public class ManagementController : Controller
     {
         private readonly IStructureService _structureService;
@@ -82,6 +78,16 @@ namespace CompanyManagementServiceApi.Controllers
             var token = Request.Headers["Authorization"].ToString();
 
             var userResponce = _mapper.Map<UserResponce>(await _structureService.GetUserAsync(id, token));
+
+            return Ok(userResponce);
+        }
+
+        [HttpGet("department/{id}/users")]
+        public async Task<IActionResult> GetUsersByDepartmentId(Guid id)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+
+            var userResponce = _mapper.Map<IEnumerable<UserResponce>>(await _structureService.GetUsersByDepartmentAsync(id, token));
 
             return Ok(userResponce);
         }

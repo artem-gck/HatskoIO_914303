@@ -22,53 +22,69 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("TaskCrudService.Domain.Entities.ArgumentEntity", b =>
+            modelBuilder.Entity("TaskCrudService.Domain.Entities.DocumentEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ArgumentTypeId")
+                    b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TaskId")
+                    b.Property<Guid?>("TaskId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArgumentTypeId");
 
                     b.HasIndex("TaskId");
 
-                    b.ToTable("Arguments");
+                    b.ToTable("Documents");
                 });
 
-            modelBuilder.Entity("TaskCrudService.Domain.Entities.ArgumentTypeEntity", b =>
+            modelBuilder.Entity("TaskCrudService.Domain.Entities.PerformerEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("PublicKey")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Resolve")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SignatureDocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TypeOfTask")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ArgumentTypes");
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("Performers");
                 });
 
             modelBuilder.Entity("TaskCrudService.Domain.Entities.TaskEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DeadLine")
@@ -82,10 +98,9 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TypeId")
+                    b.Property<Guid?>("TypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -97,7 +112,7 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
 
             modelBuilder.Entity("TaskCrudService.Domain.Entities.TypeEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -110,21 +125,20 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
                     b.ToTable("Types");
                 });
 
-            modelBuilder.Entity("TaskCrudService.Domain.Entities.ArgumentEntity", b =>
+            modelBuilder.Entity("TaskCrudService.Domain.Entities.DocumentEntity", b =>
                 {
-                    b.HasOne("TaskCrudService.Domain.Entities.ArgumentTypeEntity", "ArgumentType")
-                        .WithMany("Arguments")
-                        .HasForeignKey("ArgumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskCrudService.Domain.Entities.TaskEntity", "Task")
-                        .WithMany("Arguments")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Documents")
+                        .HasForeignKey("TaskId");
 
-                    b.Navigation("ArgumentType");
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("TaskCrudService.Domain.Entities.PerformerEntity", b =>
+                {
+                    b.HasOne("TaskCrudService.Domain.Entities.TaskEntity", "Task")
+                        .WithMany("Performers")
+                        .HasForeignKey("TaskId");
 
                     b.Navigation("Task");
                 });
@@ -133,21 +147,16 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
                 {
                     b.HasOne("TaskCrudService.Domain.Entities.TypeEntity", "Type")
                         .WithMany("Tasks")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TypeId");
 
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("TaskCrudService.Domain.Entities.ArgumentTypeEntity", b =>
-                {
-                    b.Navigation("Arguments");
-                });
-
             modelBuilder.Entity("TaskCrudService.Domain.Entities.TaskEntity", b =>
                 {
-                    b.Navigation("Arguments");
+                    b.Navigation("Documents");
+
+                    b.Navigation("Performers");
                 });
 
             modelBuilder.Entity("TaskCrudService.Domain.Entities.TypeEntity", b =>

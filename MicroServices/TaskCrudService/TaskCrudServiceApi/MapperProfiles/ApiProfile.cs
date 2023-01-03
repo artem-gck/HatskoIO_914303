@@ -10,12 +10,19 @@ namespace TaskCrudServiceApi.MapperProfiles
     {
         public ApiProfile()
         {
-            CreateMap<ArgumentEntity, ArgumentResponce>().ForMember(dto => dto.ArgumentType, memb => memb.MapFrom(ent => ent.ArgumentType.Name));
-            CreateMap<ArgumentResponce, ArgumentEntity>().ForMember(ent => ent.ArgumentType, memb => memb.MapFrom(dto => new ArgumentTypeEntity() { Name = dto.ArgumentType }));
-            CreateMap<ArgumentEntity, CreateArgumentRequest>().ForMember(dto => dto.ArgumentType, memb => memb.MapFrom(ent => ent.ArgumentType.Name));
-            CreateMap<CreateArgumentRequest, ArgumentEntity>().ForMember(ent => ent.ArgumentType, memb => memb.MapFrom(dto => new ArgumentTypeEntity() { Name = dto.ArgumentType }));
-            CreateMap<ArgumentEntity, UpdateArgumentRequest>().ForMember(dto => dto.ArgumentType, memb => memb.MapFrom(ent => ent.ArgumentType.Name));
-            CreateMap<UpdateArgumentRequest, ArgumentEntity>().ForMember(ent => ent.ArgumentType, memb => memb.MapFrom(dto => new ArgumentTypeEntity() { Name = dto.ArgumentType }));
+            CreateMap<PerformerEntity, PerformerResponse>();
+            CreateMap<PerformerResponse, PerformerEntity>();
+            CreateMap<PerformerEntity, CreatePerformerRequest>();
+            CreateMap<CreatePerformerRequest, PerformerEntity>();
+            CreateMap<PerformerEntity, UpdatePerformerRequest>();
+            CreateMap<UpdatePerformerRequest, PerformerEntity>();
+
+            CreateMap<DocumentEntity, DocumentResponse>();
+            CreateMap<DocumentResponse, DocumentEntity>();
+            CreateMap<DocumentEntity, CreateDocumentRequest>();
+            CreateMap<CreateDocumentRequest, DocumentEntity>();
+            CreateMap<DocumentEntity, UpdateDocumentRequest>();
+            CreateMap<UpdateDocumentRequest, DocumentEntity>();
 
             CreateMap<TaskEntity, TaskResponce>().ForMember(dto => dto.Type, memb => memb.MapFrom(ent => ent.Type.Name));
             CreateMap<TaskResponce, TaskEntity>().ForMember(ent => ent.Type, memb => memb.MapFrom(dto => new TypeEntity() { Name = dto.Type }));

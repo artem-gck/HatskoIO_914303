@@ -5,6 +5,7 @@ namespace UsersService.DataAccess
     public interface IUserRepositoty
     {
         public Task<IEnumerable<UserEntity>> GetUsersAsync();
+        public Task<IEnumerable<UserEntity>> GetUsersAsync(int page, int count);
         public Task<UserEntity> GetUserAsync(Guid id);
         public Task DeleteUserAsync(Guid id);
         public Task<Guid> AddUserAsync(UserEntity user);

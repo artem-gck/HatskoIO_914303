@@ -38,7 +38,7 @@ namespace CompanyManagementService.DataAccess.Realisation
 
         public async Task<PositionResponce> GetAsync(Guid id, string token)
         {
-            if (token is not null && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
+            if (!string.IsNullOrWhiteSpace(token) && !_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", token);
             }
@@ -52,6 +52,9 @@ namespace CompanyManagementService.DataAccess.Realisation
 
                 return position;
             }
+
+            if (answer.StatusCode == HttpStatusCode.NotFound)
+                return null;
 
             throw answer.StatusCode switch
             {

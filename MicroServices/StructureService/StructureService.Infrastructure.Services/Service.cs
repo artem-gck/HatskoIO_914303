@@ -38,6 +38,13 @@ namespace StructureService.Infrastructure.Services
             return await _repository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllAsync(int page, int count)
+        {
+            _logger.LogDebug("Get all {type} from db", typeof(T));
+
+            return await _repository.GetAllAsync(page, count);
+        }
+
         public async Task<T> GetAsync(Guid id)
         {
             var dto = await _repository.GetAsync(id);

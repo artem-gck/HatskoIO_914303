@@ -17,7 +17,7 @@ namespace DocumentCrudService.Cqrs.Realisation.Queries.GetAllNamesOfDocumentsByU
 
         public async Task<IList<IResult>> Handle(GetAllNamesOfDocumentsByUserIdQuery query)
         {
-            var listOfDocumentName = await _documentNameRepository.GetByUserIdAsync(query.CreatorId);
+            var listOfDocumentName = await _documentNameRepository.GetByUserIdAsync(query.CreatorId, query.Count);
 
             var documentNameList = new List<IResult>();
 

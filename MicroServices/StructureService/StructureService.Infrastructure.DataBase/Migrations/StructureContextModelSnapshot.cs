@@ -28,7 +28,7 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CheifUserId")
+                    b.Property<Guid?>("CheifUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -38,7 +38,8 @@ namespace StructureService.Infrastructure.DataBase.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CheifUserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CheifUserId] IS NOT NULL");
 
                     b.HasIndex("Name")
                         .IsUnique();

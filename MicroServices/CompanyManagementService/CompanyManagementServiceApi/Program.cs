@@ -44,12 +44,12 @@ builder.Services.AddScoped<IPositionsAccess, PositionsAccess>();
 builder.Services.AddScoped<IUserInfoAccess, UserInfoAccess>();
 builder.Services.AddScoped<IUserStructureAccess, UserStructureAccess>();
 
+builder.Services.AddScoped<IStructureService, StructureService>();
+
 builder.Services.AddHttpClient<IDepartmentAccess, DepartmentAccess>(httpClient => { httpClient.BaseAddress = new Uri(departmentsConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
 builder.Services.AddHttpClient<IUserStructureAccess, UserStructureAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersStructureConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
 builder.Services.AddHttpClient<IPositionsAccess, PositionsAccess>(httpClient => { httpClient.BaseAddress = new Uri(positionsConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
 builder.Services.AddHttpClient<IUserInfoAccess, UserInfoAccess>(httpClient => { httpClient.BaseAddress = new Uri(usersInfoConnectionString); }).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
-
-builder.Services.AddScoped<IStructureService, StructureService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -73,6 +73,16 @@ builder.Services.AddAuthorization(options =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "management_api");
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCors", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
     });
 });
 
@@ -132,8 +142,10 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 app.UseHttpsRedirection();
 app.ConfigureCustomExceptionMiddleware();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseCors("AllowCors");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

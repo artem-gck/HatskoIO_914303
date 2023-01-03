@@ -63,6 +63,17 @@ namespace UsersService.DataAccess
             return listOfUserInfoEntities;
         }
 
+        public async Task<IEnumerable<UserEntity>> GetUsersAsync(int page, int count)
+        {
+            _userAccessLogger.LogDebug("Getting entities from db");
+
+            var listOfUserInfoEntities = await _usersContext.Users.Skip(page * count)
+                                                                  .Take(count)
+                                                                  .ToArrayAsync();
+
+            return listOfUserInfoEntities;
+        }
+
         public async Task<IEnumerable<UserEntity>> GetUsersByDepartmentId(Guid departmentId)
         {
             _userAccessLogger.LogDebug($"Getting entities from db by department id = {departmentId}");
@@ -85,7 +96,6 @@ namespace UsersService.DataAccess
             userInfoEntity.Name = user.Name;
             userInfoEntity.Surname = user.Surname;
             userInfoEntity.Patronymic = user.Patronymic;
-            userInfoEntity.Email = user.Email;
 
             await _usersContext.SaveChangesAsync();
         }

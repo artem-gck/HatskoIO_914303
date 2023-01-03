@@ -1,15 +1,5 @@
 version: "3.9"
 services:
-    # client:
-    #     container_name: client
-    #     build: 
-    #         context: ../Client/DocumentFlowClient
-    #         dockerfile: Dockerfile
-    #     ports:
-    #         - 8080:80
-    #     networks:
-    #         identityserverui: null
-
     user_info:
         container_name: user_info_api
         build: 
@@ -24,11 +14,9 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - user_info_sql
-        # networks:
-        #     identityserverui: null
 
     structure:
         container_name: structure_api
@@ -44,11 +32,9 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on: 
             - structure_sql
-        # networks:
-        #     identityserverui: null
 
     tasks:
         container_name: tasks_api
@@ -64,11 +50,9 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - tasks_sql
-        # networks:
-        #     identityserverui: null
 
     documents:
         container_name: documents_api
@@ -84,11 +68,9 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
             DockerConfiguration__UpdateCaCertificate: true
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - documents_mongo
-        # networks:
-        #     identityserverui: null
 
     company_management:
         container_name: company_management_api
@@ -107,13 +89,11 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - company_management_redis
             - user_info
             - structure
-        # networks:
-        #     identityserverui: null
 
     notification:
         container_name: notification_api
@@ -122,19 +102,19 @@ services:
             dockerfile: MicroServices/NotificationService/Dockerfile
         environment:
             ServiceBus: "${ServiceBus}"
-            NotificationConnection: "Filename=Messages.db"
+            NotificationConnection: "Server=notification_sql;Database=notification;User=SA;Password=yourStrong(!)Password"
             IdentityPath: "${IdentityPath}"
-            SenderEmail: "qwe@gmail.com"
-            SenderPassword: "qweqweqwe"
+            SenderEmail: "g.artema31@gmail.com"
+            SenderPassword: "artem13579"
             SenderHost: "smtp.gmail.com"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_ENVIRONMENT: "${Environment}"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+        depends_on:
+            - notification_sql
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
-        # networks:
-        #     identityserverui: null
+            - ${CertPath}:/https/
 
     signatures:
         container_name: signatures_api
@@ -151,12 +131,10 @@ services:
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - documents
             - signatures_sql
-        # networks:
-        #     identityserverui: null
 
     api-gateway:
         container_name: api-gateway
@@ -166,13 +144,14 @@ services:
         ports:
             - "8080:443"
         environment:
+            IdentityPath: "${IdentityPath}"
             ASPNETCORE_URLS: "https://+;http://+"
             ASPNETCORE_HTTPS_PORT: "8080"
             ASPNETCORE_ENVIRONMENT: "${Environment}"
             ASPNETCORE_Kestrel__Certificates__Default__Password: "${CertPassword}"
             ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
         volumes:
-            - C:\Users\agats\.aspnet\https:/https/
+            - ${CertPath}:/https/
         depends_on:
             - user_info
             - structure
@@ -180,124 +159,85 @@ services:
             - tasks
             - documents
             - signatures
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
-        # networks:
-        #     identityserverui: null
 
-    # nginx-proxy:
-    #     image: jwilder/nginx-proxy
-    #     container_name: nginx
-    #     ports: 
-    #         - "80:80"
-    #         - "443:443"
-    #     volumes:
-    #         - '/var/run/docker.sock:/tmp/docker.sock:ro'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/conf.d:/etc/nginx/conf.d'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/vhost.d:/etc/nginx/vhost.d'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/certs:/etc/nginx/certs:ro'
-    #     networks:
-    #         identityserverui:
-    #             aliases:
-    #                 - sts.skoruba.local
-    #                 - admin.skoruba.local
-    #                 - admin-api.skoruba.local
-    #     restart: always
+    skoruba.identityserver4.admin:
+        image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
+        build:
+            context: MicroServices/IdentityServer4.Admin
+            dockerfile: src/Skoruba.IdentityServer4.Admin/Dockerfile
+        container_name: identityserver_admin
+        environment:
+            - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__AdminLogDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__AdminAuditLogDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'AdminConfiguration__IdentityAdminBaseUrl=https://localhost:44303'
+            - 'AdminConfiguration__IdentityAdminRedirectUri=https://localhost:44303/signin-oidc'
+            - 'AdminConfiguration__IdentityServerBaseUrl=https://localhost:8082'
+            - AdminConfiguration__RequireHttpsMetadata=false
+            - 'IdentityServerData__Clients__0__ClientUri=https://localhost:44303'
+            - 'IdentityServerData__Clients__0__RedirectUris__0=https://localhost:44303/signin-oidc'
+            - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://localhost:44303/signin-oidc'
+            - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://localhost:44303/signout-callback-oidc'
+            - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://localhost:44303'
+            - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.skoruba.local/swagger/oauth2-redirect.html'
+            - 'Serilog__WriteTo__1__Args__connectionString=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - DockerConfiguration__UpdateCaCertificate=true
+            - ASPNETCORE_ENVIRONMENT=${Environment}
+        command: dotnet Skoruba.IdentityServer4.Admin.dll /seed
+        depends_on:
+            - db
+            - identity
+        volumes:
+            - './MicroServices/IdentityServer4.Admin/shared/serilog.json:/app/serilog.json'
+            - './MicroServices/IdentityServer4.Admin/shared/identitydata.json:/app/identitydata.json'
+            - './MicroServices/IdentityServer4.Admin/shared/identityserverdata.json:/app/identityserverdata.json'
+            - './MicroServices/IdentityServer4.Admin/shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
 
-    # skoruba.identityserver4.admin:
-    #     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
-    #     build:
-    #         context: .
-    #         dockerfile: MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin/Dockerfile
-    #     container_name: identityserver_admin
-    #     environment:
-    #         - VIRTUAL_HOST=admin.skoruba.local
-    #         - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__PersistedGrantDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__IdentityDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__AdminLogDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__AdminAuditLogDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__DataProtectionDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-    #         - 'AdminConfiguration__IdentityAdminRedirectUri=https://admin.skoruba.local/signin-oidc'
-    #         - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
-    #         - AdminConfiguration__RequireHttpsMetadata=false
-    #         - 'IdentityServerData__Clients__0__ClientUri=https://admin.skoruba.local'
-    #         - 'IdentityServerData__Clients__0__RedirectUris__0=https://admin.skoruba.local/signin-oidc'
-    #         - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://admin.skoruba.local/signin-oidc'
-    #         - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://admin.skoruba.local/signout-callback-oidc'
-    #         - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://admin.skoruba.local'
-    #         - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.skoruba.local/swagger/oauth2-redirect.html'
-    #         - 'Serilog__WriteTo__1__Args__connectionString=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - DockerConfiguration__UpdateCaCertificate=true
-    #         - ASPNETCORE_ENVIRONMENT=${Environment}
-    #     command: dotnet Skoruba.IdentityServer4.Admin.dll /seed
-    #     depends_on:
-    #         - identity_sql
-    #         - skoruba.identityserver4.sts.identity
-    #     volumes:
-    #         - './MicroServices/IdentityServer4.Admin/shared/serilog.json:/app/serilog.json'
-    #         - './MicroServices/IdentityServer4.Admin/shared/identitydata.json:/app/identitydata.json'
-    #         - './MicroServices/IdentityServer4.Admin/shared/identityserverdata.json:/app/identityserverdata.json'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    #     networks:
-    #         identityserverui: null
+    identity:
+        image: '${DOCKER_REGISTRY-}skoruba-identityserver4-sts-identity'
+        build:
+            context: MicroServices/IdentityServer4.Admin
+            dockerfile: src/Skoruba.IdentityServer4.STS.Identity/Dockerfile
+        container_name: identityserver_sts_identity
+        ports:
+            - 8083:443
+        environment:
+            - 'ASPNETCORE_URLS=https://+;http://+'
+            - 'ASPNETCORE_Kestrel__Certificates__Default__Password=${CertPassword}'
+            - 'ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx'
+            - 'ServiceBus=${ServiceBus}'
+            - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
+            - 'AdminConfiguration__IdentityAdminBaseUrl=https://localhost:44303'
+            - 'IdentityServerOptions__IssuerUri=https://localhost:8083'
+            - IdentityServerOptions__Events__RaiseErrorEvents=true
+            - IdentityServerOptions__Events__RaiseInformationEvents=true
+            - IdentityServerOptions__Events__RaiseFailureEvents=true
+            - IdentityServerOptions__Events__RaiseSuccessEvents=true
+            - DockerConfiguration__UpdateCaCertificate=true
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - db  
+        volumes:
+            - './MicroServices/IdentityServer4.Admin/shared/serilog.json:/app/serilog.json'
+            - './MicroServices/IdentityServer4.Admin/shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
+            - ${CertPath}:/https/
 
-    # skoruba.identityserver4.admin.api:
-    #     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin-api'
-    #     build:
-    #         context: .
-    #         dockerfile: MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.Admin.Api/Dockerfile
-    #     container_name: identityserver_admin_api
-    #     environment:
-    #         - VIRTUAL_HOST=admin-api.skoruba.local
-    #         - AdminApiConfiguration__RequireHttpsMetadata=false
-    #         - 'AdminApiConfiguration__ApiBaseUrl=https://admin-api.skoruba.local'
-    #         - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
-    #         - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__PersistedGrantDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__IdentityDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__AdminLogDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__AdminAuditLogDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__DataProtectionDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - DockerConfiguration__UpdateCaCertificate=true
-    #         - ASPNETCORE_ENVIRONMENT=${Environment}
-    #     volumes:
-    #         - './MicroServices/IdentityServer4.Admin/shared/serilog.json:/app/serilog.json'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    #     networks:
-    #         identityserverui: null
-
-    # skoruba.identityserver4.sts.identity:
-    #     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-sts-identity'
-    #     build:
-    #         context: .
-    #         dockerfile: MicroServices/IdentityServer4.Admin/src/Skoruba.IdentityServer4.STS.Identity/Dockerfile
-    #     container_name: identityserver_sts_identity
-    #     environment:
-    #         - ServiceBus=${ServiceBus}
-    #         - VIRTUAL_HOST=sts.skoruba.local
-    #         - 'ConnectionStrings__ConfigurationDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__PersistedGrantDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__IdentityDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'ConnectionStrings__DataProtectionDbConnection=Server=identity_sql;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-    #         - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-    #         - 'IdentityServerOptions__IssuerUri=https://sts.skoruba.local'
-    #         - IdentityServerOptions__Events__RaiseErrorEvents=true
-    #         - IdentityServerOptions__Events__RaiseInformationEvents=true
-    #         - IdentityServerOptions__Events__RaiseFailureEvents=true
-    #         - IdentityServerOptions__Events__RaiseSuccessEvents=true
-    #         - DockerConfiguration__UpdateCaCertificate=true
-    #         - ASPNETCORE_ENVIRONMENT=${Environment}
-    #     depends_on:
-    #         - identity_sql  
-    #     volumes:
-    #         - './MicroServices/IdentityServer4.Admin/shared/serilog.json:/app/serilog.json'
-    #         - './MicroServices/IdentityServer4.Admin/shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    #     networks:
-    #         identityserverui:
-    #             aliases:
-    #                 - sts.skoruba.local
+    db:
+        image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
+        ports:
+            - 1433:1433
+        container_name: skoruba-identityserver4-db
+        environment:
+            SA_PASSWORD: '${DB_PASSWORD:-Password_123}'
+            ACCEPT_EULA: 'Y'
+        volumes:
+            - 'identity-dbdata:/var/opt/mssql'
 
     user_info_sql:
         container_name: user_info_sql
@@ -305,8 +245,17 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
-        # networks:
-        #     identityserverui: null
+        volumes:
+            - 'userinfo-dbdata:/var/opt/mssql'
+
+    notification_sql:
+        container_name: notification_sql
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "yourStrong(!)Password"
+            ACCEPT_EULA: "Y"
+        volumes:
+            - 'notification-dbdata:/var/opt/mssql'
 
     structure_sql:
         container_name: structure_sql
@@ -314,19 +263,17 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
-        # networks:
-        #     identityserverui: null
+        volumes:
+            - 'structure-dbdata:/var/opt/mssql'
 
     tasks_sql:
         container_name: tasks_sql
         image: "mcr.microsoft.com/mssql/server"
-        ports:
-            - 1433:1433
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
-        # networks:
-        #     identityserverui: null
+        volumes:
+            - 'tasks-dbdata:/var/opt/mssql'
 
     signatures_sql:
         container_name: signatures_sql
@@ -334,40 +281,31 @@ services:
         environment:
             SA_PASSWORD: "yourStrong(!)Password"
             ACCEPT_EULA: "Y"
-        # networks:
-        #     identityserverui: null
-
-    # identity_sql:
-    #     container_name: identity_sql
-    #     ports:
-    #         - "1433:1433"
-    #     image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
-    #     environment:
-    #         SA_PASSWORD: '${DB_PASSWORD:-Password_123}'
-    #         ACCEPT_EULA: 'Y'
-    #     volumes:
-    #         - 'dbdata:/var/opt/mssql'
-        # networks:
-        #     identityserverui: null
+        volumes:
+            - 'signatures-dbdata:/var/opt/mssql'
 
     documents_mongo:
         container_name: documents_mongo
         image: "mongo"
-        # networks:
-        #     identityserverui: null
-
+        volumes:
+            - 'documents-dbdata:/data/db'
     
     company_management_redis:
         container_name: company_management_redis
         image: "redis"
-        # networks:
-        #     identityserverui: null
 
-# volumes:
-#   dbdata:
-#     driver: local
-# networks:
-#   proxy:
-#     driver: bridge
-#   identityserverui:
-#     driver: bridge
+volumes:
+    identity-dbdata:
+        driver: local
+    userinfo-dbdata:
+        driver: local
+    notification-dbdata:
+        driver: local
+    structure-dbdata:
+        driver: local
+    tasks-dbdata:
+        driver: local
+    signatures-dbdata:
+        driver: local
+    documents-dbdata:
+        driver: local

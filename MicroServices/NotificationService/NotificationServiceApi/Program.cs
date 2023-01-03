@@ -39,7 +39,7 @@ var clientHandler = new HttpClientHandler
 // Add services to the container.
 
 builder.Services.AddDbContext<MessageContext>(opt =>
-    opt.UseSqlite(dbConnectionString, b => b.MigrationsAssembly("NotificationService.DataAccess.DataBase")));
+    opt.UseSqlServer(dbConnectionString, b => b.MigrationsAssembly("NotificationService.DataAccess.DataBase")));
 
 builder.Services.AddAutoMapper(typeof(ControllerProfile), typeof(ServiceProfile));
 
@@ -192,8 +192,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
 {

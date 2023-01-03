@@ -9,6 +9,7 @@
         public Guid OwnerUserId { get; set; }
         public DateTime DeadLine { get; set; }
         public DateTime CreatedAt { get; set; }
-        public List<ArgumentResponce>? Arguments { get; set; }
+        public List<PerformerResponse>? Performers { get; set; }
+        public List<DocumentResponse>? Documents { get; set; }
     }
 }

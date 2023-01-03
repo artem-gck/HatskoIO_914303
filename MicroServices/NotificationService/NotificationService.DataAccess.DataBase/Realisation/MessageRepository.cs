@@ -17,6 +17,7 @@ namespace NotificationService.DataAccess.DataBase.Realisation
 
         public async Task<Guid> AddAsync(MessageEntity entity)
         {
+            entity.Id = Guid.NewGuid();
             entity.CreatedDate = DateTime.Now;
 
             var messageDb = _messageContext.Messages.Add(entity);
@@ -27,7 +28,7 @@ namespace NotificationService.DataAccess.DataBase.Realisation
         }
 
         public async Task<IEnumerable<MessageEntity>> GetAsync(int page, int count)
-            => await _messageContext.Messages.OrderByDescending(mes => mes.CreatedDate).Skip((page - 1) * count).Take(count).ToListAsync();
+            => await _messageContext.Messages.OrderByDescending(mes => mes.CreatedDate).Skip(page * count).Take(count).ToListAsync();
 
         public async Task<MessageEntity> GetAsync(Guid id)
         {

@@ -15,11 +15,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/users/{userId}/info",
@@ -28,15 +28,32 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "company_management",
+          "Host": "gateway_api",
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/department/users/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/management/department/{id}/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gateway_api",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // user-info
     {
@@ -50,11 +67,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/users/{id}",
@@ -67,11 +84,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // signatures
     {
@@ -85,11 +102,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/signatures/{documentId}/{version}",
@@ -102,11 +119,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/documents/{documentId}/{version}/keys",
@@ -119,11 +136,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // documents
     {
@@ -137,11 +154,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/documents/{documentId}",
@@ -154,11 +171,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/documents",
@@ -171,11 +188,28 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/document-names/documents/{documentId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/document-names/{documentId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "documents",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/document-names?page={page}&count={count}",
@@ -188,11 +222,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/document-names/users/{userId}",
@@ -205,11 +239,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // tasks
     {
@@ -223,11 +257,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/tasks/{taskId}",
@@ -240,11 +274,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/tasks1/users/{userId}",
@@ -257,11 +291,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/tasks1/performer/{userId}",
@@ -274,11 +308,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // structure
     {
@@ -292,11 +326,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}",
@@ -309,11 +343,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}/users",
@@ -326,11 +360,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/departments/{departmentId}/users/{userId}",
@@ -343,11 +377,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/positions",
@@ -360,11 +394,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/positions/{positionId}",
@@ -377,11 +411,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     // notifications
     {
@@ -395,11 +429,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     },
     {
       "UpstreamPathTemplate": "/gateway/messages/{messageId}",
@@ -412,11 +446,11 @@
           "Port": 443
         }
       ],
-      "DangerousAcceptAnyServerCertificateValidator": true
-      // "AuthenticationOptions": {
-      //   "AuthenticationProviderKey": "Bearer",
-      //   "AllowedScopes": [ "gateway" ]
-      // }
+      "DangerousAcceptAnyServerCertificateValidator": true,
+       "AuthenticationOptions": {
+         "AuthenticationProviderKey": "Bearer",
+         "AllowedScopes": [ "gateway_api" ]
+       }
     }
   ]
 }

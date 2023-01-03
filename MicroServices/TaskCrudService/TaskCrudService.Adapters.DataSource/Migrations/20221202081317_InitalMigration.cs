@@ -5,28 +5,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TaskCrudService.Adapters.DataSource.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ArgumentTypes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArgumentTypes", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Types",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,8 +28,10 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Header = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OwnerUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,66 +45,69 @@ namespace TaskCrudService.Adapters.DataSource.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Arguments",
+                name: "Documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArgumentTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Arguments", x => x.Id);
+                    table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Arguments_ArgumentTypes_ArgumentTypeId",
-                        column: x => x.ArgumentTypeId,
-                        principalTable: "ArgumentTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Arguments_Tasks_TaskId",
+                        name: "FK_Documents_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Performers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TypeOfTask = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicKey = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Resolve = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: true),
+                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Performers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Performers_Tasks_TaskId",
+                        column: x => x.TaskId,
+                        principalTable: "Tasks",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Arguments_ArgumentTypeId",
-                table: "Arguments",
-                column: "ArgumentTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Arguments_TaskId",
-                table: "Arguments",
+                name: "IX_Documents_TaskId",
+                table: "Documents",
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ArgumentTypes_Name",
-                table: "ArgumentTypes",
-                column: "Name",
-                unique: true);
+                name: "IX_Performers_TaskId",
+                table: "Performers",
+                column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_TypeId",
                 table: "Tasks",
                 column: "TypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Types_Name",
-                table: "Types",
-                column: "Name",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Arguments");
+                name: "Documents");
 
             migrationBuilder.DropTable(
-                name: "ArgumentTypes");
+                name: "Performers");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

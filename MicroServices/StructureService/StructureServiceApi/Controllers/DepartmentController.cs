@@ -10,7 +10,7 @@ using StructureServiceApi.ViewModels.UpdateRequest;
 namespace StructureServiceApi.Controllers
 {
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IService<DepartmentEntity> _departmentsService;
@@ -64,8 +64,15 @@ namespace StructureServiceApi.Controllers
         [HttpGet("api/departments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<DepartmentResponce>>> Get()
+        public async Task<ActionResult<IEnumerable<DepartmentResponce>>> Get(int? page, int? count)
         {
+            if (page.HasValue && count.HasValue)
+            {
+                var listOfPagginationDepartmentViewModel = (await _departmentsService.GetAllAsync(page.Value, count.Value)).Select(dep => _controllerMapper.Map<DepartmentResponce>(dep));
+
+                return Ok(listOfPagginationDepartmentViewModel);
+            }
+
             var listOfDepartmentViewModel = (await _departmentsService.GetAllAsync()).Select(dep => _controllerMapper.Map<DepartmentResponce>(dep));
 
             return Ok(listOfDepartmentViewModel);

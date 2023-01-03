@@ -8,7 +8,7 @@ namespace SignatureServiceApi.Controllers
 {
     [ApiController]
     [Route("api/signatures")]
-    //[Authorize]
+    [Authorize]
     public class SignatureController : Controller
     {
         private readonly ISignService _signService;

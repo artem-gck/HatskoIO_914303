@@ -14,12 +14,13 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json.Nodes;
 using System;
+using NickBuhro.Translit;
 
 namespace DocumentCrudService.Controllers
 {
     [Route("api/documents")]
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class DocumentController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
@@ -119,7 +120,7 @@ namespace DocumentCrudService.Controllers
             };
             var documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
 
-            return File(documentDto.Body, "application/octet-stream", documentDto.Name);
+            return File(documentDto.Body, "application/octet-stream", Transliteration.CyrillicToLatin(documentDto.Name, Language.Russian));
         }
 
         /// <summary>
@@ -152,7 +153,7 @@ namespace DocumentCrudService.Controllers
             };
             documentDto = (DocumentDto)(await _queryDispatcher.Send(query))[0];
 
-            return File(documentDto.Body, "application/octet-stream", documentDto.Name);
+            return File(documentDto.Body, "application/octet-stream", Transliteration.CyrillicToLatin(documentDto.Name, Language.Russian));
         }
 
         /// <summary>

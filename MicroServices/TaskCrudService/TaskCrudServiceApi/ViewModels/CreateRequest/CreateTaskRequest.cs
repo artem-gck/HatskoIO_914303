@@ -8,6 +8,7 @@ namespace TaskCrudServiceApi.ViewModels.CreateRequest
         public string Header { get; set; }
         public Guid OwnerUserId { get; set; }
         public DateTime DeadLine { get; set; }
-        public List<CreateArgumentRequest>? Arguments { get; set; }
+        public List<CreatePerformerRequest>? Performers { get; set; }
+        public List<CreateDocumentRequest>? Documents { get; set; }
     }
 }

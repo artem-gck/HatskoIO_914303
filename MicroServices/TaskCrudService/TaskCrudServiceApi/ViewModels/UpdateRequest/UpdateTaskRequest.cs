@@ -12,6 +12,7 @@ namespace TaskCrudServiceApi.ViewModels.UpdateRequest
         public DateTime CreatedAt { get; set; }
         public Guid OwnerUserId { get; set; }
         public DateTime DeadLine { get; set; }
-        public List<UpdateArgumentRequest>? Arguments { get; set; }
+        public List<UpdatePerformerRequest>? Performers { get; set; }
+        public List<UpdateDocumentRequest>? Documents { get; set; }
     }
 }

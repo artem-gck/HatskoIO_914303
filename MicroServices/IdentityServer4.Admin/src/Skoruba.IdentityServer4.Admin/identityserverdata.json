@@ -61,74 +61,388 @@
                 ]
             }
         ],
-        "ApiScopes": [
+      "ApiScopes": [
+        {
+          "Name": "skoruba_identity_admin_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "userinfo_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "task_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "structure_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "signature_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "notification_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "management_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "gateway_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "document_api",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "angular",
+          "DisplayName": "skoruba_identity_admin_api",
+          "Required": true,
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        }
+      ],
+      "ApiResources": [
+        {
+          "Name": "skoruba_identity_admin_api",
+          "Scopes": [
+            "skoruba_identity_admin_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "userinfo_api",
+          "Scopes": [
+            "userinfo_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "task_api",
+          "Scopes": [
+            "task_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "structure_api",
+          "Scopes": [
+            "structure_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "signature_api",
+          "Scopes": [
+            "signature_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "notification_api",
+          "Scopes": [
+            "notification_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "management_api",
+          "Scopes": [
+            "management_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "gateway_api",
+          "Scopes": [
+            "gateway_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "document_api",
+          "Scopes": [
+            "document_api"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        },
+        {
+          "Name": "angular",
+          "Scopes": [
+            "angular"
+          ],
+          "UserClaims": [
+            "role",
+            "name"
+          ]
+        }
+      ],
+      "Clients": [
+        {
+          "ClientId": "skoruba_identity_admin",
+          "ClientName": "skoruba_identity_admin",
+          "ClientUri": "https://localhost:44303",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "ClientSecrets": [
             {
-                "Name": "skoruba_identity_admin_api",
-                "DisplayName": "skoruba_identity_admin_api",
-                "Required": true,
-                "UserClaims": [
-                    "role",
-                    "name"
-                ]
+              "Value": "skoruba_admin_client_secret"
             }
-        ],
-        "ApiResources": [
-            {
-                "Name": "skoruba_identity_admin_api",
-                "Scopes": [
-                    "skoruba_identity_admin_api"
-                ]
-            }
-        ],
-        "Clients": [
-            {
-                "ClientId": "skoruba_identity_admin",
-                "ClientName": "skoruba_identity_admin",
-                "ClientUri": "https://localhost:44303",
-                "AllowedGrantTypes": [
-                    "authorization_code"
-                ],
-                "RequirePkce": true,
-                "ClientSecrets": [
-                    {
-                        "Value": "skoruba_admin_client_secret"
-                    }
-                ],
-                "RedirectUris": [
-                    "https://localhost:44303/signin-oidc"
-                ],
-                "FrontChannelLogoutUri": "https://localhost:44303/signout-oidc",
-                "PostLogoutRedirectUris": [
-                    "https://localhost:44303/signout-callback-oidc"
-                ],
-                "AllowedCorsOrigins": [
-                    "https://localhost:44303"
-                ],
-                "AllowedScopes": [
-                    "openid",
-                    "email",
-                    "profile",
-                    "roles"
-                ]
-            },
-            {
-                "ClientId": "skoruba_identity_admin_api_swaggerui",
-                "ClientName": "skoruba_identity_admin_api_swaggerui",
-                "AllowedGrantTypes": [
-                    "authorization_code"
-                ],
-                "RequireClientSecret": false,
-                "RequirePkce": true,
-                "RedirectUris": [
-                    "https://localhost:44302/swagger/oauth2-redirect.html"
-                ],
-                "AllowedScopes": [
-                    "skoruba_identity_admin_api"
-                ],
-                "AllowedCorsOrigins": [
-                    "https://localhost:44302"
-                ]
-            }
-        ]
+          ],
+          "RedirectUris": [
+            "https://localhost:44303/signin-oidc"
+          ],
+          "FrontChannelLogoutUri": "https://localhost:44303/signout-oidc",
+          "PostLogoutRedirectUris": [
+            "https://localhost:44303/signout-callback-oidc"
+          ],
+          "AllowedCorsOrigins": [
+            "https://localhost:44303"
+          ],
+          "AllowedScopes": [
+            "openid",
+            "email",
+            "profile",
+            "roles"
+          ]
+        },
+        {
+          "ClientId": "skoruba_identity_admin_api_swaggerui",
+          "ClientName": "skoruba_identity_admin_api_swaggerui",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequireClientSecret": false,
+          "RequirePkce": true,
+          "RedirectUris": [
+            "https://localhost:44302/swagger/oauth2-redirect.html"
+          ],
+          "AllowedScopes": [
+            "skoruba_identity_admin_api"
+          ],
+          "AllowedCorsOrigins": [
+            "https://localhost:44302"
+          ]
+        },
+        {
+          "ClientId": "angular",
+          "ClientName": "angular",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequireClientSecret": false,
+          "RequirePkce": true,
+          "FrontChannelLogoutUri": "http://localhost:4200",
+          "PostLogoutRedirectUris": [
+            "http://localhost:4200"
+          ],
+          "RedirectUris": [
+            "http://localhost:4200"
+          ],
+          "AllowOfflineAccess": true,
+          "AllowedScopes": [
+            "openid",
+            "angular",
+            "profile",
+            "gateway_api",
+            "notification_api",
+            "management_api",
+            "document_api",
+            "signature_api",
+            "structure_api",
+            "task_api",
+            "userinfo_api"
+          ]
+        },
+        {
+          "ClientId": "gateway_api",
+          "ClientName": "gateway_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "RedirectUris": [
+            "https://oauth.pstmn.io/v1/callback"
+          ],
+          "AllowedScopes": [
+            "gateway_api",
+            "notification_api",
+            "management_api",
+            "document_api",
+            "signature_api",
+            "structure_api",
+            "task_api",
+            "userinfo_api"
+          ]
+        },
+        {
+          "ClientId": "signature_api",
+          "ClientName": "signature_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "signature_api",
+            "document_api"
+          ]
+        },
+        {
+          "ClientId": "management_api",
+          "ClientName": "management_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "management_api",
+            "userinfo_api",
+            "structure_api"
+          ]
+        },
+        {
+          "ClientId": "notification_api",
+          "ClientName": "notification_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "notification_api"
+          ]
+        },
+        {
+          "ClientId": "document_api",
+          "ClientName": "document_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "document_api"
+          ]
+        },
+        {
+          "ClientId": "structure_api",
+          "ClientName": "structure_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "structure_api"
+          ]
+        },
+        {
+          "ClientId": "task_api",
+          "ClientName": "task_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "task_api"
+          ]
+        },
+        {
+          "ClientId": "userinfo_api",
+          "ClientName": "userinfo_api",
+          "AllowedGrantTypes": [
+            "authorization_code"
+          ],
+          "RequirePkce": true,
+          "RequireClientSecret": false,
+          "AllowedScopes": [
+            "userinfo_api"
+          ]
+        }
+      ]
     }
 }
