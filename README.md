@@ -20,13 +20,13 @@ Open PowerShell in the root directory and enter the
 
 `docker-compose build`
 
-after finished, enter the command 
+After finished, enter the command 
 
 `docker-compose up`
 
 
 ## Structure of project
-![image](https://user-images.githubusercontent.com/72604580/210352476-54145a58-7aaa-402a-a8b5-fc9799d20053.png)
+![image](https://user-images.githubusercontent.com/72604580/210357229-a987c1a6-208e-405b-9cb2-4c2883d1c832.jpg)
 
 ## Structure of relational databases
 ![image](https://user-images.githubusercontent.com/72604580/192766072-5c7f9522-6f1c-48a7-b3c5-357503427cbc.png)
