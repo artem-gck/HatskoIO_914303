@@ -5,8 +5,8 @@ A software tool for document management in the commercial environment of an ente
 ## Running
 
 ### Requirements:
-*[Docker](https://www.docker.com/)
-*[.Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [Docker](https://www.docker.com/)
+* [.Net 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
 ### Running
 Create a self-signed certificate by [dotnet command](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide)
