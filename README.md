@@ -12,13 +12,16 @@ A software tool for document management in the commercial environment of an ente
 Create a self-signed certificate by [dotnet command](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide)
 Create ServiceBus resource and save connection string.
 In the root of project open the .env file and replace the values:
-⋅⋅*ServiceBus - primary connection string
-⋅⋅*CertPath - path to self-signed certificate
-⋅⋅*CertPassword - password to self-signed certificate
+* ServiceBus - primary connection string
+* CertPath - path to self-signed certificate
+* CertPassword - password to self-signed certificate
 
-Open PowerShell in the root directory and enter the 
+Open PowerShell in the root directory and enter the
+
 `docker-compose build`
+
 after finished, enter the command 
+
 `docker-compose up`
 
 
