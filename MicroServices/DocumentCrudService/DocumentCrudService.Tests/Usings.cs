@@ -1,0 +1,17 @@
+global using NUnit.Framework;
+global using DocumentCrudService.Controllers;
+global using DocumentCrudService.Cqrs.Commands;
+global using DocumentCrudService.Cqrs.Dto;
+global using DocumentCrudService.Cqrs.Queries;
+global using DocumentCrudService.Cqrs.Realisation.Commands.AddDocument;
+global using DocumentCrudService.Cqrs.Realisation.Commands.DeleteDocument;
+global using DocumentCrudService.Cqrs.Realisation.Commands.UpdateDocument;
+global using DocumentCrudService.Cqrs.Realisation.Queries.GetDocumentById;
+global using DocumentCrudService.Cqrs.Realisation.Queries.GetHashOfDocument;
+global using DocumentCrudService.Cqrs.Realisation.Queries.IsDocumentExit;
+global using DocumentCrudService.ViewModels;
+global using DocumentCrudServiceApi.ViewModels;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Moq;
+global using IResult = DocumentCrudService.Cqrs.Results.IResult;

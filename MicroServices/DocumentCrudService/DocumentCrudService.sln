@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Reposit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCrudService.Cqrs.Realisation", "DocumentCrudService.Cqrs.Realisation\DocumentCrudService.Cqrs.Realisation.csproj", "{8F95B2E5-2211-4942-902D-72170F0CA683}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentCrudService.Tests", "DocumentCrudService.Tests\DocumentCrudService.Tests.csproj", "{55581A3B-AD1F-4B88-9783-4D59823A0FCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8F95B2E5-2211-4942-902D-72170F0CA683}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F95B2E5-2211-4942-902D-72170F0CA683}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F95B2E5-2211-4942-902D-72170F0CA683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55581A3B-AD1F-4B88-9783-4D59823A0FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55581A3B-AD1F-4B88-9783-4D59823A0FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55581A3B-AD1F-4B88-9783-4D59823A0FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55581A3B-AD1F-4B88-9783-4D59823A0FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+global using NUnit.Framework;
+global using AutoMapper;
+global using FluentValidation;
+global using MassTransit;
+global using Messages;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using TaskCrudService.Adapters.Output;
+global using TaskCrudService.Domain.Entities;
+global using TaskCrudService.Ports.Output;
+global using TaskCrudServiceApi.Controllers.V1;
+global using TaskCrudServiceApi.ViewModels.CreateRequest;
+global using TaskCrudServiceApi.ViewModels.UpdateRequest;
